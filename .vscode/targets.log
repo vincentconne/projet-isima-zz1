@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.3
 # Built for x86_64-unknown-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jun 20 13:51:44 2022
+# Make data base, printed on Mon Jun 20 17:50:18 2022
 
 # Variables
 
@@ -21,7 +19,7 @@ PULSE_SERVER = unix:/run/user/1000/pulse/native
 # environment
 GJS_DEBUG_OUTPUT = stderr
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-a6512912-db77-4a87-b4d8-f238c47ffe3b.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-94b029cf-b616-4677-8fdd-93d1e01ea118.sock
 # environment
 MANDATORY_PATH = /usr/share/gconf/cinnamon.mandatory.path
 # environment
@@ -117,7 +115,7 @@ XDG_DATA_HOME = /home/vincent/.var/app/com.visualstudio.code/data
 # environment
 SANDBOX_LD_PRELOAD = /app/bin/../lib/libzypak-preload-host.so
 # environment
-SESSION_MANAGER = local/vincent-VB:@/tmp/.ICE-unix/1021,unix/vincent-VB:/tmp/.ICE-unix/1021
+SESSION_MANAGER = local/vincent-VB:@/tmp/.ICE-unix/1012,unix/vincent-VB:/tmp/.ICE-unix/1012
 # automatic
 *F = $(notdir $*)
 # environment
@@ -207,9 +205,9 @@ DEFAULTS_PATH = /usr/share/gconf/cinnamon.default.path
 # default
 MAKE_VERSION := 4.3
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 1547
+GIO_LAUNCHED_DESKTOP_FILE_PID = 5808
 # environment
-SSH_AGENT_PID = 1128
+SSH_AGENT_PID = 1119
 # environment
 _ = /usr/bin/make
 # environment
@@ -279,8 +277,10 @@ Makefile:
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
+ 
+make: *** No rule to make target 'all'.  Stop.
+
 #  File has not been updated.
 
 # Not a target:
@@ -318,6 +318,6 @@ GNUmakefile:
 # strcache performance: lookups = 20 / hit rate = 15%
 # hash-table stats:
 # Load=17/8192=0%, Rehash=0, Collisions=0/20=0%
-# Finished Make data base on Mon Jun 20 13:51:44 2022
+# Finished Make data base on Mon Jun 20 17:50:18 2022
 
  
