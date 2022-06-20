@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/vincent/Documents/Projet/g1-projet-isima-zz1'
+make: Leaving directory '/home/vincent/Documents/Projet/g1-projet-isima-zz1'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+
