@@ -6,7 +6,9 @@ int main (int argc, char **argv){
     (void) argc;
     (void) argv;
 
-    SDL_Window *window_1=NULL;
+    SDL_Window *windows_1[14];
+    SDL_Window *windows_2[14];
+
     SDL_DisplayMode screen;
     int i;
 
@@ -22,25 +24,25 @@ int main (int argc, char **argv){
 
     // Création des fenêtres
     for (i=0;i<14; i++){
-        window_1 = SDL_CreateWindow("X1", (i+1)*50, (i+1)*50,200+i*10, 200+i*10,SDL_WINDOW_RESIZABLE);
+        windows_1[i] = SDL_CreateWindow("X1", (i+1)*50, (i+1)*50,200+i*10, 200+i*10,SDL_WINDOW_RESIZABLE);
         // Dans l'ordre: nom de la fenêtre (accents possibles), position du point gauche de la fenêtre, 
         //largeur, hauteur, redimensionable
 
             //Gestion de l'erreur de création de la fenêtre
-        if (window_1 == NULL){
-            SDL_Log("Error : SDL window_1 creation - %s\n",SDL_GetError());
+        if (windows_1[i] == NULL){
+            SDL_Log("Error : SDL window creation - %s\n",SDL_GetError());
             SDL_Quit();
             exit(EXIT_FAILURE);
         }
     }
 
     for (i=0;i<14; i++){
-        window_1 = SDL_CreateWindow("X2", 14*50-(i+1)*50, (i+1)*50,200-i*10, 200-i*10,SDL_WINDOW_RESIZABLE);
+        windows_2[i] = SDL_CreateWindow("X2", 14*50-(i+1)*50, (i+1)*50,200-i*10, 200-i*10,SDL_WINDOW_RESIZABLE);
         // 14*50 correspond à la position de la dernière fenêtre de la première barre
 
         //Gestion de l'erreur de création de la fenêtre
-        if (window_1 == NULL){
-            SDL_Log("Error : SDL window_1 creation - %s\n",SDL_GetError());
+        if (windows_2[i] == NULL){
+            SDL_Log("Error : SDL window creation - %s\n",SDL_GetError());
             SDL_Quit();
             exit(EXIT_FAILURE);
         }
@@ -60,6 +62,12 @@ int main (int argc, char **argv){
                         case SDLK_SPACE:
                             program_on = 0;
                         break;
+                        case SDLK_p:
+                            for (i=0; i<14; i++){
+                                SDL_SetWindowPosition(windows_1[i],0,0);
+                                SDL_SetWindowPosition(windows_2[i], 0, 0);
+                            }
+                        break;
                         default:
                         break;
                     }
@@ -76,13 +84,10 @@ int main (int argc, char **argv){
         SDL_Delay(5);
     }
 
-    // // Chargement des évènements pour avoir un affichage
-    // SDL_PumpEvents();
-
-    // //Délai d'apparition de la fenêtre en ms
-    // SDL_Delay(10000);
-
-    SDL_DestroyWindow(window_1);
+    for (i=0;i<14; i++){
+        SDL_DestroyWindow(windows_1[i]);
+        SDL_DestroyWindow(windows_2[i]);
+    }
     SDL_Quit();
 
     return 0;
