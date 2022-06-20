@@ -1,4 +1,4 @@
-# G1 PROJET ISIMA ZZ1
+# Projet ZZ1 ISIMA - Groupe 1 - CONNE WALCH RUSAK
 
 
 
