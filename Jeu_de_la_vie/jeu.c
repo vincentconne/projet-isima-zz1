@@ -5,6 +5,10 @@
 #include <unistd.h>
 #include "jeu.h"
 
+int survie[8] = {1, 1, 1, 1, 1, 0, 0, 0};
+
+int naissance[8] = {0, 0, 1, 0, 0, 0, 0, 0};
+
 // saisie initiale
 int saisie()
 {
@@ -13,11 +17,15 @@ int saisie()
 	scanf("%d", &nb);
 	return nb;
 }
+
+
 // nombre aleatoire
 int nombre_aleatoire(int min, int max)
 {
 	return (rand() % (max - min + 1)) + min;
 }
+
+
 // nombre de un
 int nombre_un(int monde[20][20])
 {
@@ -35,6 +43,8 @@ int nombre_un(int monde[20][20])
 	}
 	return cpt_un;
 }
+
+
 // afficher monde
 void affichage(int monde[20][20])
 {
@@ -77,8 +87,35 @@ void recopie(int tab1[20][20], int tab2[20][20])
 	}
 }
 
+//Calcul la valeur d'une cellule (morte ou vivante) à t+1
+int cellule_suiv(int i, int j, int tabcour[][20]){
+	int prochaine_valeur;
+	int nbvoisins = nb_voisins_vivants(tabcour,i,j);				//On compte le nombre de voisins de la cellule
+	if(tabcour[i][j])prochaine_valeur = survie[nbvoisins-1];		//Si cellule vivante alors à t+1 prend la valeur dans survie
+	else prochaine_valeur = naissance[nbvoisins-1];					//Si cellule morte alors à t+1 prend la valeur dans naissance
+	return prochaine_valeur;
+}
+
+//Opérations à effectuer à chaque tour de boucle de jeu
+void tour(int tabcour[][20], int tabsuiv[][20]){
+	memset(tabsuiv, 0, sizeof(tabsuiv[0][0]) * 20 * 20);			//On remet à zéro le tableau suivant au début de chaque nouveau tour
+
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 20; j++)
+		{
+			tabsuiv[i][j] = cellule_suiv(i,j,tabcour);
+		}
+	}
+
+	int *tmp = tabcour;
+
+	tabcour = tabsuiv;
+	tabsuiv = tmp;
+}
+
 // nb voisin
-int nb_voisins(int monde[20][20], int i, int j)
+int nb_voisins_vivants(int monde[20][20], int i, int j)
 {
 	int cpt_voisins = 0;
 	// dessus
