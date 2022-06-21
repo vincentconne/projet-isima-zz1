@@ -31,6 +31,7 @@ int main()
     SDL_Renderer *renderer = NULL;
     int statut = EXIT_FAILURE;
     SDL_DisplayMode screen;
+    int stop=0;
 
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
@@ -102,7 +103,7 @@ int main()
     SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
     SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
     int bool = 0;
-    while (program_on)
+    while (program_on && stop==0)
     { // Voilà la boucle des évènements
 
         if (SDL_PollEvent(&event))
@@ -142,6 +143,7 @@ int main()
         else
         {
             jeu();
+            stop = 1;
         }
 
         SDL_RenderPresent(renderer); // affichage

@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include "jeu.h"
 
+#define N 5
+
 
 // saisie initiale   NE VA PAS NOUS SERVIR, UTILISATEUR ENTRE A LA MAIN
 int saisie()
@@ -20,7 +22,7 @@ int nombre_aleatoire(int min, int max)
 	return (rand() % (max - min + 1)) + min;
 }
 // nombre de un COMPTAGE CELLULES VIVANTES
-int nombre_un(int monde[][N])
+int nombre_un(int monde[N][N])
 {
 	int i, j, cpt_un;
 	cpt_un = 0;
@@ -151,7 +153,7 @@ void jeu()
 	for (cpt_cell = 0; cpt_cell < nb_cell; cpt_cell++)
 	{
 		x = nombre_aleatoire(0, N-1);
-		y = nombre_aleatoire(0, N-1);
+		y = nombre_aleatoire(0, 19);
 		while (monde[x][y] == 1)
 		{
 			x = nombre_aleatoire(0, N-1);
@@ -189,8 +191,6 @@ void jeu()
 					}
 				}
 			}
-
-
 		}
 		// copie
 		recopie(tmp, monde);
