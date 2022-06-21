@@ -12,7 +12,9 @@ int nombre_aleatoire(int min, int max);
 int nombre_un(int monde[][N]);
 void affichage(int monde[][N]);
 void recopie(int tab1[][N], int tab2[][N]);
-int nb_voisins (int monde[][N], int i, int j);
+int nb_voisins_delimite (int **monde, int i, int j);
+int nb_voisins_tore(int monde[N][N], int i, int j);
+
 void jeu();
 
 #endif
