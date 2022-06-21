@@ -48,8 +48,21 @@ int main(int argc, char **argv)
                             SDL_SetWindowPosition(tabfenetre1[i],x+(j*10),y);
                             SDL_SetWindowPosition(tabfenetre2[i],x2+(j*10),y2);
                             SDL_Delay(5);
-                        
-                        //SDL_Delay(1000);
+                        }
+                    }
+                    break;
+                case SDLK_l:
+                    for (int i = 0; i < 11; i++)
+                    {
+                        int x, x2, y2, y;
+                        SDL_GetWindowPosition(tabfenetre1[i],&x,&y);
+                        SDL_GetWindowPosition(tabfenetre2[i],&x2,&y2);
+                        for (int j = 0; j < 10; j++)
+                        {
+                            SDL_SetWindowPosition(tabfenetre1[i],x-(j*10),y);
+                            SDL_SetWindowPosition(tabfenetre2[i],x2-(j*10),y2);
+                            SDL_Delay(5);
+                        }
                     }
                     break;
                 case SDLK_SPACE:

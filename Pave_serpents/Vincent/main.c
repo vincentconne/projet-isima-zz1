@@ -1,99 +1,149 @@
-#include <SDL2/SDL.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include "SDL2/SDL.h"
+#include <stdbool.h>
+#include <time.h>
 
-// void draw(SDL_Renderer* renderer) {                                 // Je pense que vous allez faire moins laid :)
-//   SDL_Rect rectangle;
 
-//   SDL_SetRenderDrawColor(renderer,
-//                          50, 0, 0,                                  // mode Red, Green, Blue (tous dans 0..255)
-//                          255);                                      // 0 = transparent ; 255 = opaque
-//   rectangle.x = 0;                                                  // x haut gauche du rectangle
-//   rectangle.y = 0;                                                  // y haut gauche du rectangle
-//   rectangle.w = 400;                                                // sa largeur (w = width)
-//   rectangle.h = 400;                                                // sa hauteur (h = height)
+typedef struct rect
+{
+    int x1;
+    int y1;
+    int x2;
+    int y2;
+} rect;
 
-//   SDL_RenderFillRect(renderer, &rectangle);
+void clear(SDL_Renderer *renderer)
+{
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
+}
 
-//   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-//   SDL_RenderDrawLine(renderer,
-//                      0, 0,                                          // x,y du point de la première extrémité
-//                      400, 400);                                     // x,y seconde extrémité
+int valeur_random(int MIN, int MAX)
+{
+    static bool initialized = false;
+    if (!initialized)
+    {
+        srand(time(NULL));
+        initialized = true;
+    }
 
-//   /* tracer un cercle n'est en fait pas trivial, voilà le résultat sans algo intelligent ... */
-//   for (float angle = 0; angle < 2 * M_PI; angle += M_PI / 4000) {
-//     SDL_SetRenderDrawColor(renderer,
-//                            (cos(angle * 2) + 1) * 255 / 2,          // quantité de Rouge
-//                            (cos(angle * 5) + 1) * 255 / 2,          //          de vert
-//                            (cos(angle) + 1) * 255 / 2,              //          de bleu
-//                            255);                                    // opacité = opaque
-//     SDL_RenderDrawPoint(renderer,
-//                         200 + 100 * cos(angle),                     // coordonnée en x
-//                         200 + 150 * sin(angle));                    //            en y
-//   }
-// }
+    return (rand() % (MAX + 1 - MIN)) + MIN;
+}
+
+void drawLine(SDL_Renderer *renderer)
+{
+    SDL_SetRenderDrawColor(renderer, valeur_random(0, 255), valeur_random(0, 255), valeur_random(0, 255), 255);
+    SDL_RenderDrawLine(renderer, valeur_random(0, 700), valeur_random(0, 700), valeur_random(0, 700), valeur_random(0, 700));
+    SDL_RenderPresent(renderer);
+}
+
+
 
 int main()
 {
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-    int statut = EXIT_FAILURE;
-    int i = 0;
+
+    SDL_Window *window;
+    SDL_Renderer *renderer;
     SDL_DisplayMode screen;
 
-    if (0 != SDL_Init(SDL_INIT_VIDEO))
+    SDL_Init(SDL_INIT_VIDEO);
+
+    window = SDL_CreateWindow(
+        "Mon serpent multicolore",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        800,
+        800,
+        SDL_WINDOW_OPENGL);
+
+    if (window == NULL)
     {
-        fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
-        exit(EXIT_FAILURE);
+        printf("impossible de creer la fenetre: %s\n", SDL_GetError());
+        return 1;
     }
 
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    if (renderer == NULL)
+    {
+        printf("impossible de creer la fenetre: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    rect rectangle;
+    rectangle.x1 = 300;
+    rectangle.y1 = 400;
+    rectangle.x2 = 500;
+    rectangle.y2 = 600;
+
+    SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
+    SDL_Event event;                // c'est le type IMPORTANT !!
     SDL_GetCurrentDisplayMode(0, &screen);
-    
 
-    while (i < 16)
-    {
-        /* Création de la fenêtre */
-        window = SDL_CreateWindow("Premier dessin",
-                                  0 + i * 50,
-                                  0 + i * 50, screen.w * 0.20 + 50,
-                                  screen.h * 0.20 +100,
-                                  SDL_WINDOW_OPENGL);
-        if (NULL == window)
+    while (program_on)
+    { // Voilà la boucle des évènements
+
+        if (SDL_PollEvent(&event))
+        { // si la file d'évènements n'est pas vide : défiler l'élément en tête
+          // de file dans 'event'
+            switch (event.type)
+            {                           // En fonction de la valeur du type de cet évènement
+            case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
+                program_on = SDL_FALSE; // Il est temps d'arrêter le programme
+                break;
+
+            default: // L'évènement défilé ne nous intéresse pas
+                break;
+            }
+        }
+        // Affichages et calculs souvent ici
+        srand(time(NULL));
+        int x1 = valeur_random(-3, 3);
+        int y1 = valeur_random(-3, 3);
+        int x2 = valeur_random(-3, 3);
+        int y2 = valeur_random(-3, 3);
+
+        int choix = rand() % 3;
+
+        if (choix == 0)
         {
-            fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
-            exit(EXIT_FAILURE);
+            if (rectangle.x1 + x1 < 780 && rectangle.x1 + x1 > 20)
+            {
+                rectangle.x1 += x1;
+            }
+        }
+        else if (choix == 1)
+        {
+            if (rectangle.y1 + y1 < 780 && rectangle.y1 + y1 > 20)
+            {
+                rectangle.y1 += y1;
+            }
+        }
+        else if (choix == 2)
+        {
+            if (rectangle.x2 + x2 < 780 && rectangle.x2 + x2 > 20)
+            {
+                rectangle.x2 += x2;
+            }
+        }
+        else if (choix == 3)
+        {
+            if (rectangle.y2 + y2 < 780 && rectangle.y2 + y2 > 20)
+            {
+                rectangle.y2 += y2;
+            }
         }
 
-        /* Création de la fenêtre */
-        window = SDL_CreateWindow("Premier dessin",
-                                  screen.h - i * 50,
-                                  0 + i * 50, screen.w * 0.20 -50,
-                                  screen.h * 0.20 -100,
-                                  SDL_WINDOW_OPENGL);
-        if (NULL == window)
-        {
-            fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
-            exit(EXIT_FAILURE);
-        }
-
-
-        
-        i++;
+        SDL_SetRenderDrawColor(renderer, valeur_random(0, 255), valeur_random(0, 255), valeur_random(0, 255), 255);
+        SDL_RenderDrawLine(renderer, rectangle.x1, rectangle.y1, rectangle.x2, rectangle.y2);
+        SDL_RenderPresent(renderer);
+        // drawLine(renderer);
+        clear(renderer);
     }
 
-    //     renderer = SDL_CreateRenderer(window, -1,
-    //                                 SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    //   if (renderer == NULL)
-    //   {
-    //     exit(EXIT_FAILURE);
-    //   }
-
-    statut = EXIT_SUCCESS;
-    // draw(renderer);
-    // SDL_RenderPresent(renderer);                         // affichage
-    SDL_Delay(3000);
+    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-
     SDL_Quit();
-    return statut;
+    return 0;
 }
