@@ -6,9 +6,9 @@
 #include "jeu.h"
 #include "SDL.h"
 
-int survie[8] = {1, 1, 0, 0, 1, 0, 0, 0};
+int survie[8] = {0, 0, 1, 1, 0, 0, 0, 0};
 
-int naissance[8] = {1, 0, 1, 0, 0, 0, 0, 0};
+int naissance[8] = {0, 0, 0, 1, 0, 0, 0, 0};
 
 int modulo(int k, int n){
 	int res = k%n;
