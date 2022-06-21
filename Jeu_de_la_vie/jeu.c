@@ -19,7 +19,6 @@ int saisie()
 	return nb;
 }
 
-
 // nombre aleatoire
 int nombre_aleatoire(int min, int max)
 {
@@ -43,7 +42,6 @@ int nombre_un(int **monde)
 	return cpt_un;
 }
 
-
 // afficher monde
 void affichage(int **monde)
 {
@@ -57,11 +55,11 @@ void affichage(int **monde)
 			// cellule vivante?
 			if (monde[i][j] == 1)
 			{
-				printf("1"); //NOIR
+				printf("1"); // NOIR
 			}
 			else
-			{ // 0
-				printf("0"); //BLANC
+			{				 // 0
+				printf("0"); // BLANC
 			}
 		}
 		printf("|\n");
@@ -84,34 +82,43 @@ void recopie(int **tab1, int **tab2)
 	}
 }
 
-//Calcul la valeur d'une cellule (morte ou vivante) à t+1
-int cellule_suiv(int i, int j, int **tabcour){
+// Calcul la valeur d'une cellule (morte ou vivante) à t+1
+int cellule_suiv(int i, int j, int **tabcour)
+{
 	int prochaine_valeur;
-	int nbvoisins = nb_voisins_vivants(tabcour,i,j);				//On compte le nombre de voisins de la cellule
-	if(tabcour[i][j])prochaine_valeur = survie[nbvoisins-1];		//Si cellule vivante alors à t+1 prend la valeur dans survie
-	else prochaine_valeur = naissance[nbvoisins-1];					//Si cellule morte alors à t+1 prend la valeur dans naissance
+	int nbvoisins = nb_voisins_delimite(tabcour, i, j); // On compte le nombre de voisins de la cellule
+	if (tabcour[i][j])
+		prochaine_valeur = survie[nbvoisins - 1]; // Si cellule vivante alors à t+1 prend la valeur dans survie
+	else
+		prochaine_valeur = naissance[nbvoisins - 1]; // Si cellule morte alors à t+1 prend la valeur dans naissance
 	return prochaine_valeur;
 }
 
-//Opérations à effectuer à chaque tour de boucle de jeu
-void tour(int **tabcour, int **tabsuiv){
-	memset(tabsuiv, 0, sizeof(tabsuiv[0][0]) * N * N);			//On remet à zéro le tableau suivant au début de chaque nouveau tour
-
+// Opérations à effectuer à chaque tour de boucle de jeu
+int tour(int **tabcour, int **tabsuiv)
+{
+	int verif = 1;
 	for (int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < N; j++)
 		{
-			tabsuiv[i][j] = cellule_suiv(i,j,tabcour);
+			if (tabsuiv[i][j] != cellule_suiv(i, j, tabcour))
+			{
+				verif = 0;
+			}
+			tabsuiv[i][j] = cellule_suiv(i, j, tabcour);
 		}
 	}
 	int **tmp = tabcour;
 
 	tabcour = tabsuiv;
 	tabsuiv = tmp;
+
+	return verif;
 }
 
 // nb voisin
-int nb_voisins_vivants(int **monde, int i, int j)
+int nb_voisins_delimite(int **monde, int i, int j)
 {
 	int cpt_voisins = 0;
 	// dessus
@@ -125,12 +132,12 @@ int nb_voisins_vivants(int **monde, int i, int j)
 		cpt_voisins++;
 	}
 	// dessous
-	if (i < N-1 && monde[i + 1][j] == 1)
+	if (i < N - 1 && monde[i + 1][j] == 1)
 	{
 		cpt_voisins++;
 	}
 	// droite
-	if (j < N-1 && monde[i][j + 1] == 1)
+	if (j < N - 1 && monde[i][j + 1] == 1)
 	{
 		cpt_voisins++;
 	}
@@ -140,17 +147,64 @@ int nb_voisins_vivants(int **monde, int i, int j)
 		cpt_voisins++;
 	}
 	// bas gauche
-	if (i < N-1 && j > 0 && monde[i + 1][j - 1] == 1)
+	if (i < N - 1 && j > 0 && monde[i + 1][j - 1] == 1)
 	{
 		cpt_voisins++;
 	}
 	// haut droite
-	if (i > 0 && j < N-1 && monde[i - 1][j + 1] == 1)
+	if (i > 0 && j < N - 1 && monde[i - 1][j + 1] == 1)
 	{
 		cpt_voisins++;
 	}
 	// bas droite
-	if (i < N-1 && j < N-1 && monde[i + 1][j + 1] == 1)
+	if (i < N - 1 && j < N - 1 && monde[i + 1][j + 1] == 1)
+	{
+		cpt_voisins++;
+	}
+	return cpt_voisins;
+}
+
+// nb voisin dans le tore
+int nb_voisins_tore(int monde[N][N], int i, int j)
+{
+	int cpt_voisins = 0;
+	// dessus
+	if (monde[(i - 1) % N][j] == 1)
+	{
+		cpt_voisins++;
+	}
+	// gauche
+	if (monde[i][(j - 1) % N] == 1)
+	{
+		cpt_voisins++;
+	}
+	// dessous
+	if (monde[(i + 1) % N][j] == 1)
+	{
+		cpt_voisins++;
+	}
+	// droite
+	if (monde[i][(j + 1) % N] == 1)
+	{
+		cpt_voisins++;
+	}
+	// haut gauche
+	if (monde[(i - 1) % N][(j - 1) % N] == 1)
+	{
+		cpt_voisins++;
+	}
+	// bas gauche
+	if (monde[(i + 1) % N][(j - 1) % N] == 1)
+	{
+		cpt_voisins++;
+	}
+	// haut droite
+	if (monde[(i - 1) % N][(j + 1) % N] == 1)
+	{
+		cpt_voisins++;
+	}
+	// bas droite
+	if (monde[(i + 1) % N][(j + 1) % N] == 1)
 	{
 		cpt_voisins++;
 	}
@@ -164,11 +218,11 @@ void jeu()
 	int test = 1;
 	// variables
 	int nb_cell = 0, x = 0, y = 0, cpt_cell;
-	int ** monde= (int**)malloc(sizeof(int*)*N), ** tmp= (int**)malloc(sizeof(int*)*N);
-	for(int i=0;i<N;i++)
+	int **monde = (int **)malloc(sizeof(int *) * N), **tmp = (int **)malloc(sizeof(int *) * N);
+	for (int i = 0; i < N; i++)
 	{
-		monde[i]= (int *)malloc(sizeof(int)*N);
-		tmp[i]= (int *)malloc(sizeof(int)*N);
+		monde[i] = (int *)malloc(sizeof(int) * N);
+		tmp[i] = (int *)malloc(sizeof(int) * N);
 	}
 	// tour suivant
 	bool tour_suivant = false;
@@ -182,7 +236,7 @@ void jeu()
 	}
 	// saisi cellules
 	nb_cell = saisie();
-	while (nb_cell < 0 || nb_cell > N*N)
+	while (nb_cell < 0 || nb_cell > N * N)
 	{
 		nb_cell = saisie();
 	}
@@ -190,12 +244,12 @@ void jeu()
 	// choix pos
 	for (cpt_cell = 0; cpt_cell < nb_cell; cpt_cell++)
 	{
-		x = nombre_aleatoire(0, N-1);
-		y = nombre_aleatoire(0, N-1);
+		x = nombre_aleatoire(0, N - 1);
+		y = nombre_aleatoire(0, N - 1);
 		while (monde[x][y] == 1)
 		{
-			x = nombre_aleatoire(0, N-1);
-			y = nombre_aleatoire(0, N-1);
+			x = nombre_aleatoire(0, N - 1);
+			y = nombre_aleatoire(0, N - 1);
 		}
 		monde[x][y] = 1;
 	}
@@ -209,7 +263,7 @@ void jeu()
 		{
 			for (int j = 0; j < N; j++)
 			{
-				tmp[i][j] = nb_voisins_vivants(monde, i, j);
+				tmp[i][j] = nb_voisins_delimite(monde, i, j);
 				// naissance
 				if (monde[i][j] == 0 && tmp[i][j] == 3)
 				{
@@ -229,8 +283,6 @@ void jeu()
 					}
 				}
 			}
-
-
 		}
 		// copie
 		recopie(tmp, monde);
@@ -240,5 +292,3 @@ void jeu()
 		scanf("%d", &test);
 	}
 }
-
-
