@@ -202,18 +202,12 @@ int nb_voisins_tore(int **monde, int i, int j)
 void jeu(int indice_fct)
 {
 	srand(time(NULL));
-	int test = 1;
-	// variables
-	int nb_cell = 0, x = 0, y = 0, cpt_cell;
 	int **monde = (int **)malloc(sizeof(int *) * N), **tmp = (int **)malloc(sizeof(int *) * N);
 	for (int i = 0; i < N; i++)
 	{
 		monde[i] = (int *)malloc(sizeof(int) * N);
 		tmp[i] = (int *)malloc(sizeof(int) * N);
 	}
-	// // tour suivant
-	// bool tour_suivant = false;
-
 	// init monde
 	for (int i = 0; i < N; i++)
 	{
@@ -222,42 +216,7 @@ void jeu(int indice_fct)
 			monde[i][j] = 0;
 		}
 	}
-	// // saisi cellules
-	// nb_cell = saisie();
-	// while (nb_cell < 0 || nb_cell > N * N)
-	// {
-	// 	nb_cell = saisie();
-	// }
-	// printf("nombre initial de cellules vivantes : %d \n", nb_cell);
-	// // choix pos
-	// for (cpt_cell = 0; cpt_cell < nb_cell; cpt_cell++)
-	// {
-	// 	x = nombre_aleatoire(0, N - 1);
-	// 	y = nombre_aleatoire(0, N - 1);
-	// 	while (monde[x][y] == 1)
-	// 	{
-	// 		x = nombre_aleatoire(0, N - 1);
-	// 		y = nombre_aleatoire(0, N - 1);
-	// 	}
-	// 	monde[x][y] = 1;
-	// }
-	// affiche monde
-	affichage(monde);
-	// prochain tour
-	// int a =0;
-	// int **tab[2]={monde, tmp};
-	// int p=0;
-
-	// while ( !a && test == 1)
-	// {
-	// 	a = tour(tab[p],tab[1-p],indice_fct);
-	// 	p = 1-p;
-	// 	// affiche
-	// 	affichage(tab[p]);
-	// 	// printf("Entrez 1 pour tour suivant:");
-	// 	// scanf("%d", &test);
-	// }
-	SDL(monde,tmp,indice_fct);
+	SDL_Jeu(monde,tmp,indice_fct);
 	liberation(monde,tmp);
 }
 

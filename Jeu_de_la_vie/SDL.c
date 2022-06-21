@@ -29,7 +29,7 @@ void DessinCases(SDL_Rect rect, SDL_Renderer *renderer, int **tab)
 	SDL_RenderPresent(renderer);
 }
 
-void SDL(int **monde, int **tmp, int indice_fct)
+void SDL_Jeu(int **monde, int **tmp, int indice_fct)
 {
 	int a = 0;
 	int **tab[2] = {monde, tmp};
@@ -73,8 +73,6 @@ void SDL(int **monde, int **tmp, int indice_fct)
 
 	// afficher à l'ecran
 	SDL_RenderPresent(renderer);
-
-	int test = 0;
 	int CaseX, CaseY;
 
 	SDL_Event event;
@@ -145,9 +143,6 @@ void SDL(int **monde, int **tmp, int indice_fct)
 				a = tour(tab[p], tab[1 - p], indice_fct);
 				p = 1 - p;
 				// affiche
-				affichage(tab[p]);
-				// printf("Entrez 1 pour tour suivant:");
-				// scanf("%d", &test);
 				DessinCases(rect, renderer, tab[p]);
 				SDL_Delay(300);
 			}
