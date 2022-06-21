@@ -10,6 +10,24 @@ int survie[8] = {1, 1, 1, 1, 1, 0, 0, 0};
 
 int naissance[8] = {0, 0, 1, 0, 0, 0, 0, 0};
 
+int modulo(int k, int n){
+	int res = k%n;
+	if (res<0){
+		res = n*1 + res;
+	}
+	return res;
+}
+
+int nb_voisins(int **monde, int i, int j, int indice_fct){
+	int res=0;
+	if (indice_fct){
+		res = nb_voisins_tore(monde,i,j);
+	}
+	else {
+		res = nb_voisins_delimite(monde, i, j);
+	}
+}
+
 // saisie initiale   NE VA PAS NOUS SERVIR, UTILISATEUR ENTRE A LA MAIN
 int saisie()
 {
@@ -69,24 +87,24 @@ void affichage(int **monde)
 	printf("nombre de cellules vivantes: %d\n", nombre_un(monde));
 }
 
-// copie monde1 -> monde2
-void recopie(int **tab1, int **tab2)
-{
-	int i, j;
-	for (i = 0; i < N; i++)
-	{
-		for (j = 0; j < N; j++)
-		{
-			tab2[i][j] = tab1[i][j];
-		}
-	}
-}
+// // copie monde1 -> monde2
+// void recopie(int **tab1, int **tab2)
+// {
+// 	int i, j;
+// 	for (i = 0; i < N; i++)
+// 	{
+// 		for (j = 0; j < N; j++)
+// 		{
+// 			tab2[i][j] = tab1[i][j];
+// 		}
+// 	}
+// }
 
 // Calcul la valeur d'une cellule (morte ou vivante) à t+1
-int cellule_suiv(int i, int j, int **tabcour)
+int cellule_suiv(int i, int j, int **tabcour, int indice_fct)
 {
 	int prochaine_valeur;
-	int nbvoisins = nb_voisins_delimite(tabcour, i, j); // On compte le nombre de voisins de la cellule
+	int nbvoisins = nb_voisins(tabcour, i, j,indice_fct); // On compte le nombre de voisins de la cellule
 	if (tabcour[i][j])
 		prochaine_valeur = survie[nbvoisins - 1]; // Si cellule vivante alors à t+1 prend la valeur dans survie
 	else
@@ -95,18 +113,18 @@ int cellule_suiv(int i, int j, int **tabcour)
 }
 
 // Opérations à effectuer à chaque tour de boucle de jeu
-int tour(int **tabcour, int **tabsuiv)
+int tour(int **tabcour, int **tabsuiv,int indice_fct)
 {
 	int verif = 1;
 	for (int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < N; j++)
 		{
-			if (tabsuiv[i][j] != cellule_suiv(i, j, tabcour))
+			if (tabsuiv[i][j] != cellule_suiv(i, j, tabcour, indice_fct))
 			{
 				verif = 0;
 			}
-			tabsuiv[i][j] = cellule_suiv(i, j, tabcour);
+			tabsuiv[i][j] = cellule_suiv(i, j, tabcour,indice_fct);
 		}
 	}
 	int **tmp = tabcour;
@@ -122,44 +140,44 @@ int nb_voisins_delimite(int **monde, int i, int j)
 {
 	int cpt_voisins = 0;
 	// dessus
-	if (i > 0 && monde[i - 1][j] == 1)
+	if (i > 0)
 	{
-		cpt_voisins++;
+		cpt_voisins+=monde[i - 1][j];
 	}
 	// gauche
-	if (j > 0 && monde[i][j - 1] == 1)
+	if (j > 0)
 	{
-		cpt_voisins++;
+		cpt_voisins+=monde[i][j - 1];
 	}
 	// dessous
-	if (i < N - 1 && monde[i + 1][j] == 1)
+	if (i < N - 1)
 	{
-		cpt_voisins++;
+		cpt_voisins+= monde[i + 1][j];
 	}
 	// droite
-	if (j < N - 1 && monde[i][j + 1] == 1)
+	if (j < N - 1)
 	{
-		cpt_voisins++;
+		cpt_voisins+=monde[i][j + 1];
 	}
 	// haut gauche
-	if (i > 0 && j > 0 && monde[i - 1][j - 1] == 1)
+	if (i > 0 && j > 0)
 	{
-		cpt_voisins++;
+		cpt_voisins+=monde[i - 1][j - 1];
 	}
 	// bas gauche
-	if (i < N - 1 && j > 0 && monde[i + 1][j - 1] == 1)
+	if (i < N - 1 && j > 0)
 	{
-		cpt_voisins++;
+		cpt_voisins+=monde[i + 1][j - 1];
 	}
 	// haut droite
-	if (i > 0 && j < N - 1 && monde[i - 1][j + 1] == 1)
+	if (i > 0 && j < N - 1)
 	{
-		cpt_voisins++;
+		cpt_voisins+=monde[i - 1][j + 1];
 	}
 	// bas droite
-	if (i < N - 1 && j < N - 1 && monde[i + 1][j + 1] == 1)
+	if (i < N - 1 && j < N - 1)
 	{
-		cpt_voisins++;
+		cpt_voisins+=monde[i + 1][j + 1];
 	}
 	return cpt_voisins;
 }
@@ -169,50 +187,34 @@ int nb_voisins_tore(int monde[N][N], int i, int j)
 {
 	int cpt_voisins = 0;
 	// dessus
-	if (monde[(i - 1) % N][j] == 1)
-	{
-		cpt_voisins++;
-	}
+	cpt_voisins += monde[modulo((i - 1),N)][j];
+
 	// gauche
-	if (monde[i][(j - 1) % N] == 1)
-	{
-		cpt_voisins++;
-	}
+	cpt_voisins += monde[i][modulo((j - 1),N)];
+
 	// dessous
-	if (monde[(i + 1) % N][j] == 1)
-	{
-		cpt_voisins++;
-	}
+	cpt_voisins+=monde[modulo((i + 1),N)][j];
+	
 	// droite
-	if (monde[i][(j + 1) % N] == 1)
-	{
-		cpt_voisins++;
-	}
+	cpt_voisins+=monde[i][modulo((j + 1),N)];
+	
 	// haut gauche
-	if (monde[(i - 1) % N][(j - 1) % N] == 1)
-	{
-		cpt_voisins++;
-	}
+	cpt_voisins+=monde[modulo((i - 1),N)][modulo((j - 1),N)];
+	
 	// bas gauche
-	if (monde[(i + 1) % N][(j - 1) % N] == 1)
-	{
-		cpt_voisins++;
-	}
+	cpt_voisins+=monde[modulo((i + 1),N)][modulo((j - 1),N)];
+
 	// haut droite
-	if (monde[(i - 1) % N][(j + 1) % N] == 1)
-	{
-		cpt_voisins++;
-	}
+	cpt_voisins+=monde[modulo((i - 1),N)][modulo((j + 1),N)];
+	
 	// bas droite
-	if (monde[(i + 1) % N][(j + 1) % N] == 1)
-	{
-		cpt_voisins++;
-	}
+	cpt_voisins+=monde[modulo((i + 1),N)][modulo((j + 1),N)];
+	
 	return cpt_voisins;
 }
 
 // main
-void jeu()
+void jeu(int indice_fct)
 {
 	srand(time(NULL));
 	int test = 1;
