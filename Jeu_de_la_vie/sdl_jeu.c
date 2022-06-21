@@ -160,6 +160,9 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 						case SDLK_DOWN:
 							vitesse = vitesse * 2;
 							break;
+						case SDLK_s:
+							sauvegarde(FIC,tab[p]);
+							break;
 						default:
 							break;
 						}

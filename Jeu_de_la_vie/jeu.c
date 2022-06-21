@@ -6,6 +6,8 @@
 #include "jeu.h"
 #include "sdl_jeu.h"
 
+
+
 int survie[8] = {0, 0, 1, 1, 0, 0, 0, 0};
 
 int naissance[8] = {0, 0, 0, 1, 0, 0, 0, 0};
@@ -197,6 +199,31 @@ int nb_voisins_tore(int **monde, int i, int j)
 	
 	return cpt_voisins;
 }
+
+void sauvegarde(char *fichier, int **monde){
+	FILE *file = fopen(fichier,"w");
+	if(file){
+		fprintf(file,"%d\n",N);
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				fprintf(file,"%d",monde[i][j]);
+			}
+			
+		}
+	}
+}
+
+void charger(char *fichier, int **monde){
+	// FILE *file = fopen(fichier,"w");
+
+	// if(file){
+	// 	fread(,sizeof(int),N,)
+	// }
+}
+
+
 
 // main
 void jeu(int indice_fct)
