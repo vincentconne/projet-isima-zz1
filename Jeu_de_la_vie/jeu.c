@@ -3,7 +3,12 @@
 #include <time.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <string.h>
 #include "jeu.h"
+
+int survie[8] = {1, 1, 1, 1, 1, 0, 0, 0};
+
+int naissance[8] = {0, 0, 1, 0, 0, 0, 0, 0};
 
 // saisie initiale   NE VA PAS NOUS SERVIR, UTILISATEUR ENTRE A LA MAIN
 int saisie()
@@ -21,7 +26,7 @@ int nombre_aleatoire(int min, int max)
 	return (rand() % (max - min + 1)) + min;
 }
 // nombre de un COMPTAGE CELLULES VIVANTES
-int nombre_un(int monde[][N])
+int nombre_un(int **monde)
 {
 	int i, j, cpt_un;
 	cpt_un = 0;
@@ -40,7 +45,7 @@ int nombre_un(int monde[][N])
 
 
 // afficher monde
-void affichage(int monde[][N])
+void affichage(int **monde)
 {
 	// init
 	int i = 0, j = 0;
@@ -67,7 +72,7 @@ void affichage(int monde[][N])
 }
 
 // copie monde1 -> monde2
-void recopie(int tab1[][N], int tab2[][N])
+void recopie(int **tab1, int **tab2)
 {
 	int i, j;
 	for (i = 0; i < N; i++)
@@ -80,7 +85,7 @@ void recopie(int tab1[][N], int tab2[][N])
 }
 
 //Calcul la valeur d'une cellule (morte ou vivante) à t+1
-int cellule_suiv(int i, int j, int tabcour[][N]){
+int cellule_suiv(int i, int j, int **tabcour){
 	int prochaine_valeur;
 	int nbvoisins = nb_voisins_vivants(tabcour,i,j);				//On compte le nombre de voisins de la cellule
 	if(tabcour[i][j])prochaine_valeur = survie[nbvoisins-1];		//Si cellule vivante alors à t+1 prend la valeur dans survie
@@ -89,7 +94,7 @@ int cellule_suiv(int i, int j, int tabcour[][N]){
 }
 
 //Opérations à effectuer à chaque tour de boucle de jeu
-void tour(int tabcour[][N], int tabsuiv[][N]){
+void tour(int **tabcour, int **tabsuiv){
 	memset(tabsuiv, 0, sizeof(tabsuiv[0][0]) * N * N);			//On remet à zéro le tableau suivant au début de chaque nouveau tour
 
 	for (int i = 0; i < N; i++)
@@ -99,15 +104,14 @@ void tour(int tabcour[][N], int tabsuiv[][N]){
 			tabsuiv[i][j] = cellule_suiv(i,j,tabcour);
 		}
 	}
-
-	int *tmp = tabcour;
+	int **tmp = tabcour;
 
 	tabcour = tabsuiv;
 	tabsuiv = tmp;
 }
 
 // nb voisin
-int nb_voisins_vivants(int monde[][N], int i, int j)
+int nb_voisins_vivants(int **monde, int i, int j)
 {
 	int cpt_voisins = 0;
 	// dessus
@@ -159,13 +163,19 @@ void jeu()
 	srand(time(NULL));
 	int test = 1;
 	// variables
-	int nb_cell = 0, x = 0, y = 0, monde[N][N], tmp[N][N], i = 0, j = 0, cpt_cell = 0;
+	int nb_cell = 0, x = 0, y = 0, cpt_cell;
+	int ** monde= (int**)malloc(sizeof(int*)*N), ** tmp= (int**)malloc(sizeof(int*)*N);
+	for(int i=0;i<N;i++)
+	{
+		monde[i]= (int *)malloc(sizeof(int)*N);
+		tmp[i]= (int *)malloc(sizeof(int)*N);
+	}
 	// tour suivant
 	bool tour_suivant = false;
 	// init monde
-	for (i = 0; i < N; i++)
+	for (int i = 0; i < N; i++)
 	{
-		for (j = 0; j < N; j++)
+		for (int j = 0; j < N; j++)
 		{
 			monde[i][j] = 0;
 		}
@@ -195,11 +205,11 @@ void jeu()
 	tour_suivant = true;
 	while (tour_suivant == true && test == 1)
 	{
-		for (i = 0; i < N; i++)
+		for (int i = 0; i < N; i++)
 		{
-			for (j = 0; j < N; j++)
+			for (int j = 0; j < N; j++)
 			{
-				tmp[i][j] = nb_voisins(monde, i, j);
+				tmp[i][j] = nb_voisins_vivants(monde, i, j);
 				// naissance
 				if (monde[i][j] == 0 && tmp[i][j] == 3)
 				{
