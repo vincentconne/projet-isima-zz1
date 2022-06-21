@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include "jeu.h"
 
+#define N 5
+
+
 // saisie initiale   NE VA PAS NOUS SERVIR, UTILISATEUR ENTRE A LA MAIN
 int saisie()
 {
@@ -13,15 +16,13 @@ int saisie()
 	scanf("%d", &nb);
 	return nb;
 }
-
-
 // nombre aleatoire
 int nombre_aleatoire(int min, int max)
 {
 	return (rand() % (max - min + 1)) + min;
 }
 // nombre de un COMPTAGE CELLULES VIVANTES
-int nombre_un(int monde[][N])
+int nombre_un(int monde[N][N])
 {
 	int i, j, cpt_un;
 	cpt_un = 0;
@@ -37,10 +38,8 @@ int nombre_un(int monde[][N])
 	}
 	return cpt_un;
 }
-
-
 // afficher monde
-void affichage(int monde[][N])
+void affichage(int monde[N][N])
 {
 	// init
 	int i = 0, j = 0;
@@ -67,7 +66,7 @@ void affichage(int monde[][N])
 }
 
 // copie monde1 -> monde2
-void recopie(int tab1[][N], int tab2[][N])
+void recopie(int tab1[N][N], int tab2[N][N])
 {
 	int i, j;
 	for (i = 0; i < N; i++)
@@ -79,35 +78,8 @@ void recopie(int tab1[][N], int tab2[][N])
 	}
 }
 
-//Calcul la valeur d'une cellule (morte ou vivante) à t+1
-int cellule_suiv(int i, int j, int tabcour[][N]){
-	int prochaine_valeur;
-	int nbvoisins = nb_voisins_vivants(tabcour,i,j);				//On compte le nombre de voisins de la cellule
-	if(tabcour[i][j])prochaine_valeur = survie[nbvoisins-1];		//Si cellule vivante alors à t+1 prend la valeur dans survie
-	else prochaine_valeur = naissance[nbvoisins-1];					//Si cellule morte alors à t+1 prend la valeur dans naissance
-	return prochaine_valeur;
-}
-
-//Opérations à effectuer à chaque tour de boucle de jeu
-void tour(int tabcour[][N], int tabsuiv[][N]){
-	memset(tabsuiv, 0, sizeof(tabsuiv[0][0]) * N * N);			//On remet à zéro le tableau suivant au début de chaque nouveau tour
-
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < N; j++)
-		{
-			tabsuiv[i][j] = cellule_suiv(i,j,tabcour);
-		}
-	}
-
-	int *tmp = tabcour;
-
-	tabcour = tabsuiv;
-	tabsuiv = tmp;
-}
-
 // nb voisin
-int nb_voisins_vivants(int monde[][N], int i, int j)
+int nb_voisins(int monde[N][N], int i, int j)
 {
 	int cpt_voisins = 0;
 	// dessus
@@ -181,7 +153,7 @@ void jeu()
 	for (cpt_cell = 0; cpt_cell < nb_cell; cpt_cell++)
 	{
 		x = nombre_aleatoire(0, N-1);
-		y = nombre_aleatoire(0, N-1);
+		y = nombre_aleatoire(0, 19);
 		while (monde[x][y] == 1)
 		{
 			x = nombre_aleatoire(0, N-1);
@@ -219,8 +191,6 @@ void jeu()
 					}
 				}
 			}
-
-
 		}
 		// copie
 		recopie(tmp, monde);
