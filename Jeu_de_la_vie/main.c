@@ -112,17 +112,19 @@ int main()
             switch (event.type)
             {
             case SDL_MOUSEBUTTONUP:
+                // Monde tore
                 if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
                     350 < event.button.y && event.button.y < 450) /* On arrête le programme si on a fait un clic gauche */
                 {
                     printf("YESSS\n");
                     bool = 1;
                 }
+                // Monde délimité
                 else if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
                          220 < event.button.y && event.button.y < 320) /* On arrête le programme si on a fait un clic gauche */
                 {
                     printf("NOOO\n");
-                    bool = 1;
+                    bool =2;
                 }
                 break;
 
@@ -142,7 +144,7 @@ int main()
         }
         else
         {
-            jeu();
+            jeu(bool);
             stop = 1;
         }
 
