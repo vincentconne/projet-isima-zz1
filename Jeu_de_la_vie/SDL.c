@@ -154,7 +154,7 @@ void SDL(int **monde, int **tmp, int indice_fct)
 		}
 
 		// here
-		SDL_Delay(1000); //  delai minimal
+		SDL_Delay(1); //  delai minimal
 	}
 
 	SDL_DestroyRenderer(renderer);
