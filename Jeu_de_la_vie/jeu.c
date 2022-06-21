@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
-#include <unistd.h>
 #include <string.h>
 #include "jeu.h"
+#include "SDL.h"
 
 int survie[8] = {1, 1, 0, 0, 1, 0, 0, 0};
 
@@ -222,43 +222,43 @@ void jeu(int indice_fct)
 			monde[i][j] = 0;
 		}
 	}
-	// saisi cellules
-	nb_cell = saisie();
-	while (nb_cell < 0 || nb_cell > N * N)
-	{
-		nb_cell = saisie();
-	}
-	printf("nombre initial de cellules vivantes : %d \n", nb_cell);
-	// choix pos
-	for (cpt_cell = 0; cpt_cell < nb_cell; cpt_cell++)
-	{
-		x = nombre_aleatoire(0, N - 1);
-		y = nombre_aleatoire(0, N - 1);
-		while (monde[x][y] == 1)
-		{
-			x = nombre_aleatoire(0, N - 1);
-			y = nombre_aleatoire(0, N - 1);
-		}
-		monde[x][y] = 1;
-	}
+	// // saisi cellules
+	// nb_cell = saisie();
+	// while (nb_cell < 0 || nb_cell > N * N)
+	// {
+	// 	nb_cell = saisie();
+	// }
+	// printf("nombre initial de cellules vivantes : %d \n", nb_cell);
+	// // choix pos
+	// for (cpt_cell = 0; cpt_cell < nb_cell; cpt_cell++)
+	// {
+	// 	x = nombre_aleatoire(0, N - 1);
+	// 	y = nombre_aleatoire(0, N - 1);
+	// 	while (monde[x][y] == 1)
+	// 	{
+	// 		x = nombre_aleatoire(0, N - 1);
+	// 		y = nombre_aleatoire(0, N - 1);
+	// 	}
+	// 	monde[x][y] = 1;
+	// }
 	// affiche monde
 	affichage(monde);
 	// prochain tour
-	int a =0;
-	int **tab[2]={monde, tmp};
-	int p=0;
+	// int a =0;
+	// int **tab[2]={monde, tmp};
+	// int p=0;
 
-	while ( !a && test == 1)
-	{
-		a = tour(tab[p],tab[1-p],indice_fct);
-		p = 1-p;
-		// affiche
-		affichage(tab[p]);
-		printf("Entrez 1 pour tour suivant:");
-		scanf("%d", &test);
-	}
+	// while ( !a && test == 1)
+	// {
+	// 	a = tour(tab[p],tab[1-p],indice_fct);
+	// 	p = 1-p;
+	// 	// affiche
+	// 	affichage(tab[p]);
+	// 	// printf("Entrez 1 pour tour suivant:");
+	// 	// scanf("%d", &test);
+	// }
+	SDL(monde,tmp,indice_fct);
 	liberation(monde,tmp);
-	
 }
 
 void liberation(int **monde, int **tmp){
@@ -269,3 +269,6 @@ void liberation(int **monde, int **tmp){
 	free(monde);
 	free(tmp);
 }
+
+
+

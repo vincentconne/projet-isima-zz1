@@ -113,18 +113,17 @@ int main()
             {
             case SDL_MOUSEBUTTONUP:
                 // Monde tore
-                if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
-                    350 < event.button.y && event.button.y < 450) /* On arrête le programme si on a fait un clic gauche */
+                 if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
+                    220 < event.button.y && event.button.y < 320)
                 {
-                    printf("YESSS\n");
-                    bool = 1;
+                    printf("Monde Delimite\n");
+                    bool = 2;
                 }
-                // Monde délimité
                 else if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
-                         220 < event.button.y && event.button.y < 320) /* On arrête le programme si on a fait un clic gauche */
+                         350 < event.button.y && event.button.y < 450) 
                 {
-                    printf("NOOO\n");
-                    bool =2;
+                    printf("Monde Torique\n");
+                    bool = 1;
                 }
                 break;
 
