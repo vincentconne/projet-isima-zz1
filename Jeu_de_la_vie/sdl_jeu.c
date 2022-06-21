@@ -141,6 +141,11 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 				case SDLK_SPACE:
 					finClique = 1;
 					break;
+				case SDLK_l:
+					printf("Touche l enfoncée\n");
+					charger(FIC, tab[1]);
+					finClique = 1;
+					break;
 				default:
 					break;
 				}
@@ -174,7 +179,8 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 							vitesse = vitesse * 2;
 							break;
 						case SDLK_s:
-							sauvegarde(FIC,tab[p]);
+							printf("Touche S enfoncée\n");
+							sauvegarde(FIC, tab[p]);
 							break;
 						default:
 							break;

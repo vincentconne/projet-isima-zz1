@@ -16,6 +16,7 @@ int tour(int **tabcour, int **tabsuiv,int indice_fct);
 int nb_voisins_delimite(int **monde, int i, int j);
 int nb_voisins_tore(int **monde, int i, int j);
 void sauvegarde(char *fichier, int **monde);
+void charger(char *fichier, int **monde);
 void jeu(int indice_fct);
 void liberation(int **monde, int **tmp);
 

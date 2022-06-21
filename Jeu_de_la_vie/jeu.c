@@ -200,27 +200,43 @@ int nb_voisins_tore(int **monde, int i, int j)
 	return cpt_voisins;
 }
 
+//Fonction de sauvegarde du monde actuel
 void sauvegarde(char *fichier, int **monde){
 	FILE *file = fopen(fichier,"w");
 	if(file){
-		fprintf(file,"%d\n",N);
 		for (int i = 0; i < N; i++)
 		{
 			for (int j = 0; j < N; j++)
 			{
-				fprintf(file,"%d",monde[i][j]);
+				fprintf(file,"%d\n",monde[i][j]);
 			}
 			
 		}
 	}
+	fclose(file);
 }
 
+//Fonction qui charge un monde provenant d'un fichier texte
 void charger(char *fichier, int **monde){
-	// FILE *file = fopen(fichier,"w");
-
-	// if(file){
-	// 	fread(,sizeof(int),N,)
-	// }
+	printf("j'entre dans la fonction charger\n");
+	FILE *file = fopen(fichier,"r");
+	if(file){
+		printf("c'est ok ouverture fichier\n");
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				int var = 0;
+				//fscanf(file,"%d",&var);
+				fread(&var,sizeof(int),1,file);
+				printf("Lecture dans le fichier %d %d : %d\n",i,j,var); 
+			}
+		}
+	}
+	else{
+		printf("problème ouverture fichier\n");
+	}
+	fclose(file);
 }
 
 
