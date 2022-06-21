@@ -34,7 +34,7 @@ int main(int argc, char **argv){
 
     SDL_GetCurrentDisplayMode(0,&screen);
 
-    fenetre = SDL_CreateWindow("Fenetre Dessin",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,screen.w * 07, screen.h * 0,7);
+    fenetre = SDL_CreateWindow("Fenetre Dessin",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,screen.w * 0.7, screen.h * 0.7,SDL_WINDOW_OPENGL);
 
     renderer = SDL_CreateRenderer(fenetre, -1,
                                 SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -43,7 +43,7 @@ int main(int argc, char **argv){
 
     SDL_RenderPresent(renderer);
 
-    SDL_Delay(1000);
+    SDL_Delay(7000);
 
     SDL_DestroyRenderer(renderer);
 
