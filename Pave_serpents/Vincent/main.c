@@ -30,13 +30,6 @@ int valeur_random(int MIN, int MAX)
     return (rand() % (MAX + 1 - MIN)) + MIN;
 }
 
-void drawLine(SDL_Renderer *renderer)
-{
-    SDL_SetRenderDrawColor(renderer, valeur_random(0, 255), valeur_random(0, 255), valeur_random(0, 255), 255);
-    SDL_RenderDrawLine(renderer, valeur_random(0, 700), valeur_random(0, 700), valeur_random(0, 700), valeur_random(0, 700));
-    SDL_RenderPresent(renderer);
-}
-
 
 
 int main()
@@ -96,7 +89,7 @@ int main()
                 break;
             }
         }
-        // Affichages et calculs souvent ici
+        //calculs
         srand(time(NULL));
         int x1 = valeur_random(-3, 3);
         int y1 = valeur_random(-3, 3);
@@ -137,7 +130,6 @@ int main()
         SDL_SetRenderDrawColor(renderer, valeur_random(0, 255), valeur_random(0, 255), valeur_random(0, 255), 255);
         SDL_RenderDrawLine(renderer, ligne.x1, ligne.y1, ligne.x2, ligne.y2);
         SDL_RenderPresent(renderer);
-        // drawLine(renderer);
         clear(renderer);
     }
 
