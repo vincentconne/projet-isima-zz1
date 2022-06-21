@@ -3,8 +3,27 @@
 #include <time.h>
 #include <stdbool.h>
 #include <string.h>
+#include <SDL2/SDL_ttf.h>
 #include "jeu.h"
 #include "sdl_jeu.h"
+
+void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
+{ // Je pense que vous allez faire moins laid :)
+	SDL_Rect rectangle;
+
+	SDL_SetRenderDrawColor(renderer,
+						   50, 0, 0, // mode Red, Green, Blue (tous dans 0..255)
+						   255);	 // 0 = transparent ; 255 = opaque
+	rectangle.x = xg;				 // x haut gauche du rectangle
+	rectangle.y = yg;				 // y haut gauche du rectangle
+	rectangle.w = 600;				 // sa largeur (w = width)
+	rectangle.h = 100;				 // sa hauteur (h = height)
+
+	SDL_RenderFillRect(renderer, &rectangle);
+
+	SDL_QueryTexture(text_texture, NULL, NULL, &rectangle.w, &rectangle.h); // récupération de la taille (w, h) du texte
+	SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
+}
 
 void DessinCases(SDL_Rect rect, SDL_Renderer *renderer, int **tab)
 {
@@ -114,12 +133,6 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 					tab[p][CaseX][CaseY] = 1;
 				}
 				DessinCases(rect, renderer, tab[p]);
-				// SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-				// rect.x = 50 * CaseX;
-				// rect.y = 50 * CaseY;
-				// rect.w = rect.h = 50;
-				// SDL_RenderFillRect(renderer, &rect);
-				// SDL_RenderPresent(renderer);
 
 				break;
 			case SDL_KEYDOWN:
@@ -166,10 +179,9 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 					}
 				}
 			}
+			AfficheMessage(renderer);
 		}
-
-		// here
-		SDL_Delay(1); //  delai minimal
+		SDL_Delay(100); //  delai minimal
 	}
 
 	SDL_DestroyRenderer(renderer);
@@ -178,3 +190,65 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 }
 
 // SDL_RenderClear(renderer);
+
+void AfficheMessage(SDL_Renderer *renderer)
+{
+	SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
+	SDL_Event event;				// c'est le type IMPORTANT !!
+	// SDL_GetCurrentDisplayMode(0, &screen);
+
+	if (TTF_Init() < 0)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	TTF_Font *font = NULL;				   // la variable 'police de caractère'
+	font = TTF_OpenFont("stocky.ttf", 55); // La police à charger, la taille désirée
+	if (font == NULL)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+
+	TTF_SetFontStyle(font, TTF_STYLE_ITALIC | TTF_STYLE_BOLD); // en italique, gras
+
+	SDL_Color color = {255, 255, 255, 255};								 // la couleur du texte
+	SDL_Surface *text_surface1 = NULL;									 // la surface  (uniquement transitoire)
+	text_surface1 = TTF_RenderText_Blended(font, "MONDE STABLE", color); // création du texte dans la surface
+	if (text_surface1 == NULL)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+
+	SDL_Texture *text_texture1 = NULL;									   // la texture qui contient le texte
+	text_texture1 = SDL_CreateTextureFromSurface(renderer, text_surface1); // transfert de la surface à la texture
+
+	if (text_texture1 == NULL)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
+	while (program_on)
+	{ // Voilà la boucle des évènements
+		if (SDL_PollEvent(&event))
+		{ // si la file d'évènements n'est pas vide : défiler l'élément en tête
+		  // de file dans 'event'
+			switch (event.type)
+			{
+			case SDL_QUIT:				// Un évènement simple, on a cliqué sur la x de la fenêtre
+				program_on = SDL_FALSE; // Il est temps d'arrêter le programme
+				break;
+
+			default: // L'évènement défilé ne nous intéresse pas
+				break;
+			}
+		}
+		draw(renderer, 0, 220, text_texture1);
+
+		SDL_RenderPresent(renderer); // affichage
+	}
+	SDL_DestroyTexture(text_texture1);
+	TTF_Quit();
+}
