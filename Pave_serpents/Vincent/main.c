@@ -3,14 +3,13 @@
 #include <stdbool.h>
 #include <time.h>
 
-
-typedef struct rect
+typedef struct line
 {
     int x1;
     int y1;
     int x2;
     int y2;
-} rect;
+} line;
 
 void clear(SDL_Renderer *renderer)
 {
@@ -71,11 +70,11 @@ int main()
         return 1;
     }
 
-    rect rectangle;
-    rectangle.x1 = 300;
-    rectangle.y1 = 400;
-    rectangle.x2 = 500;
-    rectangle.y2 = 600;
+    line ligne;
+    ligne.x1 = 300;
+    ligne.y1 = 400;
+    ligne.x2 = 500;
+    ligne.y2 = 600;
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
@@ -108,35 +107,35 @@ int main()
 
         if (choix == 0)
         {
-            if (rectangle.x1 + x1 < 780 && rectangle.x1 + x1 > 20)
+            if (ligne.x1 + x1 < 780 && ligne.x1 + x1 > 20)
             {
-                rectangle.x1 += x1;
+                ligne.x1 += x1;
             }
         }
         else if (choix == 1)
         {
-            if (rectangle.y1 + y1 < 780 && rectangle.y1 + y1 > 20)
+            if (ligne.y1 + y1 < 780 && ligne.y1 + y1 > 20)
             {
-                rectangle.y1 += y1;
+                ligne.y1 += y1;
             }
         }
         else if (choix == 2)
         {
-            if (rectangle.x2 + x2 < 780 && rectangle.x2 + x2 > 20)
+            if (ligne.x2 + x2 < 780 && ligne.x2 + x2 > 20)
             {
-                rectangle.x2 += x2;
+                ligne.x2 += x2;
             }
         }
         else if (choix == 3)
         {
-            if (rectangle.y2 + y2 < 780 && rectangle.y2 + y2 > 20)
+            if (ligne.y2 + y2 < 780 && ligne.y2 + y2 > 20)
             {
-                rectangle.y2 += y2;
+                ligne.y2 += y2;
             }
         }
 
         SDL_SetRenderDrawColor(renderer, valeur_random(0, 255), valeur_random(0, 255), valeur_random(0, 255), 255);
-        SDL_RenderDrawLine(renderer, rectangle.x1, rectangle.y1, rectangle.x2, rectangle.y2);
+        SDL_RenderDrawLine(renderer, ligne.x1, ligne.y1, ligne.x2, ligne.y2);
         SDL_RenderPresent(renderer);
         // drawLine(renderer);
         clear(renderer);

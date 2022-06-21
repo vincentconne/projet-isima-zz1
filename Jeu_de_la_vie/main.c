@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include "jeu.h"
 
 #define width 600
 #define height 500
@@ -100,7 +101,7 @@ int main()
     }
     SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
     SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
-
+    int bool = 0;
     while (program_on)
     { // Voilà la boucle des évènements
 
@@ -112,10 +113,16 @@ int main()
             case SDL_MOUSEBUTTONUP:
                 if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
                     350 < event.button.y && event.button.y < 450) /* On arrête le programme si on a fait un clic gauche */
+                {
                     printf("YESSS\n");
+                    bool = 1;
+                }
                 else if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
-                    220 < event.button.y && event.button.y < 320) /* On arrête le programme si on a fait un clic gauche */
+                         220 < event.button.y && event.button.y < 320) /* On arrête le programme si on a fait un clic gauche */
+                {
                     printf("NOOO\n");
+                    bool = 1;
+                }
                 break;
 
                 // En fonction de la valeur du type de cet évènement
@@ -127,9 +134,16 @@ int main()
                 break;
             }
         }
+        if (bool == 0)
+        {
+            draw(renderer, 0, 220, text_texture1);
+            draw(renderer, 0, 350, text_texture2);
+        }
+        else
+        {
+            jeu();
+        }
 
-        draw(renderer, 0, 220, text_texture1);
-        draw(renderer, 0, 350, text_texture2);
         SDL_RenderPresent(renderer); // affichage
     }
 
