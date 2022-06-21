@@ -1,7 +1,7 @@
 #ifndef jeu_h
 #define jeu_h
 
-#define N 20
+#define N 10
 
 int modulo(int k, int n);
 int nb_voisins(int **monde, int i, int j, int indice_fct);

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "jeu.h"
-#include "SDL.h"
+#include "sdl_jeu.h"
 
 void DessinCases(SDL_Rect rect, SDL_Renderer *renderer, int **tab)
 {
@@ -29,13 +29,13 @@ void DessinCases(SDL_Rect rect, SDL_Renderer *renderer, int **tab)
 	SDL_RenderPresent(renderer);
 }
 
-void SDL_Jeu(int **monde, int **tmp, int indice_fct)
+void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 {
 	int a = 0;
 	int **tab[2] = {monde, tmp};
 	int p = 0;
 
-	int vitesse = 10;
+	int vitesse = 1000;
 
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
@@ -128,12 +128,6 @@ void SDL_Jeu(int **monde, int **tmp, int indice_fct)
 				case SDLK_SPACE:
 					finClique = 1;
 					break;
-				case SDLK_UP:
-					vitesse = vitesse * 2;
-					break;
-				case SDLK_DOWN:
-					vitesse = vitesse/2;
-					break;
 				default:
 					break;
 				}
@@ -153,6 +147,24 @@ void SDL_Jeu(int **monde, int **tmp, int indice_fct)
 				// affiche
 				DessinCases(rect, renderer, tab[p]);
 				SDL_Delay(vitesse);
+				while (SDL_PollEvent(&event))
+				{
+					switch (event.type)
+					{
+					case SDL_KEYDOWN:
+						switch (event.key.keysym.sym)
+						{
+						case SDLK_UP:
+							vitesse = vitesse / 2;
+							break;
+						case SDLK_DOWN:
+							vitesse = vitesse * 2;
+							break;
+						default:
+							break;
+						}
+					}
+				}
 			}
 		}
 

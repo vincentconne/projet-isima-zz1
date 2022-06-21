@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "jeu.h"
-#include "SDL.h"
+#include "sdl_jeu.h"
 
 int survie[8] = {0, 0, 1, 1, 0, 0, 0, 0};
 
@@ -216,7 +216,7 @@ void jeu(int indice_fct)
 			monde[i][j] = 0;
 		}
 	}
-	SDL_Jeu(monde,tmp,indice_fct);
+	sdl_Jeu(monde,tmp,indice_fct);
 	liberation(monde,tmp);
 }
 
