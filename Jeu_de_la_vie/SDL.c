@@ -35,6 +35,8 @@ void SDL(int **monde, int **tmp, int indice_fct)
 	int **tab[2] = {monde, tmp};
 	int p = 0;
 
+	int vitesse = 10;
+
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
 		fprintf(stderr, "Erreur d'initialisation de la SDL : %s\n", SDL_GetError());
@@ -128,6 +130,12 @@ void SDL(int **monde, int **tmp, int indice_fct)
 				case SDLK_SPACE:
 					finClique = 1;
 					break;
+				case SDLK_UP:
+					vitesse = vitesse * 2;
+					break;
+				case SDLK_DOWN:
+					vitesse = vitesse/2;
+					break;
 				default:
 					break;
 				}
@@ -149,12 +157,12 @@ void SDL(int **monde, int **tmp, int indice_fct)
 				// printf("Entrez 1 pour tour suivant:");
 				// scanf("%d", &test);
 				DessinCases(rect, renderer, tab[p]);
-				SDL_Delay(300);
+				SDL_Delay(vitesse);
 			}
 		}
 
 		// here
-		SDL_Delay(1000); //  delai minimal
+		SDL_Delay(100); //  delai minimal
 	}
 
 	SDL_DestroyRenderer(renderer);
