@@ -32,11 +32,11 @@ int main(int argc, char **argv){
 
     //if (SDL_Init(SDL_INIT_VIDEO) != 0) end_sdl(0, "ERROR SDL INIT", window, renderer);
 
-    SDL_GetCurrentDisplayWindow(0,&screen);
+    SDL_GetCurrentDisplayMode(0,&screen);
 
-    fenetre = SDL_CreateWindow("Fenetre Dessin",SDL_WINDOWPOS_CENTER,SDL_WINDOWPOS_CENTER,screen.w * 07, screen.h * 0,7);
+    fenetre = SDL_CreateWindow("Fenetre Dessin",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,screen.w * 07, screen.h * 0,7);
 
-    renderer = SDL_CreateRenderer(window, -1,
+    renderer = SDL_CreateRenderer(fenetre, -1,
                                 SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     draw(renderer);
