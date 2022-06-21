@@ -3,27 +3,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "jeu.h"
+#include "sdl_jeu.h"
 
 #define width 600
 #define height 500
-
-void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
-{ // Je pense que vous allez faire moins laid :)
-    SDL_Rect rectangle;
-
-    SDL_SetRenderDrawColor(renderer,
-                           50, 0, 0, // mode Red, Green, Blue (tous dans 0..255)
-                           255);     // 0 = transparent ; 255 = opaque
-    rectangle.x = xg;                // x haut gauche du rectangle
-    rectangle.y = yg;                // y haut gauche du rectangle
-    rectangle.w = 600;               // sa largeur (w = width)
-    rectangle.h = 100;               // sa hauteur (h = height)
-
-    SDL_RenderFillRect(renderer, &rectangle);
-
-    SDL_QueryTexture(text_texture, NULL, NULL, &rectangle.w, &rectangle.h); // récupération de la taille (w, h) du texte
-    SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
-}
 
 int main()
 {
@@ -31,7 +14,7 @@ int main()
     SDL_Renderer *renderer = NULL;
     int statut = EXIT_FAILURE;
     SDL_DisplayMode screen;
-    int stop=0;
+    int stop = 0;
 
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
@@ -103,7 +86,7 @@ int main()
     SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
     SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
     int bool = 0;
-    while (program_on && stop==0)
+    while (program_on && stop == 0)
     { // Voilà la boucle des évènements
 
         if (SDL_PollEvent(&event))
@@ -113,14 +96,14 @@ int main()
             {
             case SDL_MOUSEBUTTONUP:
                 // Monde tore
-                 if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
+                if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
                     220 < event.button.y && event.button.y < 320)
                 {
                     printf("Monde Delimite\n");
                     bool = 2;
                 }
                 else if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
-                         350 < event.button.y && event.button.y < 450) 
+                         350 < event.button.y && event.button.y < 450)
                 {
                     printf("Monde Torique\n");
                     bool = 1;
@@ -143,6 +126,10 @@ int main()
         }
         else
         {
+            SDL_DestroyTexture(text_texture1);
+            SDL_DestroyTexture(text_texture2);
+            SDL_DestroyWindow(window);
+            TTF_Quit();
             jeu(bool);
             stop = 1;
         }
