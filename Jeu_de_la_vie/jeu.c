@@ -20,7 +20,7 @@ int modulo(int k, int n){
 
 int nb_voisins(int **monde, int i, int j, int indice_fct){
 	int res=0;
-	if (indice_fct){
+	if (indice_fct==2){
 		res = nb_voisins_tore(monde,i,j);
 	}
 	else {
