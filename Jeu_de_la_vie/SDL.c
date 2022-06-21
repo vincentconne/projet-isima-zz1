@@ -20,9 +20,9 @@ void DessinCases(SDL_Rect rect, SDL_Renderer *renderer, int **tab)
 			{
 				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 			}
-			rect.x = 50 * i;
-			rect.y = 50 * j;
-			rect.w = rect.h = 50;
+			rect.x = (600 / N) * i;
+			rect.y = (600 / N) * j;
+			rect.w = rect.h = (600 / N);
 			SDL_RenderFillRect(renderer, &rect);
 		}
 	}
@@ -106,8 +106,8 @@ void SDL(int **monde, int **tmp, int indice_fct)
 			case SDL_MOUSEBUTTONDOWN:
 				printf("Veuillez choisir la nouvelle couleur : ");
 				printf("Appui :%d %d\n", event.button.x, event.button.y);
-				CaseX = event.button.x / 50;
-				CaseY = event.button.y / 50;
+				CaseX = event.button.x / (600 / N);
+				CaseY = event.button.y / (600 / N);
 
 				if (!finClique)
 				{
@@ -140,7 +140,8 @@ void SDL(int **monde, int **tmp, int indice_fct)
 		}
 		if (finClique)
 		{
-
+			while (!a)
+			{
 				a = tour(tab[p], tab[1 - p], indice_fct);
 				p = 1 - p;
 				// affiche
@@ -148,10 +149,12 @@ void SDL(int **monde, int **tmp, int indice_fct)
 				// printf("Entrez 1 pour tour suivant:");
 				// scanf("%d", &test);
 				DessinCases(rect, renderer, tab[p]);
+				SDL_Delay(300);
+			}
 		}
 
 		// here
-	 SDL_Delay(100); //  delai minimal
+		SDL_Delay(1000); //  delai minimal
 	}
 
 	SDL_DestroyRenderer(renderer);
