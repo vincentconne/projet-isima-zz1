@@ -4,7 +4,6 @@
 #include <time.h>
 #include "jeu.h"
 
-<<<<<<< HEAD
 int valeur_random(int MIN, int MAX)
 {
     static bool initialized = false;
@@ -107,6 +106,3 @@ void nouveau_etat(int *etat_cour, int **tab_etats,int dernier, int premier,int t
     dernier = (5+dernier-1)%5;
 
 }
-=======
-//void nouveau_etat(int etat_cour[])
->>>>>>> 1b33c30b16415bae6a5405fedbf274b925bb5b64

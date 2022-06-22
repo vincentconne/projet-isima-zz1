@@ -72,19 +72,8 @@ for(int i=0;i<5;i++){
 }
 free(tab_etats);
 
-=======
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <stdbool.h>
-#include <string.h>
-#include <SDL2/SDL_ttf.h>
-#include "jeu.h"
-#include "sdl_jeu.h"
 
-int main()
-{
-    Intro_jeu();
-    return 0;
->>>>>>> 1b33c30b16415bae6a5405fedbf274b925bb5b64
+
+Intro_jeu();
+return 0;
 }
