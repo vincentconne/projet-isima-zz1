@@ -107,20 +107,9 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 		{
 			switch (event.type)
 			{
-			case SDL_WINDOWEVENT:
-				printf("window event\n");
-				switch (event.window.event)
-				{
-				case SDL_WINDOWEVENT_CLOSE:
-					printf("appui sur la croix\n");
-					break;
-				// case SDL_WINDOWEVENT_SIZE_CHANGED:
-				// 	width = event.window.data1;
-				// 	height = event.window.data2;
-				// 	printf("Size : %d%d\n", width, height);
-				default:
-					DessinCases(rect, renderer, tab[p]);
-				}
+			case SDL_QUIT:
+				printf("on quitte\n");
+				run = 0;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				printf("Veuillez choisir la nouvelle couleur : ");
@@ -143,17 +132,19 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 					break;
 				case SDLK_l:
 					printf("Touche l enfoncée\n");
-					charger(FIC, tab[1]);
+					charger(FIC, tab[0]);
+					for (int i = 0; i < N; i++)
+					{
+						for (int j = 0; j < N; j++)
+						{
+							printf("Val %d", tab[0][i][j]);
+						}
+					}
 					finClique = 1;
 					break;
 				default:
 					break;
 				}
-
-			case SDL_QUIT:
-				printf("on quitte\n");
-				run = 0;
-				break;
 			}
 		}
 		if (finClique)
@@ -185,12 +176,16 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 						default:
 							break;
 						}
+					case SDL_QUIT:
+						printf("on quitte\n");
+						run = 0;
+						break;
 					}
 				}
 			}
 			AfficheMessage(renderer);
 		}
-		SDL_Delay(100); //  delai minimal
+		// SDL_Delay(100); //  delai minimal
 	}
 
 	SDL_DestroyRenderer(renderer);

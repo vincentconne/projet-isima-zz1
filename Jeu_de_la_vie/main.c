@@ -95,7 +95,6 @@ int main()
             switch (event.type)
             {
             case SDL_MOUSEBUTTONUP:
-                // Monde tore
                 if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 600 &&
                     220 < event.button.y && event.button.y < 320)
                 {
@@ -110,12 +109,11 @@ int main()
                 }
                 break;
 
-                // En fonction de la valeur du type de cet évènement
             case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
                 program_on = SDL_FALSE; // Il est temps d'arrêter le programme
                 break;
 
-            default: // L'évènement défilé ne nous intéresse pas
+            default: // Si L'évènement défilé ne nous intéresse pas
                 break;
             }
         }
