@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "jeu.h"
+#include "sdl_jeu.h"
 
 int main(){
 
