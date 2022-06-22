@@ -74,11 +74,6 @@ void play_with_texture(SDL_Texture *my_texture, SDL_Window *window,
   SDL_RenderCopy(renderer, my_texture,
                  &source,
                  &destination);                 // Création de l'élément à afficher
-  //SDL_RenderPresent(renderer);                  // Affichage
-  // SDL_PumpEvents();
-  // SDL_Delay(20);                              // Pause en ms
-
-  //SDL_RenderClear(renderer);                    // Effacer la fenêtre
 }
 
 
@@ -106,13 +101,6 @@ void animation(SDL_Texture *my_texture,SDL_Texture *text_bg,SDL_Window *window, 
     play_with_texture(text_bg,window,renderer);
 
     SDL_RenderCopy(renderer,my_texture,&source,&destination);
-    // SDL_RenderPresent(renderer);
-
-    // SDL_PumpEvents();
-    // SDL_Delay(100);
-
-    // SDL_RenderClear(renderer);
-
 }
 
 int main(){
@@ -148,14 +136,7 @@ int main(){
       animation(cha_run[i],text_bg,window,renderer,i);
       SDL_RenderPresent(renderer);
       SDL_PumpEvents();
-      //SDL_Delay(100);
-
-
-    SDL_Delay(300);
-
+      SDL_Delay(200);
     }
-
-
-
 
 }
