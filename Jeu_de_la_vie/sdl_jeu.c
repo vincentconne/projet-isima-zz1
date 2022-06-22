@@ -214,7 +214,7 @@ void AfficheMessage(SDL_Renderer *renderer)
 		exit(EXIT_FAILURE);
 	}
 
-	TTF_SetFontStyle(font, TTF_STYLE_ITALIC | TTF_STYLE_BOLD); // en italique, gras
+	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
 
 	SDL_Color color = {255, 255, 255, 255};								 // la couleur du texte
 	SDL_Surface *text_surface1 = NULL;									 // la surface  (uniquement transitoire)

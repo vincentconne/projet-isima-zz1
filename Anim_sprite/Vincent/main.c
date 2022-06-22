@@ -4,8 +4,8 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
  
-#define width 1400
-#define height 800
+#define width 900
+#define height 700
  
 void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
 { // Je pense que vous allez faire moins laid :)
