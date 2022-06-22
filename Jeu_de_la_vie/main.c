@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "jeu.h"
 #include "sdl_jeu.h"
+#include "texture.h"
 
 #define width 600
 #define height 500
@@ -15,6 +16,7 @@ int main()
     int statut = EXIT_FAILURE;
     SDL_DisplayMode screen;
     int stop = 0;
+
 
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
@@ -44,9 +46,29 @@ int main()
 
     statut = EXIT_SUCCESS;
 
+
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
     SDL_GetCurrentDisplayMode(0, &screen);
+
+    SDL_Texture *fond; 
+    fond = load_texture_from_image("./up.png",window,renderer);
+    SDL_Rect 
+          source = {0},                         // Rectangle définissant la zone de la texture à récupérer
+          window_dimensions = {0},              // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
+          destination = {0};                    // Rectangle définissant où la zone_source doit être déposée dans le renderer
+
+    SDL_GetWindowSize(
+      window, &window_dimensions.w,
+      &window_dimensions.h);                    // Récupération des dimensions de la fenêtre
+    SDL_QueryTexture(fond, NULL, NULL,
+                   &source.w, &source.h);       // Récupération des dimensions de l'image
+
+    destination = window_dimensions;              // On fixe les dimensions de l'affichage à  celles de la fenêtre
+
+
+    
+
 
     if (TTF_Init() < 0)
     {
@@ -119,6 +141,9 @@ int main()
         }
         if (bool == 0)
         {
+            SDL_RenderCopy(renderer, fond,
+                 &source,
+                 &destination);
             draw(renderer, 0, 220, text_texture1);
             draw(renderer, 0, 350, text_texture2);
         }
