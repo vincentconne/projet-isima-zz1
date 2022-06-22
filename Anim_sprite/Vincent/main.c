@@ -144,7 +144,7 @@ int main()
         }
         // draw(renderer, 0, 220, text_texture1);
         play_with_texture_4(text_texture1, window, renderer);
-        SDL_RenderPresent(renderer); // affichage
+        //SDL_RenderPresent(renderer); // affichage
     }
 
     SDL_DestroyTexture(text_texture1);

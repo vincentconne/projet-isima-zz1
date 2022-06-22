@@ -96,6 +96,7 @@ int cellule_suiv(int i, int j, int **tabcour, int indice_fct)
 {
 	int prochaine_valeur;
 	int nbvoisins = nb_voisins(tabcour, i, j,indice_fct); // On compte le nombre de voisins de la cellule
+	//printf("Nombre voisins: %d\n",nbvoisins);
 	if (tabcour[i][j])
 		prochaine_valeur = survie[nbvoisins]; // Si cellule vivante alors à t+1 prend la valeur dans survie
 	else
@@ -208,9 +209,9 @@ void sauvegarde(char *fichier, int **monde){
 		{
 			for (int j = 0; j < N; j++)
 			{
-				fprintf(file,"%d\n",monde[i][j]);
+				fprintf(file,"%d ",monde[i][j]);
 			}
-			
+			fprintf(file,"\n",NULL);
 		}
 	}
 	fclose(file);
@@ -218,28 +219,19 @@ void sauvegarde(char *fichier, int **monde){
 
 //Fonction qui charge un monde provenant d'un fichier texte
 void charger(char *fichier, int **monde){
-	printf("j'entre dans la fonction charger\n");
 	FILE *file = fopen(fichier,"r");
 	if(file){
-		printf("c'est ok ouverture fichier\n");
 		for (int i = 0; i < N; i++)
 		{
 			for (int j = 0; j < N; j++)
 			{
-				int var = 0;
-				//fscanf(file,"%d",&var);
-				fread(&var,sizeof(int),1,file);
-				printf("Lecture dans le fichier %d %d : %d\n",i,j,var); 
+				fscanf(file,"%d",&monde[i][j]);
+				printf("Lecture dans le fichier %d %d : %d\n",i,j,monde[i][j]); 
 			}
 		}
 	}
-	else{
-		printf("problème ouverture fichier\n");
-	}
 	fclose(file);
 }
-
-
 
 // main
 void jeu(int indice_fct)
