@@ -10,6 +10,8 @@
 #define width 800
 #define height 800
 
+#define V 10
+
 void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
 { // Je pense que vous allez faire moins laid :)
 	SDL_Rect rectangle;
@@ -96,12 +98,14 @@ void sdl_Jeu()
 
 	SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 
-	SDL_Texture *background = IMG_LoadTexture(renderer, "./src/frame1.png");
+	SDL_Texture *background = IMG_LoadTexture(renderer, "./src/sansblanc1.png");
+	SDL_Texture *background2 = IMG_LoadTexture(renderer, "./src/sansblanc2.png");
 
-	if (voiture == NULL && background == NULL)
+	if (voiture == NULL && background == NULL && background2 == NULL)
 	{
 		exit(EXIT_FAILURE);
 	}
+	int i = 1;
 	int exit = 0;
 	while (!exit)
 	{
@@ -113,28 +117,34 @@ void sdl_Jeu()
 				switch (event.key.keysym.scancode)
 				{
 				case SDL_SCANCODE_LEFT:
-					if (rect_voiture.x - 10 > 100)
+					if (rect_voiture.x - V > 100)
 					{
-						rect_voiture.x -= 10;
+						rect_voiture.x -= V;
 					}
 					break;
 				case SDL_SCANCODE_RIGHT:
-					if (rect_voiture.x + 10 < 600)
+					if (rect_voiture.x + V < 600)
 					{
-						rect_voiture.x += 10;
+						rect_voiture.x += V;
 					}
 					break;
 				case SDL_SCANCODE_UP:
-					if (rect_voiture.y - 10 > 0)
+					if (rect_voiture.y - V > 0)
 					{
-						rect_voiture.y -= 10;
+						rect_voiture.y -= V;
 					}
 					break;
 				case SDL_SCANCODE_DOWN:
-					if (rect_voiture.y + 10 < 600)
+					if (rect_voiture.y + V < 600)
 					{
-						rect_voiture.y += 10;
+						rect_voiture.y += V;
 					}
+				// case SDL_SCANCODE_DOWN && SDL_SCANCODE_RIGHT:
+				// 	if (rect_voiture.y + V < 600 && rect_voiture.x + V < 600)
+				// 	{
+				// 		rect_voiture.y += V;
+				// 		rect_voiture.x += V;
+				// 	}
 					break;
 				default:
 					break;
@@ -150,9 +160,19 @@ void sdl_Jeu()
 		// play_with_texture_4(voiture, window, renderer, background);
 		// draw(renderer, &rectangle);
 		// clear(renderer);
-		play_with_texture_1(background, window, renderer);
+		if (i == 1)
+		{
+			play_with_texture_1(background, window, renderer);
+			i = 0;
+		}
+		else
+		{
+			play_with_texture_1(background2, window, renderer);
+			i = 1;
+		}
 		SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 		SDL_RenderPresent(renderer);
+		SDL_Delay(100);
 		SDL_RenderClear(renderer);
 	}
 
@@ -166,7 +186,6 @@ void Intro_jeu()
 {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
-	int statut = EXIT_FAILURE;
 	SDL_DisplayMode screen;
 	int stop = 0;
 
@@ -196,18 +215,16 @@ void Intro_jeu()
 		exit(EXIT_FAILURE);
 	}
 
-	statut = EXIT_SUCCESS;
-
 	SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
 	SDL_Event event;				// c'est le type IMPORTANT !!
 	SDL_GetCurrentDisplayMode(0, &screen);
 
 	SDL_Texture *fond = IMG_LoadTexture(renderer, "./src/Titre.png");
- 
-   if (fond == NULL)
-   {
-       exit(EXIT_FAILURE);
-   }
+
+	if (fond == NULL)
+	{
+		exit(EXIT_FAILURE);
+	}
 
 	SDL_Rect
 		source = {0},			 // Rectangle définissant la zone de la texture à récupérer
@@ -237,11 +254,11 @@ void Intro_jeu()
 
 	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
 
-	SDL_Color color = {255, 255, 255, 255};								   // la couleur du texte
-	SDL_Surface *text_surface1 = NULL;									   // la surface  (uniquement transitoire)
-	text_surface1 = TTF_RenderText_Blended(font, "JOUER", color); // création du texte dans la surface
-	SDL_Surface *text_surface2 = NULL;									   // la surface  (uniquement transitoire)
-	text_surface2 = TTF_RenderText_Blended(font, "REGLES DU JEU", color);  // création du texte dans la surface
+	SDL_Color color = {255, 255, 255, 255};								  // la couleur du texte
+	SDL_Surface *text_surface1 = NULL;									  // la surface  (uniquement transitoire)
+	text_surface1 = TTF_RenderText_Blended(font, "JOUER", color);		  // création du texte dans la surface
+	SDL_Surface *text_surface2 = NULL;									  // la surface  (uniquement transitoire)
+	text_surface2 = TTF_RenderText_Blended(font, "REGLES DU JEU", color); // création du texte dans la surface
 	if (text_surface1 == NULL && text_surface2 == NULL)
 	{
 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());

@@ -37,7 +37,7 @@ void DessinCases(SDL_Rect rect, SDL_Renderer *renderer, int **tab)
 			}
 			else
 			{
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+				SDL_SetRenderDrawColor(renderer, 0, 97, 195, 255);
 			}
 			rect.x = (600 / N) * i;
 			rect.y = (600 / N) * j;
@@ -133,13 +133,6 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 				case SDLK_l:
 					printf("Touche l enfoncée\n");
 					charger(FIC, tab[0]);
-					for (int i = 0; i < N; i++)
-					{
-						for (int j = 0; j < N; j++)
-						{
-							printf("Val %d", tab[0][i][j]);
-						}
-					}
 					finClique = 1;
 					break;
 				default:
@@ -177,7 +170,6 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 							break;
 						}
 					case SDL_QUIT:
-						printf("on quitte\n");
 						run = 0;
 						break;
 					}
@@ -216,8 +208,8 @@ void AfficheMessage(SDL_Renderer *renderer)
 
 	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
 
-	SDL_Color color = {255, 255, 255, 255};								 // la couleur du texte
-	SDL_Surface *text_surface1 = NULL;									 // la surface  (uniquement transitoire)
+	SDL_Color color = {255, 255, 255, 255};							   // la couleur du texte
+	SDL_Surface *text_surface1 = NULL;								   // la surface  (uniquement transitoire)
 	text_surface1 = TTF_RenderText_Blended(font, "CYCLE DE 2", color); // création du texte dans la surface
 	if (text_surface1 == NULL)
 	{
@@ -250,7 +242,6 @@ void AfficheMessage(SDL_Renderer *renderer)
 			}
 		}
 		draw(renderer, 0, 220, text_texture1);
-
 		SDL_RenderPresent(renderer); // affichage
 	}
 	SDL_DestroyTexture(text_texture1);
