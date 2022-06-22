@@ -225,7 +225,7 @@ void charger(char *fichier, int **monde){
 			for (int j = 0; j < N; j++)
 			{
 				fscanf(file,"%d",&monde[i][j]);
-				printf("Lecture dans le fichier %d %d : %d\n",i,j,monde[i][j]); 
+				//printf("Lecture dans le fichier %d %d : %d\n",i,j,monde[i][j]); 
 			}
 		}
 	}
