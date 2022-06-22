@@ -218,7 +218,7 @@ void AfficheMessage(SDL_Renderer *renderer)
 
 	SDL_Color color = {255, 255, 255, 255};								 // la couleur du texte
 	SDL_Surface *text_surface1 = NULL;									 // la surface  (uniquement transitoire)
-	text_surface1 = TTF_RenderText_Blended(font, "MONDE STABLE", color); // création du texte dans la surface
+	text_surface1 = TTF_RenderText_Blended(font, "CYCLE DE 2", color); // création du texte dans la surface
 	if (text_surface1 == NULL)
 	{
 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
