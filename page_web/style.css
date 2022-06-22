@@ -1,5 +1,4 @@
-[class*="col-"],
-footer {
+[class*="col-"]{
 
 	/* border: 2px solid green;
 	border-radius: 6px; */
@@ -45,8 +44,9 @@ div.menu{
 	z-index: 10	; */
 }
 
-a.btn{
+a.btn-light{
 	border: 2px solid white;
+	background-color: black;
 	border-radius: 10px;
 	margin-top: 15px;
 	margin-bottom: 15px;
@@ -56,10 +56,28 @@ a.btn{
 	font-family: 'Courier New', Courier, monospace;
 	font-weight: bold;
 }
-a.btn:hover{
+a.btn-light:hover{
 	color:black;
 	background-color: white;
 }
+
+a.btn-dark{
+	border: 2px solid black;
+	background-color: white;
+	border-radius: 10px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	margin-left: 15px;
+	margin-right: 15px;
+	color: black;
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: bold;
+}
+a.btn-dark:hover{
+	color:white;
+	background-color: black;
+}
+
 a:hover{
 	text-decoration: none;
 }
@@ -124,4 +142,47 @@ a.git:hover{
 	background-color: cadetblue;
 	color: white;
 	border: 2px solid cadetblue;
+}
+
+img{
+	width: 90%;
+}
+
+div.gif{
+	background-color: lightgrey;
+	padding: 10px;
+}
+
+.btndark{
+	background-color: white;
+	color: black;
+	border: 2px solid black;
+}
+
+p{
+	padding: 10px;
+	text-align: justify;
+}
+
+h5{
+	text-align: left;
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: bold;
+	font-size: x-large;
+	text-decoration: underline;
+}
+
+h6{
+	text-align: center;
+	align-content: center;
+}
+
+footer{
+	background-color: black;
+	color: white;
+	padding: 100px;
+}
+
+img.footer{
+	width: 10%;
 }

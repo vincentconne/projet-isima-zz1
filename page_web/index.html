@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<title>Projet ZZ1 ISIMA Groupe 1</title>
-	<link href="css/bootstrap.css" rel="stylesheet"/>
+	<link href="css/bootstrap.css" rel="stylesheet" />
 	<link href="style.css" rel="stylesheet">
 	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -14,102 +14,345 @@
 
 <body>
 	<div class="container">
-			<header class="row">
-				<!-- MENU -->
-						<nav class="fixed-top">
-							<h1 class="navbar-brand">Projet ZZ1 Groupe 1</h1>
-							<a class="btn" href="#xfenetre" >X-FENÊTRE</a>
-							<a class="btn" href="#paveserpents" >PAVÉ DE SERPENTS</a>
-							<a class="btn" href="#jeudelavie" >JEU DE LA VIE</a>	
-							<a class="btn" href="#chefoeuvre" >ANIMATION SPRITES</a>
-							<a class="btn" href="#detail" >CHEF D'OEUVRE</a>
-							<a class="btn" href="#detail" >RENFORCEMENT</a>
-						</nav>		
-			</header>
-			
-			<div class="row" id="corps">
-				<!-- Corps -->
+		<header class="row">
+			<!-- MENU -->
+			<nav class="fixed-top">
+				<h1 class="navbar-brand">Projet ZZ1 Groupe 1</h1>
+				<a class="btn btn-light" href="#xfenetre">X-FENÊTRE</a>
+				<a class="btn btn-light" href="#paveserpents">PAVÉ DE SERPENTS</a>
+				<a class="btn btn-light" href="#jeudelavie">JEU DE LA VIE</a>
+				<a class="btn btn-light" href="#animsprite">ANIMATION SPRITES</a>
+				<a class="btn btn-light" href="#chefoeuvre">CHEF D'OEUVRE</a>
+				<a class="btn btn-light" href="#renforcement">RENFORCEMENT</a>
+			</nav>
+		</header>
 
-				<div class="col-xs-12 col-sm-12 col-lg-12">
-					<h4 class="souscateg">GitLab</h2>
-					<a class="git" href="https://gitlab.isima.fr/groupe-1-projet-isima-conne-walch-rusak/g1-projet-isima-zz1">Lien vers le GitLab du projet</a>
+		<div class="row" id="corps">
+			<!-- Corps -->
+
+			<div class="col-xs-12 col-sm-12 col-lg-12">
+				<!-- <h4 class="souscateg">GitLab</h2> -->
+				<h2 class="categ">GitLab</h2>
+				<a class="btn btn-dark"
+					href="https://gitlab.isima.fr/groupe-1-projet-isima-conne-walch-rusak/g1-projet-isima-zz1">Lien vers
+					le GitLab du projet</a>
+
+				<!-- <a class="git"
+					href="https://gitlab.isima.fr/groupe-1-projet-isima-conne-walch-rusak/g1-projet-isima-zz1">Lien
+					vers
+					le GitLab du projet</a> -->
+			</div>
+
+			<hr>
+
+			<div class="col-xs-12 col-sm-12 col-lg-12">
+				<!-- <h4 class="souscateg">Avancement du projet</h2> -->
+				<h2 class="categ">Avancement du projet</h2>
+			</div>
+			<div class="row col-xs-12 col-sm-12 col-lg-12">
+				<div class=" done col-xs-12 col-sm-12 col-lg-2">
+					<h4>X-Fenêtré</h4>
 				</div>
+				<div class=" done col-xs-12 col-sm-12 col-lg-2">
+					<h4>Pavé de serpents</h4>
+				</div>
+				<div class="done col-xs-12 col-sm-12 col-lg-2">
+					<h4>Jeu de la vie</h4>
+				</div>
+				<div class="done col-xs-12 col-sm-12 col-lg-2">
+					<h4>Animation de sprites</h4>
+				</div>
+				<div class="encours col-xs-12 col-sm-12 col-lg-2">
+					<h4>Chef d'oeuvre</h4>
+				</div>
+				<div class="pasfait col-xs-12 col-sm-12 col-lg-2">
+					<h4>Apprentissage par renforcement</h4>
+				</div>
+			</div>
+
+			<!-- XFENETRE -->
+			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="xfenetre">
+				<h2 class="categ">X-Fenêtré</h2>
+
+				<!-- <div class="row">
+					<a class="btn btn-dark" href="#detail">Explications</a>
+					<a class="btn btn-dark" href="#detail">Code</a>
+					<a class="btn btn-dark" href="#detail">Images</a>
+					<a class="btn btn-dark" href="#detail">Vidéos</a>
+				</div> -->
+
+				<div class="row gif">
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Vincent</h4>
+						<img src="images/xloup.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Loup</h4>
+						<img src="images/xloup.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Mathilde</h4>
+						<img src="images/xloup.gif">
+					</div>
+				</div>
+
+				<br>
+				<hr>
+				<br>
+
+				<h5>Principe</h5>
+				<p>Le principe de cet exercice était de nous permettre de nous entrainer à la manipulation et aux
+					déplacements des fenêtre en SDL2.</p>
+
+				<h5>Démarche</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Explications</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Code</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Détail par personne</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
 
 				<hr>
-
-				<div class="col-xs-12 col-sm-12 col-lg-12">
-					<h4 class="souscateg">Avancement du projet</h2>
-				</div>
-				<div class="row col-xs-12 col-sm-12 col-lg-12">
-					<div class=" done col-xs-12 col-sm-12 col-lg-2">
-						<h4>X-Fenêtré</h4>
-					</div>
-					<div class=" done col-xs-12 col-sm-12 col-lg-2">
-						<h4>Pavé de serpents</h4>
-					</div>
-					<div class="encours col-xs-12 col-sm-12 col-lg-2">
-						<h4>Jeu de la vie</h4>
-					</div>
-					<div class="pasfait col-xs-12 col-sm-12 col-lg-2">
-						<h4>Animation de sprites</h4>
-					</div>
-					<div class="pasfait col-xs-12 col-sm-12 col-lg-2">
-						<h4>Chef d'oeuvre</h4>
-					</div>
-					<div class="pasfait col-xs-12 col-sm-12 col-lg-2">
-						<h4>Apprentissage par renforcement</h4>
-					</div>
-				</div>
-
-				<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="xfenetre">
-					<h2 class="categ">X-Fenêtré</h2>
-					<p class="center">Bienvenue sur le site officiel d'<strong>Auvergne Classic Cars !</strong><br></p>
-					<p>		Nous sommes une petite entreprise automobile sp&eacute;cialis&eacute;e dans la r&eacute;novation d'anciens mod&egrave;les icôniques ainsi que dans la vente de mod&egrave;les r&eacute;cents et de prestige.<br>		Notre garage est situ&eacute; en Auvergne, &agrave; Clermont-Ferrand en France.<br>		L'&eacute;quipe est compos&eacute;e de x personnes: Bob (le bricoleur: il s'occupe du bricolage en g&eacute;n&eacute;ral et de la m&eacute;canique), Manuel (C'est lui qui s'occupe de l'esth&eacute;tique ext&eacute;rieure et donc de la peinture), Antoine (Son travail est de tester la voiture r&eacute;nov&eacute;e en conditions r&eacute;elles), Sandra (Elle s'occupe de la vente des nouveaux mod&egrave;les ou les commande pour vous !) et enfin moi Patrick (Ancien Informaticien et m&eacute;canos &agrave; mes heures perdues et fondateur de l'entreprise, je dirige et donc coordonne le tout et assure la relation client afin de les accompagner au mieux dans leur projet).<br>		Vous pouvez nous retrouver tous les premiers dimanches du mois au circuit de Charade &agrave; cot&eacute; de Clermont-Ferrand o&ugrave; nous exposons nos derni&egrave;res cr&eacute;ations et o&ugrave; nous pr&eacute;sentons les derniers mod&egrave;les en vente. Nous participons &eacute;galement &agrave; la parade charit&eacute; !<br></p>
-					<p class="center">Alors venez nous voir nombreux et surtout bonne visite !</p>
-					<hr>
-				</div>
-			
-				<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="paveserpents">
-					<h2 class="categ">Pavé de serpents</h2>
-					<p class="center">Bienvenue sur le site officiel d'<strong>Auvergne Classic Cars !</strong><br></p>
-					<p>		Nous sommes une petite entreprise automobile sp&eacute;cialis&eacute;e dans la r&eacute;novation d'anciens mod&egrave;les icôniques ainsi que dans la vente de mod&egrave;les r&eacute;cents et de prestige.<br>		Notre garage est situ&eacute; en Auvergne, &agrave; Clermont-Ferrand en France.<br>		L'&eacute;quipe est compos&eacute;e de x personnes: Bob (le bricoleur: il s'occupe du bricolage en g&eacute;n&eacute;ral et de la m&eacute;canique), Manuel (C'est lui qui s'occupe de l'esth&eacute;tique ext&eacute;rieure et donc de la peinture), Antoine (Son travail est de tester la voiture r&eacute;nov&eacute;e en conditions r&eacute;elles), Sandra (Elle s'occupe de la vente des nouveaux mod&egrave;les ou les commande pour vous !) et enfin moi Patrick (Ancien Informaticien et m&eacute;canos &agrave; mes heures perdues et fondateur de l'entreprise, je dirige et donc coordonne le tout et assure la relation client afin de les accompagner au mieux dans leur projet).<br>		Vous pouvez nous retrouver tous les premiers dimanches du mois au circuit de Charade &agrave; cot&eacute; de Clermont-Ferrand o&ugrave; nous exposons nos derni&egrave;res cr&eacute;ations et o&ugrave; nous pr&eacute;sentons les derniers mod&egrave;les en vente. Nous participons &eacute;galement &agrave; la parade charit&eacute; !<br></p>
-					<p class="center">Alors venez nous voir nombreux et surtout bonne visite !</p>
-					<hr>
-				</div>
-		
-				<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="jeudelavie">
-					<h2 class="categ">Pr&eacute;sentation de l'entreprise et de l'&eacute;quipe</h2>
-					<p class="center">Bienvenue sur le site officiel d'<strong>Auvergne Classic Cars !</strong><br></p>
-					<p>		Nous sommes une petite entreprise automobile sp&eacute;cialis&eacute;e dans la r&eacute;novation d'anciens mod&egrave;les icôniques ainsi que dans la vente de mod&egrave;les r&eacute;cents et de prestige.<br>		Notre garage est situ&eacute; en Auvergne, &agrave; Clermont-Ferrand en France.<br>		L'&eacute;quipe est compos&eacute;e de x personnes: Bob (le bricoleur: il s'occupe du bricolage en g&eacute;n&eacute;ral et de la m&eacute;canique), Manuel (C'est lui qui s'occupe de l'esth&eacute;tique ext&eacute;rieure et donc de la peinture), Antoine (Son travail est de tester la voiture r&eacute;nov&eacute;e en conditions r&eacute;elles), Sandra (Elle s'occupe de la vente des nouveaux mod&egrave;les ou les commande pour vous !) et enfin moi Patrick (Ancien Informaticien et m&eacute;canos &agrave; mes heures perdues et fondateur de l'entreprise, je dirige et donc coordonne le tout et assure la relation client afin de les accompagner au mieux dans leur projet).<br>		Vous pouvez nous retrouver tous les premiers dimanches du mois au circuit de Charade &agrave; cot&eacute; de Clermont-Ferrand o&ugrave; nous exposons nos derni&egrave;res cr&eacute;ations et o&ugrave; nous pr&eacute;sentons les derniers mod&egrave;les en vente. Nous participons &eacute;galement &agrave; la parade charit&eacute; !<br></p>
-					<p class="center">Alors venez nous voir nombreux et surtout bonne visite !</p>
-					<hr>
-				</div>
-
-				<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="chefoeuvre">
-					<h2 class="categ">Pr&eacute;sentation de l'entreprise et de l'&eacute;quipe</h2>
-					<p class="center">Bienvenue sur le site officiel d'<strong>Auvergne Classic Cars !</strong><br></p>
-					<p>		Nous sommes une petite entreprise automobile sp&eacute;cialis&eacute;e dans la r&eacute;novation d'anciens mod&egrave;les icôniques ainsi que dans la vente de mod&egrave;les r&eacute;cents et de prestige.<br>		Notre garage est situ&eacute; en Auvergne, &agrave; Clermont-Ferrand en France.<br>		L'&eacute;quipe est compos&eacute;e de x personnes: Bob (le bricoleur: il s'occupe du bricolage en g&eacute;n&eacute;ral et de la m&eacute;canique), Manuel (C'est lui qui s'occupe de l'esth&eacute;tique ext&eacute;rieure et donc de la peinture), Antoine (Son travail est de tester la voiture r&eacute;nov&eacute;e en conditions r&eacute;elles), Sandra (Elle s'occupe de la vente des nouveaux mod&egrave;les ou les commande pour vous !) et enfin moi Patrick (Ancien Informaticien et m&eacute;canos &agrave; mes heures perdues et fondateur de l'entreprise, je dirige et donc coordonne le tout et assure la relation client afin de les accompagner au mieux dans leur projet).<br>		Vous pouvez nous retrouver tous les premiers dimanches du mois au circuit de Charade &agrave; cot&eacute; de Clermont-Ferrand o&ugrave; nous exposons nos derni&egrave;res cr&eacute;ations et o&ugrave; nous pr&eacute;sentons les derniers mod&egrave;les en vente. Nous participons &eacute;galement &agrave; la parade charit&eacute; !<br></p>
-					<p class="center">Alors venez nous voir nombreux et surtout bonne visite !</p>
-					<hr>
-				</div>
-
-				<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="">
-					<h2 class="categ">Pr&eacute;sentation de l'entreprise et de l'&eacute;quipe</h2>
-					<p class="center">Bienvenue sur le site officiel d'<strong>Auvergne Classic Cars !</strong><br></p>
-					<p>		Nous sommes une petite entreprise automobile sp&eacute;cialis&eacute;e dans la r&eacute;novation d'anciens mod&egrave;les icôniques ainsi que dans la vente de mod&egrave;les r&eacute;cents et de prestige.<br>		Notre garage est situ&eacute; en Auvergne, &agrave; Clermont-Ferrand en France.<br>		L'&eacute;quipe est compos&eacute;e de x personnes: Bob (le bricoleur: il s'occupe du bricolage en g&eacute;n&eacute;ral et de la m&eacute;canique), Manuel (C'est lui qui s'occupe de l'esth&eacute;tique ext&eacute;rieure et donc de la peinture), Antoine (Son travail est de tester la voiture r&eacute;nov&eacute;e en conditions r&eacute;elles), Sandra (Elle s'occupe de la vente des nouveaux mod&egrave;les ou les commande pour vous !) et enfin moi Patrick (Ancien Informaticien et m&eacute;canos &agrave; mes heures perdues et fondateur de l'entreprise, je dirige et donc coordonne le tout et assure la relation client afin de les accompagner au mieux dans leur projet).<br>		Vous pouvez nous retrouver tous les premiers dimanches du mois au circuit de Charade &agrave; cot&eacute; de Clermont-Ferrand o&ugrave; nous exposons nos derni&egrave;res cr&eacute;ations et o&ugrave; nous pr&eacute;sentons les derniers mod&egrave;les en vente. Nous participons &eacute;galement &agrave; la parade charit&eacute; !<br></p>
-					<p class="center">Alors venez nous voir nombreux et surtout bonne visite !</p>
-					<hr>
-				</div>
-			
-				<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="xfenetre">
-					<h2 class="categ">Pr&eacute;sentation de l'entreprise et de l'&eacute;quipe</h2>
-					<p class="center">Bienvenue sur le site officiel d'<strong>Auvergne Classic Cars !</strong><br></p>
-					<p>		Nous sommes une petite entreprise automobile sp&eacute;cialis&eacute;e dans la r&eacute;novation d'anciens mod&egrave;les icôniques ainsi que dans la vente de mod&egrave;les r&eacute;cents et de prestige.<br>		Notre garage est situ&eacute; en Auvergne, &agrave; Clermont-Ferrand en France.<br>		L'&eacute;quipe est compos&eacute;e de x personnes: Bob (le bricoleur: il s'occupe du bricolage en g&eacute;n&eacute;ral et de la m&eacute;canique), Manuel (C'est lui qui s'occupe de l'esth&eacute;tique ext&eacute;rieure et donc de la peinture), Antoine (Son travail est de tester la voiture r&eacute;nov&eacute;e en conditions r&eacute;elles), Sandra (Elle s'occupe de la vente des nouveaux mod&egrave;les ou les commande pour vous !) et enfin moi Patrick (Ancien Informaticien et m&eacute;canos &agrave; mes heures perdues et fondateur de l'entreprise, je dirige et donc coordonne le tout et assure la relation client afin de les accompagner au mieux dans leur projet).<br>		Vous pouvez nous retrouver tous les premiers dimanches du mois au circuit de Charade &agrave; cot&eacute; de Clermont-Ferrand o&ugrave; nous exposons nos derni&egrave;res cr&eacute;ations et o&ugrave; nous pr&eacute;sentons les derniers mod&egrave;les en vente. Nous participons &eacute;galement &agrave; la parade charit&eacute; !<br></p>
-					<p class="center">Alors venez nous voir nombreux et surtout bonne visite !</p>
-					<hr>
-				</div>
-				
 			</div>
-	</div>	
+
+			<!-- Pavé de serpents -->
+			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="paveserpents">
+				<h2 class="categ">Pavé de serpents</h2>
+
+				<div class="row gif">
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Vincent</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Loup</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Mathilde</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+				</div>
+
+				<br>
+				<hr>
+				<br>
+
+				<h5>Principe</h5>
+				<p>Le principe de cet exercice était de nous permettre de nous entrainer à la manipulation et aux
+					déplacements des fenêtre en SDL2.</p>
+
+				<h5>Démarche</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Explications</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Code</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Détail par personne</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<hr>
+			</div>
+
+			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="jeudelavie">
+				<h2 class="categ">Jeu de la vie</h2>
+				<div class="row gif">
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Vincent</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Loup</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Mathilde</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+				</div>
+
+				<br>
+				<hr>
+				<br>
+
+				<h5>Principe</h5>
+				<p>Le principe de cet exercice était de nous permettre de nous entrainer à la manipulation et aux
+					déplacements des fenêtre en SDL2.</p>
+
+				<h5>Démarche</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Explications</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Code</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Détail par personne</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<hr>
+			</div>
+
+			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="animsprite">
+				<h2 class="categ">Animation de Sprites</h2>
+				<div class="row gif">
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Vincent</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Loup</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Mathilde</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+				</div>
+
+				<br>
+				<hr>
+				<br>
+
+				<h5>Principe</h5>
+				<p>Le principe de cet exercice était de nous permettre de nous entrainer à la manipulation et aux
+					déplacements des fenêtre en SDL2.</p>
+
+				<h5>Démarche</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Explications</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Code</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Détail par personne</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<hr>
+			</div>
+
+			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="chefoeuvre">
+				<h2 class="categ">Chef d'oeuvre</h2>
+				<div class="row gif">
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Vincent</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Loup</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Mathilde</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+				</div>
+
+				<br>
+				<hr>
+				<br>
+
+				<h5>Principe</h5>
+				<p>Le principe de cet exercice était de nous permettre de nous entrainer à la manipulation et aux
+					déplacements des fenêtre en SDL2.</p>
+
+				<h5>Démarche</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Explications</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Code</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Détail par personne</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<hr>
+			</div>
+
+			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="renforcement">
+				<h2 class="categ">Apprentissage par renforcement</h2>
+				<div class="row gif">
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Vincent</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Loup</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+					<div class="col-xs-12 col-sm-12 col-lg-4">
+						<h4>Mathilde</h4>
+						<img src="images/PaveVincent.gif">
+					</div>
+				</div>
+
+				<br>
+				<hr>
+				<br>
+
+				<h5>Principe</h5>
+				<p>Le principe de cet exercice était de nous permettre de nous entrainer à la manipulation et aux
+					déplacements des fenêtre en SDL2.</p>
+
+				<h5>Démarche</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Explications</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Code</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Détail par personne</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<hr>
+			</div>
+
+		</div>
+	</div>
 </body>
+
+<footer>
+	<div class="row">
+		<h6>Projet réalisé par :</h6>
+		<div class="col-xs-12 col-sm-12 col-lg-4">
+			<img class="footer" src="images/xloup.gif">
+		</div>
+		<div class="col-xs-12 col-sm-12 col-lg-4">
+			<img class="footer" src="images/xloup.gif">
+		</div>
+		<div class="col-xs-12 col-sm-12 col-lg-4">
+			<img class="footer" src="images/xloup.gif">
+		</div>
+		<h6>Etudiants première année ISIMA INP Clermont Auvergne.</h6>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-lg-4">
+			<img src="images/logo_isima.png" width="10%">
+		</div>
+		<div class="col-xs-12 col-sm-12 col-lg-4">
+			<p>Pour toute information supplémentaire, vous pouvez nous contacter sur nos adresses mails UCA
+				(prenom.nom@etu.uca.fr).</p>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-lg-4">
+			<p>2022 - Tout droits réservés.</p>
+		</div>
+	</div>
+
+</footer>
+
 </html>
