@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include <stdlib.h>
 #include <stdio.h>
 #include "jeu.h"
@@ -73,7 +72,10 @@ for(int i=0;i<5;i++){
 free(tab_etats);
 
 
-
+// Lancement de l'introduction du jeu
 Intro_jeu();
+
+
 return 0;
+
 }
