@@ -96,6 +96,7 @@ int cellule_suiv(int i, int j, int **tabcour, int indice_fct)
 {
 	int prochaine_valeur;
 	int nbvoisins = nb_voisins(tabcour, i, j,indice_fct); // On compte le nombre de voisins de la cellule
+	printf("Nombre voisins: %d\n",nbvoisins);
 	if (tabcour[i][j])
 		prochaine_valeur = survie[nbvoisins]; // Si cellule vivante alors à t+1 prend la valeur dans survie
 	else
