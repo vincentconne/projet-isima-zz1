@@ -114,7 +114,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 
 	SDL_Texture *travaux = IMG_LoadTexture(renderer, "./src/barriere.png");
 
-	SDL_Rect rect_travaux[5][3];
+	SDL_Rect rect_travaux[5][3];  //= {32*(SDL_GetTicks()/1000%6)}
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -126,8 +126,13 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 		}
 	}
 
+	// initialisation pour les tours de lignes
+
 	int ligne = premier;
 	int p = 0;
+	int ite = 0;
+
+	// boucle de travail
 
 	while (!exit)
 	{
@@ -195,33 +200,36 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 			play_with_texture_1(background2, window, renderer);
 			i = 1;
 		}
-
-		// while (ligne != (dernier + 1) % 5)
+		// SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[0][2]);
+		// while (ligne != (dernier + 1) % 5 || ite != 1)
+		for (p = 0; p <5; p++)
+		{
+			printf("PPPPPPPPPPPPPPPPP\n");
+			for (int k = 0; k < 3; k++)
+			{
+				if (tab_etats[ligne][k])
+				{
+					printf("ICI ICI\n");
+					SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[p][k]);
+				}
+			}
+			ligne = (ligne + 1) % 5;
+			//ligne = ligne+1;
+			// ite = 1;
+		}
+		// for (int i = 0; i < 5; i++)
 		// {
-		// 	for (int k = 0; k < 3; k++)
+		// 	for (int j = 0; j < 3; j++)
 		// 	{
-		// 		if (tab_etats[ligne][k])
-		// 		{
-		// 			SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[p][k]);
-		// 			p++;
-		// 			ligne = (ligne + 1) % 5;
-		// 		}
+		// 		SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[i][j]);
 		// 	}
 		// }
-		for (int i = 0; i < 5; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[i][j]);
-			}
-		}
 		SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 		SDL_RenderPresent(renderer);
-		SDL_Delay(100);
+		SDL_Delay(300);
 		SDL_RenderClear(renderer);
 
-		nouveau_etat(etat_cour, tab_etats, dernier, premier, tab_markov);
-		p = 0;
+		nouveau_etat(etat_cour, tab_etats, &dernier, &premier, tab_markov);
 		printf("Passage\n");
 	}
 	SDL_DestroyTexture(travaux);

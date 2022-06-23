@@ -99,7 +99,7 @@ int main()
     int dernier = 4;
 
     // Lancement de l'introduction du jeu
-    // Intro_jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
+     Intro_jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
 
 
     // Libération des tableaux dynamiques
