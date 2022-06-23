@@ -478,7 +478,7 @@ void Intro_jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int 
 			SDL_DestroyTexture(text_texture2);
 			SDL_DestroyWindow(window);
 			TTF_Quit();
-			sdl_Jeu(premier, dernier, tab_etats, etat_cour, tab_markov, score);
+			sdl_Jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
 			stop = 1;
 		}
 
