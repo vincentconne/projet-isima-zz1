@@ -16,7 +16,6 @@ int tab_markov[7][7];
 tab_markov[0][0]=1; tab_markov[0][1]=2; tab_markov[0][2]=2; tab_markov[0][3]=2;
 tab_markov[0][4]=1; tab_markov[0][5]=1; tab_markov[0][6]=1;
 
-
 // Ligne 1
 tab_markov[1][0]=1; tab_markov[1][1]=2; tab_markov[1][2]=1; tab_markov[1][3]=3;
 tab_markov[1][4]=2; tab_markov[1][5]=0; tab_markov[1][6]=1;
