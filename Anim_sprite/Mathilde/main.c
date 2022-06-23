@@ -79,22 +79,18 @@ void play_with_texture(SDL_Texture *my_texture, SDL_Window *window,
 
 void animation(SDL_Texture *my_texture,SDL_Texture *text_bg,SDL_Window *window, SDL_Renderer *renderer,int i){
     SDL_Rect 
-        source = {0},                             // Rectangle définissant la zone de la texture à récupérer
-        window_dimensions = {0},                  // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
+        source = {0},
+        window_dimensions = {0},
         destination = {0};
-    SDL_GetWindowSize(                                
-      window, &window_dimensions.w,                 
-      &window_dimensions.h);                      // Récupération des dimensions de la fenêtre
     
-    SDL_QueryTexture(my_texture, NULL, NULL,         
-                   &source.w,                       
-                   &source.h);                    // Récupération des dimensions de l'image
+    SDL_GetWindowSize(window, &window_dimensions.w,&window_dimensions.h);
+    
+    SDL_QueryTexture(my_texture, NULL, NULL,&source.w,&source.h);
 
     // Redimensionnement de l'image
     float zoom = 0.5;
     destination.h = source.w*zoom;
     destination.w = source.h*zoom;
-    //destination.y = (window_dimensions.w)*(2/3);
     destination.y= 500;
     destination.x = (window_dimensions.w/10)*i;
     
@@ -103,40 +99,51 @@ void animation(SDL_Texture *my_texture,SDL_Texture *text_bg,SDL_Window *window, 
     SDL_RenderCopy(renderer,my_texture,&source,&destination);
 }
 
-int main(){
-    SDL_Texture *cha_run[10];
-    SDL_Texture *text_bg=NULL;
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer=NULL;
+int main(int argc, char *argv){
 
-    /* Création de la fenêtre */
-    window = SDL_CreateWindow("Chat",0,0,700,700,SDL_WINDOW_OPENGL);
-    if (window == NULL) end_sdl(0, "ERROR WINDOW CREATION", window, renderer);
+  (void) argc;
+  (void) argv;
 
+  // Définitions
+  SDL_Texture *cha_run[10];
+  SDL_Texture *text_bg=NULL;
+  SDL_Window *window = NULL;
+  SDL_Renderer *renderer=NULL;
 
-    /* Création du renderer */
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (renderer == NULL) end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
-
-    cha_run[0] = load_texture_from_image("./Run/Run__000.png",window,renderer);
-    cha_run[1] = load_texture_from_image("./Run/Run__001.png",window,renderer);
-    cha_run[2] = load_texture_from_image("./Run/Run__002.png",window,renderer);
-    cha_run[3] = load_texture_from_image("./Run/Run__003.png",window,renderer);
-    cha_run[4] = load_texture_from_image("./Run/Run__004.png",window,renderer);
-    cha_run[5] = load_texture_from_image("./Run/Run__005.png",window,renderer);
-    cha_run[6] = load_texture_from_image("./Run/Run__006.png",window,renderer);
-    cha_run[7] = load_texture_from_image("./Run/Run__007.png",window,renderer);
-    cha_run[8] = load_texture_from_image("./Run/Run__008.png",window,renderer);
-    cha_run[9] = load_texture_from_image("./Run/Run__009.png",window,renderer);
-
-    text_bg= load_texture_from_image("/Users/mathildewalch/Downloads/Run/bg.png",window,renderer);
+  // Création de la fenêtre
+  window = SDL_CreateWindow("Chat",0,0,700,700,SDL_WINDOW_OPENGL);
+  if (window == NULL) end_sdl(0, "ERROR WINDOW CREATION", window, renderer);
 
 
-    for (int i=0; i<10;i++){
-      animation(cha_run[i],text_bg,window,renderer,i);
-      SDL_RenderPresent(renderer);
-      SDL_PumpEvents();
-      SDL_Delay(200);
-    }
+  // Création du renderer
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+  if (renderer == NULL) end_sdl(0, "ERROR RENDERER CREATION", window, renderer);
 
-}
+  // Chargement des images du personnage en textures
+  cha_run[0] = load_texture_from_image("./Run/Run__000.png",window,renderer);
+  cha_run[1] = load_texture_from_image("./Run/Run__001.png",window,renderer);
+  cha_run[2] = load_texture_from_image("./Run/Run__002.png",window,renderer);
+  cha_run[3] = load_texture_from_image("./Run/Run__003.png",window,renderer);
+  cha_run[4] = load_texture_from_image("./Run/Run__004.png",window,renderer);
+  cha_run[5] = load_texture_from_image("./Run/Run__005.png",window,renderer);
+  cha_run[6] = load_texture_from_image("./Run/Run__006.png",window,renderer);
+  cha_run[7] = load_texture_from_image("./Run/Run__007.png",window,renderer);
+  cha_run[8] = load_texture_from_image("./Run/Run__008.png",window,renderer);
+  cha_run[9] = load_texture_from_image("./Run/Run__009.png",window,renderer);
+
+  // Chargement de l'image de fond en texture
+  text_bg= load_texture_from_image("/Users/mathildewalch/Downloads/Run/bg.png",window,renderer);
+
+  // Affichage des différents éléments
+  for (int i=0; i<10;i++){
+    animation(cha_run[i],text_bg,window,renderer,i);
+    SDL_RenderPresent(renderer);
+    SDL_PumpEvents();
+    SDL_Delay(200);
+  }
+  for (int j=0; j<10;j++){
+    SDL_DestroyTexture(cha_run[j]);
+  }
+  IMG_Quit();
+  SDL_DestroyWindow(window);
+  SDL_Quit();

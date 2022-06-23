@@ -3,7 +3,9 @@
 #include "jeu.h"
 #include "sdl_jeu.h"
 
-int main(){
+int main(int argc,char *argv){
+    (void) argc;
+    (void) argv;
 
 
 int tab_markov[7][7];

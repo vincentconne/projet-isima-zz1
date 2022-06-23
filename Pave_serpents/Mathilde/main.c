@@ -3,6 +3,8 @@
 #include "time.h"
 #define MAX 350
 
+
+// Gestion des erreurs
 void end_sdl(char ok,char const* msg,SDL_Window* window,SDL_Renderer* renderer) {
   char msg_formated[255];                                                         
   int l;
@@ -27,7 +29,7 @@ void end_sdl(char ok,char const* msg,SDL_Window* window,SDL_Renderer* renderer) 
   SDL_Quit();                                                                                                                                                 
 }
 
-
+// Génère un nombre aléatoire entre 0 et MAX-1
 void ran_nb(int *n){
     *n = rand()%MAX;
 }
@@ -61,11 +63,6 @@ int main(int argc, char** argv) {
     exit(EXIT_FAILURE);
   }
 
-  // draw(renderer);
-  // SDL_RenderPresent(renderer);
-  // SDL_PumpEvents();
-  // SDL_Delay(10);
-
   while (program_on){
 
       if (SDL_PollEvent(&event)){
@@ -84,13 +81,15 @@ int main(int argc, char** argv) {
         ran_nb(&c);
         ran_nb(&d);
 
+        // Définition de la couleur et de la transparence du fond
         SDL_SetRenderDrawColor(renderer,204, 219, 89,255);
         SDL_RenderClear(renderer);
 
+        // Définition de la couleur et de la transparence de la ligne
         SDL_SetRenderDrawColor(renderer, 176, 123, 5, 255);
         SDL_RenderDrawLine(renderer,0+a, 0+b,700-c, 700-d);
-        printf("valeur de a %d, de b %d, de c %d, et de d %d\n",a,b,c,d);
 
+        // Affichage
         SDL_RenderPresent(renderer);
         SDL_PumpEvents();
         SDL_Delay(70);
