@@ -51,15 +51,16 @@ void draw_score(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_textur
 	SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
 }
 
-//Mise à jour de la texture du score a chaque changement
-SDL_Texture* update_score(TTF_Font *font, SDL_Color *color, SDL_Renderer *renderer){
+// Mise à jour de la texture du score a chaque changement
+SDL_Texture *update_score(TTF_Font *font, SDL_Color *color, SDL_Renderer *renderer)
+{
 
 	char score_char[10];
 	sprintf(score_char, "%d", score);
-	printf("score int : %d score char : %s\n",score, score_char);
+	printf("score int : %d score char : %s\n", score, score_char);
 
 	SDL_Surface *surface_score = NULL;
-	surface_score = TTF_RenderText_Blended(font, score_char, *color); 
+	surface_score = TTF_RenderText_Blended(font, score_char, *color);
 	if (surface_score == NULL)
 	{
 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
@@ -67,19 +68,18 @@ SDL_Texture* update_score(TTF_Font *font, SDL_Color *color, SDL_Renderer *render
 	}
 
 	SDL_Texture *texture_score;
-	texture_score = SDL_CreateTextureFromSurface(renderer, surface_score);		
-	
+	texture_score = SDL_CreateTextureFromSurface(renderer, surface_score);
+
 	if (texture_score == NULL)
 	{
 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 
-	SDL_FreeSurface(surface_score);		
+	SDL_FreeSurface(surface_score);
 
 	return texture_score;
 }
-
 
 void play_with_texture_1(SDL_Texture *my_texture, SDL_Window *window,
 						 SDL_Renderer *renderer)
@@ -157,10 +157,10 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 	}
 	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
 
-	SDL_Color color = {255, 255, 255, 255};								// la couleur du texte
+	SDL_Color color = {255, 255, 255, 255}; // la couleur du texte
 
-	SDL_Surface *surface_texte_score = NULL;			
-	surface_texte_score = TTF_RenderText_Blended(font, "SCORE", color); 
+	SDL_Surface *surface_texte_score = NULL;
+	surface_texte_score = TTF_RenderText_Blended(font, "SCORE", color);
 	if (surface_texte_score == NULL)
 	{
 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
@@ -176,8 +176,6 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 	SDL_FreeSurface(surface_texte_score);
 
 	SDL_Texture *texture_score = NULL;
-	
-	
 
 	// Création de la texture de la voiture
 	SDL_Texture *voiture = IMG_LoadTexture(renderer, "./src/Voiture.png");
@@ -224,7 +222,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 
 	// boucle de travail
 	SDL_bool sortie = SDL_FALSE;
-	while (!exit || sortie == SDL_TRUE)
+	while (!exit || sortie == SDL_FALSE)
 	{
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
@@ -246,24 +244,6 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 						rect_voiture.x += VITESSE;
 					}
 					break;
-				// case SDL_SCANCODE_UP:
-				// 	if (rect_voiture.y - VITESSE > 0)
-				// 	{
-				// 		rect_voiture.y -= VITESSE;
-				// 	}
-				// 	break;
-				// case SDL_SCANCODE_DOWN:
-				// 	if (rect_voiture.y + VITESSE < 700)
-				// 	{
-				// 		rect_voiture.y += VITESSE;
-				// 	}
-				// 	// case SDL_SCANCODE_DOWN && SDL_SCANCODE_RIGHT:
-				// 	// 	if (rect_voiture.y + V < 600 && rect_voiture.x + V < 600)
-				// 	// 	{
-				// 	// 		rect_voiture.y += V;
-				// 	// 		rect_voiture.x += V;
-				// 	// 	}
-				// 	break;
 				default:
 					break;
 				}
@@ -275,9 +255,6 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 				break;
 			}
 		}
-		// play_with_texture_4(voiture, window, renderer, background);
-		// draw(renderer, &rectangle);
-		// clear(renderer);
 
 		// Affichage de la route (défilement)
 		if (i == 1)
@@ -290,15 +267,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 			play_with_texture_1(background2, window, renderer);
 			i = 1;
 		}
-		// SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[4][2]);
-		// SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[0][2]);
-<<<<<<< HEAD
-		// while (ligne != (dernier + 1) % 5 || ite != 1)
 		for (p = 0; p < 5; p++)
-=======
-		//while (ligne != (dernier + 1) % 5 || ite != 1)
-		for (p = 0; p <5; p++)
->>>>>>> b60366c808e211592927d13b854ecff5f632a29e
 		{
 			for (int k = 0; k < 3; k++)
 			{
@@ -308,31 +277,19 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 				}
 			}
 			ligne = (ligne + 1) % 5;
-<<<<<<< HEAD
-=======
-		// 	ligne = ligne+1;
-		// 	ite = 1;
->>>>>>> b60366c808e211592927d13b854ecff5f632a29e
 		}
-		// for (int i = 0; i < 5; i++)
-		// {
-		// 	for (int j = 0; j < 3; j++)
-		// 	{
-		// 		SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[i][j]);
-		// 	}
-		// }
 		texture_score = update_score(font, &color, renderer);
 		draw_score(renderer, 0, 0, texture_texte_score);
 		draw_score(renderer, 0, 30, texture_score);
 		SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
+		sortie = Collision(rect_travaux, rect_voiture);
 		SDL_RenderPresent(renderer);
 		SDL_PumpEvents();
-		SDL_Delay(300);
+		SDL_Delay(1000);
 		SDL_RenderClear(renderer);
-		sortie = Collision(tab_etats, rect_voiture);
 		nouveau_etat(etat_cour, tab_etats, &dernier, &premier, tab_markov);
 		ligne = premier;
-		
+
 		score = score + 1;
 		printf("Passage\n");
 	}
@@ -501,18 +458,21 @@ void Intro_jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int 
 	SDL_Quit();
 }
 
-SDL_bool Collision(SDL_Rect tab_etats[5][3], SDL_Rect rect_voiture)
+SDL_bool Collision(SDL_Rect tab_rect[5][3], SDL_Rect rect_voiture)
 {
 	SDL_Rect Endroit_Collision = {0};
 
 	SDL_bool retour = SDL_FALSE; // false
 	int j = 0;
-
-		while (retour == SDL_FALSE || j < 3)
-		{
-			retour = !SDL_IntersectRect(&(tab_etats[4][j]), &(rect_voiture), &Endroit_Collision);
-			j++;
-		}
+	// printf("rect voiture: %d %d %d %d \n",rect_voiture.x,rect_voiture.x + rect_voiture.w,rect_voiture.y,rect_voiture.y + rect_voiture.h);
+	while (retour == SDL_FALSE || j < 3)
+	{
+		 //retour = SDL_IntersectRect(&(tab_rect[4][j]), &(rect_voiture), &Endroit_Collision);
+		//retour = SDL_HasIntersection(&(tab_rect[4][j]), &(rect_voiture));
+		retour = SDL_HasIntersection(&(rect_voiture), &(tab_rect[4][j]));
+		// printf("rect travaux: %d %d %d %d \n",tab_rect[4][j].x,tab_rect[4][j].x + tab_rect[4][j].w,tab_rect[4][j].y,tab_rect[4][j].y + tab_rect[4][j].h);
+		j++;
+		printf("RETOUR %d\n", retour);
+	}
 	return retour;
 }
-
