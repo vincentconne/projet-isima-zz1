@@ -6,6 +6,7 @@
 #include "sdl_jeu.h"
 #include "texture.h"
 
+
 #define width 600
 #define height 500
 
