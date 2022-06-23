@@ -16,7 +16,7 @@
 int score = 0;
 
 void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
-{ // Je pense que vous allez faire moins laid :)
+{
 	SDL_Rect rectangle;
 
 	SDL_SetRenderDrawColor(renderer,
@@ -290,22 +290,21 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 			play_with_texture_1(background2, window, renderer);
 			i = 1;
 		}
+		// SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[4][2]);
 		// SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[0][2]);
-		// while (ligne != (dernier + 1) % 5 || ite != 1)
+		//while (ligne != (dernier + 1) % 5 || ite != 1)
 		for (p = 0; p <5; p++)
 		{
-			printf("PPPPPPPPPPPPPPPPP\n");
 			for (int k = 0; k < 3; k++)
 			{
 				if (tab_etats[ligne][k])
 				{
-					printf("ICI ICI\n");
 					SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[p][k]);
 				}
 			}
 			ligne = (ligne + 1) % 5;
-			//ligne = ligne+1;
-			// ite = 1;
+		// 	ligne = ligne+1;
+		// 	ite = 1;
 		}
 		// for (int i = 0; i < 5; i++)
 		// {
@@ -319,10 +318,13 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 		draw_score(renderer, 0, 30, texture_score);
 		SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 		SDL_RenderPresent(renderer);
+		SDL_PumpEvents();
 		SDL_Delay(300);
 		SDL_RenderClear(renderer);
 
 		nouveau_etat(etat_cour, tab_etats, &dernier, &premier, tab_markov);
+		ligne = premier;
+		
 		score = score + 1;
 		printf("Passage\n");
 	}
@@ -330,9 +332,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 	SDL_DestroyTexture(voiture);
 	IMG_Quit();
 	SDL_DestroyWindow(window);
-	printf("Passage3\n");
 	SDL_Quit();
-	printf("Passage4\n");
 }
 
 void Intro_jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int tab_markov[][7])
