@@ -76,7 +76,7 @@ int main()
     /*-------------------------------------------------------------------------------*/
 
     // Etat courant
-    int *etat_cour = (int *)malloc(sizeof(int) * 3);
+    int etat_cour[3];
 
     // Table des etats
     int **tab_etats = (int **)malloc(sizeof(int *) * 5);
@@ -102,8 +102,7 @@ int main()
     // Lancement de l'introduction du jeu
     Intro_jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
     // Libération des tableaux dynamiques
-    free(etat_cour);
-
+    //free(etat_cour);
     for (int i = 0; i < 5; i++)
     {
         free(tab_etats[i]);

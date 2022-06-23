@@ -17,7 +17,7 @@ int valeur_random(int MIN, int MAX)
 }
 
 // Traduction de l'état en la ligne à lire pour la chaine de Markov
-int traduc_etat_markov(int *etat_cour)
+int traduc_etat_markov(int etat_cour[3])
 {
 
     int res;
@@ -71,7 +71,7 @@ int traduc_etat_markov(int *etat_cour)
 }
 
 // Passage de Markov à l'état choisi
-void traduc_markov_etat(int colonne, int *etat_suiv)
+void traduc_markov_etat(int colonne, int etat_suiv[3])
 {
     switch (colonne)
     {
@@ -114,7 +114,7 @@ void traduc_markov_etat(int colonne, int *etat_suiv)
 }
 
 // Calcul du nouvel état de la route
-void nouveau_etat(int *etat_cour, int **tab_etats, int dernier, int premier, int tab_markov[7][7])
+void nouveau_etat(int etat_cour[3], int **tab_etats, int dernier, int premier, int tab_markov[7][7])
 {
 
     int alea = valeur_random(1, 10);

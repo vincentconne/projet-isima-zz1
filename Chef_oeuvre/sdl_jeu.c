@@ -54,7 +54,7 @@ void play_with_texture_1(SDL_Texture *my_texture, SDL_Window *window,
 				   &destination); // Création de l'élément à afficher
 }
 
-void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_markov[][7])
+void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int tab_markov[][7])
 {
 
 	SDL_Window *window = NULL;
@@ -196,25 +196,25 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_
 			i = 1;
 		}
 
-		while (ligne != (dernier + 1) % 5)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				if (tab_etats[ligne][k])
-				{
-					SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[p][k]);
-					p++;
-					ligne = (ligne + 1) % 5;
-				}
-			}
-		}
-		// for (int i = 0; i < 5; i++)
+		// while (ligne != (dernier + 1) % 5)
 		// {
-		// 	for (int j = 0; j < 3; j++)
+		// 	for (int k = 0; k < 3; k++)
 		// 	{
-		// 		SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[i][j]);
+		// 		if (tab_etats[ligne][k])
+		// 		{
+		// 			SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[p][k]);
+		// 			p++;
+		// 			ligne = (ligne + 1) % 5;
+		// 		}
 		// 	}
 		// }
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[i][j]);
+			}
+		}
 		SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 		SDL_RenderPresent(renderer);
 		SDL_Delay(100);
@@ -233,7 +233,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_
 	printf("Passage4\n");
 }
 
-void Intro_jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_markov[][7])
+void Intro_jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int tab_markov[][7])
 {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
