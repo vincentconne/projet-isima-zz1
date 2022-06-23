@@ -114,7 +114,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 
 	SDL_Texture *travaux = IMG_LoadTexture(renderer, "./src/barriere.png");
 
-	SDL_Rect rect_travaux[5][3];  //= {32*(SDL_GetTicks()/1000%6)}
+	SDL_Rect rect_travaux[5][3]; //= {32*(SDL_GetTicks()/1000%6)}
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -133,8 +133,8 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 	int ite = 0;
 
 	// boucle de travail
-
-	while (!exit)
+	SDL_bool sortie = SDL_FALSE;
+	while (!exit || sortie == SDL_TRUE)
 	{
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
@@ -202,7 +202,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 		}
 		// SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[0][2]);
 		// while (ligne != (dernier + 1) % 5 || ite != 1)
-		for (p = 0; p <5; p++)
+		for (p = 0; p < 5; p++)
 		{
 			printf("PPPPPPPPPPPPPPPPP\n");
 			for (int k = 0; k < 3; k++)
@@ -214,8 +214,6 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 				}
 			}
 			ligne = (ligne + 1) % 5;
-			//ligne = ligne+1;
-			// ite = 1;
 		}
 		// for (int i = 0; i < 5; i++)
 		// {
@@ -228,7 +226,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 		SDL_RenderPresent(renderer);
 		SDL_Delay(300);
 		SDL_RenderClear(renderer);
-
+		sortie = Collision(tab_etats, rect_voiture);
 		nouveau_etat(etat_cour, tab_etats, &dernier, &premier, tab_markov);
 		printf("Passage\n");
 	}
@@ -397,3 +395,19 @@ void Intro_jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int 
 	TTF_Quit();
 	SDL_Quit();
 }
+
+SDL_bool Collision(SDL_Rect tab_etats[5][3], SDL_Rect rect_voiture)
+{
+	SDL_Rect Endroit_Collision = {0};
+
+	SDL_bool retour = SDL_FALSE; // false
+	int j = 0;
+
+		while (retour == SDL_FALSE || j < 3)
+		{
+			retour = !SDL_IntersectRect(&(tab_etats[4][j]), &(rect_voiture), &Endroit_Collision);
+			j++;
+		}
+	return retour;
+}
+
