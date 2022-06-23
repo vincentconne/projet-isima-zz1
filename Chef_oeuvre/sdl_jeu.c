@@ -53,7 +53,7 @@ void play_with_texture_1(SDL_Texture *my_texture, SDL_Window *window,
 				   &destination); // Création de l'élément à afficher
 }
 
-void sdl_Jeu()
+void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_markov[][7])
 {
 
 	SDL_Window *window = NULL;
@@ -88,15 +88,14 @@ void sdl_Jeu()
 		exit(EXIT_FAILURE);
 	}
 
-
 	// Création de la texture de la voiture
 	SDL_Texture *voiture = IMG_LoadTexture(renderer, "./src/Voiture.png");
 
 	SDL_Rect rect_voiture;
 	rect_voiture.x = 350;
 	rect_voiture.y = 600;
-	rect_voiture.w = 100;
-	rect_voiture.h = 200;
+	rect_voiture.w = 50;
+	rect_voiture.h = 100;
 
 	SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 
@@ -109,9 +108,25 @@ void sdl_Jeu()
 		exit(EXIT_FAILURE);
 	}
 
-
 	int i = 1;
 	int exit = 0;
+
+	SDL_Texture *travaux = IMG_LoadTexture(renderer, "./src/barriere.png");
+
+	SDL_Rect rect_travaux[5][3];
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			rect_travaux[i][j].x = 150 + j * 200;
+			rect_travaux[i][j].y = i * 160; //(i*800)/5
+			rect_travaux[i][j].w = 100;
+			rect_travaux[i][j].h = 100;
+		}
+	}
+
+	int ligne = premier;
+	int p = 0;
 
 	while (!exit)
 	{
@@ -130,7 +145,7 @@ void sdl_Jeu()
 					}
 					break;
 				case SDL_SCANCODE_RIGHT:
-					if (rect_voiture.x + V < 600)
+					if (rect_voiture.x + V < 650)
 					{
 						rect_voiture.x += V;
 					}
@@ -142,16 +157,16 @@ void sdl_Jeu()
 					}
 					break;
 				case SDL_SCANCODE_DOWN:
-					if (rect_voiture.y + V < 600)
+					if (rect_voiture.y + V < 700)
 					{
 						rect_voiture.y += V;
 					}
-				// case SDL_SCANCODE_DOWN && SDL_SCANCODE_RIGHT:
-				// 	if (rect_voiture.y + V < 600 && rect_voiture.x + V < 600)
-				// 	{
-				// 		rect_voiture.y += V;
-				// 		rect_voiture.x += V;
-				// 	}
+					// case SDL_SCANCODE_DOWN && SDL_SCANCODE_RIGHT:
+					// 	if (rect_voiture.y + V < 600 && rect_voiture.x + V < 600)
+					// 	{
+					// 		rect_voiture.y += V;
+					// 		rect_voiture.x += V;
+					// 	}
 					break;
 				default:
 					break;
@@ -167,7 +182,7 @@ void sdl_Jeu()
 		// play_with_texture_4(voiture, window, renderer, background);
 		// draw(renderer, &rectangle);
 		// clear(renderer);
-		
+
 		// Affichage de la route (défilement)
 		if (i == 1)
 		{
@@ -179,19 +194,45 @@ void sdl_Jeu()
 			play_with_texture_1(background2, window, renderer);
 			i = 1;
 		}
+
+		while (ligne != (dernier + 1) % 5)
+		{
+			for (int k = 0; k < 3; k++)
+			{
+				if (tab_etats[ligne][k])
+				{
+					SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[p][k]);
+					p++;
+					ligne = (ligne + 1) % 5;
+				}
+			}
+		}
+		// for (int i = 0; i < 5; i++)
+		// {
+		// 	for (int j = 0; j < 3; j++)
+		// 	{
+		// 		SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[i][j]);
+		// 	}
+		// }
 		SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 		SDL_RenderPresent(renderer);
 		SDL_Delay(100);
 		SDL_RenderClear(renderer);
-	}
 
+		nouveau_etat(etat_cour, tab_etats, dernier, premier, tab_markov);
+		p = 0;
+		printf("Passage\n");
+	}
+	SDL_DestroyTexture(travaux);
 	SDL_DestroyTexture(voiture);
 	IMG_Quit();
 	SDL_DestroyWindow(window);
+	printf("Passage3\n");
 	SDL_Quit();
+	printf("Passage4\n");
 }
 
-void Intro_jeu()
+void Intro_jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_markov[][7])
 {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
@@ -212,7 +253,7 @@ void Intro_jeu()
 							  SDL_WINDOWPOS_CENTERED, width,
 							  height,
 							  SDL_WINDOW_OPENGL);
-							  
+
 	if (NULL == window)
 	{
 		fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
@@ -334,7 +375,7 @@ void Intro_jeu()
 			SDL_DestroyTexture(text_texture2);
 			SDL_DestroyWindow(window);
 			TTF_Quit();
-			sdl_Jeu();
+			sdl_Jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
 			stop = 1;
 		}
 
