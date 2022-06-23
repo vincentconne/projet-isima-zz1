@@ -56,7 +56,7 @@ SDL_Texture* update_score(TTF_Font *font, SDL_Color *color, SDL_Renderer *render
 
 	char score_char[10];
 	sprintf(score_char, "%d", score);
-	printf("score int : %d score char : %s\n",score, score_char);
+	//printf("score int : %d score char : %s\n",score, score_char);
 
 	SDL_Surface *surface_score = NULL;
 	surface_score = TTF_RenderText_Blended(font, score_char, *color); 
