@@ -15,6 +15,11 @@
 
 int score = 0;
 
+// Fonction affichage (temporaire)
+void affiche_tab3(int tab[3]){
+    printf("Valeur de tab : %d%d%d\n",tab[0],tab[1],tab[2]);
+}
+
 void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
 {
 	SDL_Rect rectangle;
@@ -198,7 +203,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 	}
 
 	int i = 1;
-	int exit = 0;
+	int sortie = 0;
 
 	SDL_Texture *travaux = IMG_LoadTexture(renderer, "./src/barriere.png");
 
@@ -218,11 +223,11 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 
 	int ligne = premier;
 	int p = 0;
-	int ite = 0;
+	int position = 1;
 
 	// boucle de travail
-	SDL_bool sortie = SDL_FALSE;
-	while (!exit || sortie == SDL_FALSE)
+	//int sortie = 0;
+	while (!sortie)
 	{
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
@@ -250,10 +255,20 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 			}
 			else if (event.type == SDL_QUIT)
 			{
-				exit = 1;
+				sortie = 1;
 				puts("FIN DE MON PROGRAMME");
 				break;
 			}
+		}
+
+		printf("position voiture : %d\n", rect_voiture.x);
+		// Définition de la postition de la voiture sur la grille
+		if (rect_voiture.x==175){
+			position = 0;
+		} else if (rect_voiture.x == 375){
+			position = 1;
+		} else {
+			position = 2;
 		}
 
 		// Affichage de la route (défilement)
@@ -282,10 +297,14 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 		draw_score(renderer, 0, 0, texture_texte_score);
 		draw_score(renderer, 0, 30, texture_score);
 		SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
-		sortie = Collision(rect_travaux, rect_voiture);
+
+		sortie = collision(tab_etats,position,dernier);
+		printf("sortie vaut : %d\n",sortie);
+		affiche_tab3(tab_etats[dernier]);
+
 		SDL_RenderPresent(renderer);
 		SDL_PumpEvents();
-		SDL_Delay(1000);
+		SDL_Delay(200);
 		SDL_RenderClear(renderer);
 		nouveau_etat(etat_cour, tab_etats, &dernier, &premier, tab_markov);
 		ligne = premier;
@@ -458,21 +477,6 @@ void Intro_jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int 
 	SDL_Quit();
 }
 
-SDL_bool Collision(SDL_Rect tab_rect[5][3], SDL_Rect rect_voiture)
-{
-	SDL_Rect Endroit_Collision = {0};
-
-	SDL_bool retour = SDL_FALSE; // false
-	int j = 0;
-	// printf("rect voiture: %d %d %d %d \n",rect_voiture.x,rect_voiture.x + rect_voiture.w,rect_voiture.y,rect_voiture.y + rect_voiture.h);
-	while (retour == SDL_FALSE || j < 3)
-	{
-		 //retour = SDL_IntersectRect(&(tab_rect[4][j]), &(rect_voiture), &Endroit_Collision);
-		//retour = SDL_HasIntersection(&(tab_rect[4][j]), &(rect_voiture));
-		retour = SDL_HasIntersection(&(rect_voiture), &(tab_rect[4][j]));
-		// printf("rect travaux: %d %d %d %d \n",tab_rect[4][j].x,tab_rect[4][j].x + tab_rect[4][j].w,tab_rect[4][j].y,tab_rect[4][j].y + tab_rect[4][j].h);
-		j++;
-		printf("RETOUR %d\n", retour);
-	}
-	return retour;
+int collision(int **tab_etats, int position, int dernier){
+	return (tab_etats[dernier][position]);
 }
