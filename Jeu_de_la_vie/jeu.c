@@ -105,7 +105,6 @@ int cellule_suiv(int i, int j, int **tabcour, int indice_fct)
 	if (tabcour[i][j])
 		prochaine_valeur = survie[nbvoisins]; // Si cellule vivante alors à t+1 prend la valeur dans survie
 	else
-		printf("Naissance %d nbvoisins %d\n", naissance[nbvoisins], nbvoisins);
 	prochaine_valeur = naissance[nbvoisins]; // Si cellule morte alors à t+1 prend la valeur dans naissance
 	return prochaine_valeur;
 }
@@ -219,7 +218,7 @@ void sauvegarde(char *fichier, int **monde)
 			{
 				fprintf(file, "%d ", monde[i][j]);
 			}
-			fprintf(file, "\n", NULL);
+			fprintf(file, "\n");
 		}
 	}
 	fclose(file);
