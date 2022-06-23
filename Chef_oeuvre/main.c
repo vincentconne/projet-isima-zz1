@@ -76,7 +76,7 @@ int main()
     /*-------------------------------------------------------------------------------*/
 
     // Etat courant
-    int etat_cour[3];
+    int etat_cour[3]={0,0,0};
 
     // Table des etats
     int **tab_etats = (int **)malloc(sizeof(int *) * 5);
@@ -91,18 +91,18 @@ int main()
             tab_etats[l][k] = 0;
         }
     }
-    printf("Allocation tab_etats\n");
 
     // Indice de début de ligne qui correspond à la première ligne en affichage
-    int premier = 0;
+    int premier=0;
 
     // Indice de début de ligne qui correspond à la dernière ligne en affichage
     int dernier = 4;
 
     // Lancement de l'introduction du jeu
-    Intro_jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
+    // Intro_jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
+
+
     // Libération des tableaux dynamiques
-    //free(etat_cour);
     for (int i = 0; i < 5; i++)
     {
         free(tab_etats[i]);

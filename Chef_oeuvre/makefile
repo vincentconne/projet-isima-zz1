@@ -1,8 +1,8 @@
 # compilateur 
 CC=gcc
 # option
-CFLAGS= -g -Wall -Wextra -I/opt/homebrew/Cellar/sdl2/2.0.22/include
-LDFLAGS= -lSDL2 -lSDL2_ttf -lSDL2_image -L/opt/homebrew/Cellar/sdl2/2.0.22/lib
+CFLAGS= -g -Wall -Wextra
+LDFLAGS= -lSDL2 -lSDL2_ttf -lSDL2_image
 
 # règle de production finale du TP 
 prog:main.o jeu.o sdl_jeu.o 

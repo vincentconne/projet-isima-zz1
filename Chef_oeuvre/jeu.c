@@ -113,8 +113,9 @@ void traduc_markov_etat(int colonne, int etat_suiv[3])
     }
 }
 
+
 // Calcul du nouvel état de la route
-void nouveau_etat(int etat_cour[3], int **tab_etats, int dernier, int premier, int tab_markov[7][7])
+void nouveau_etat(int etat_cour[3], int **tab_etats, int *dernier, int *premier, int tab_markov[7][7])
 {
 
     int alea = valeur_random(1, 10);
@@ -127,12 +128,15 @@ void nouveau_etat(int etat_cour[3], int **tab_etats, int dernier, int premier, i
         somme_proba += tab_markov[i][j];
         j++;
     }
-    traduc_markov_etat(j, etat_cour);
+    traduc_markov_etat(j-1, etat_cour);
 
     // Ajout du nouvel état dans la table
-    tab_etats[dernier] = etat_cour;
+    for (int k=0; k<3; k++){
+        tab_etats[*dernier][k] = etat_cour[k];
+    }
+
 
     // Mise à jour des indices du tableau
-    premier = dernier;
-    dernier = (5 + dernier - 1) % 5;
+    *premier = *dernier;
+    *dernier = (5 + *dernier - 1) % 5;
 }
