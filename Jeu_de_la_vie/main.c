@@ -26,7 +26,8 @@ int main()
 
     SDL_GetCurrentDisplayMode(0, &screen);
 
-    window = SDL_CreateWindow("Premier dessin",
+
+    window = SDL_CreateWindow("Jeu de la Vie",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,

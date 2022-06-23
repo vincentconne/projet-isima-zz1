@@ -65,7 +65,7 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 	int width = 600;
 	int height = 600;
 
-	window = SDL_CreateWindow("SDL2 Programme 0.1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+	window = SDL_CreateWindow("Jeu de la Vie", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 							  width, height,
 							  SDL_WINDOW_RESIZABLE);
 
