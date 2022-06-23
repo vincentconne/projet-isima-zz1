@@ -1,14 +1,38 @@
-# Projet ZZ1 ISIMA - Groupe 1 - CONNE WALCH RUSAK
+# Projet ZZ1 ISIMA - Groupe 1 - CONNE RUSAK WALCH
 
+Projet de première année ISIMA effectué par le groupe 1 composé de Vincent CONNE, Loup RUSAK et Mathilde WALCH.
 
+***
 
-## Getting started
+## X Fenêtré
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Dans le dossier X_fenetre, vous trouverez 3 sous dossiers contenant chacun de nos exemples.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Cet exercice avait pour but de nous faire créer des fenêtres, de les déplacer et de les fermer, en manipulant la SDL2.
 
-## Add your files
+***
+
+## Pavé de serpents
+
+Comme pour le X_fenetre, vous trouverez 3 sous dossiers de Pave_serpents contenant chacun de nos exemples.
+
+Cet exercice avait pour but de nous faire manipuler les fonctions de bases au niveau des rendus dans une fenêtre, en manipulant des formes, des couleurs ...
+
+***
+
+## Animation de sprites
+
+Comme pour les derniers exercices, vous trouverez 3 sous dossiers de contenant chacun de nos exemples.
+
+Cet exercice avait pour but de apprendre le manipulation de sprite et donc d'images avec la SDL2, notamment en affichant un fond de fenêtre ou en animant une image de personnage.
+
+***
+
+## Jeu de la vie
+
+### Principe
+
+### Comment jouer ?
 
 - [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
 - [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
