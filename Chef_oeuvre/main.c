@@ -73,6 +73,10 @@ int main()
     tab_markov[6][5] = 0;
     tab_markov[6][6] = 5;
 
+    //Score du joueur en jeu
+    int score = 0;
+
+
     /*-------------------------------------------------------------------------------*/
 
     // Etat courant
@@ -100,7 +104,7 @@ int main()
     int dernier = 4;
 
     // Lancement de l'introduction du jeu
-    Intro_jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
+    Intro_jeu(premier, dernier, tab_etats, etat_cour, tab_markov, score);
     // Libération des tableaux dynamiques
     free(etat_cour);
 

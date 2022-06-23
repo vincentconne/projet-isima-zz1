@@ -31,6 +31,54 @@ void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
 	SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
 }
 
+void draw_score(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
+{ // Je pense que vous allez faire moins laid :)
+	SDL_Rect rectangle;
+
+	SDL_SetRenderDrawColor(renderer,
+						   50, 0, 0, // mode Red, Green, Blue (tous dans 0..255)
+						   255);	 // 0 = transparent ; 255 = opaque
+	rectangle.x = xg;				 // x haut gauche du rectangle
+	rectangle.y = yg;				 // y haut gauche du rectangle
+	rectangle.w = 100;				 // sa largeur (w = width)
+	rectangle.h = 30;				 // sa hauteur (h = height)
+
+	SDL_RenderFillRect(renderer, &rectangle);
+
+	SDL_QueryTexture(text_texture, NULL, NULL, &rectangle.w, &rectangle.h); // récupération de la taille (w, h) du texte
+	SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
+}
+
+//Mise à jour de la texture du score a chaque changement
+SDL_Texture* update_score(TTF_Font *font, SDL_Color *color, SDL_Renderer *renderer, int score){
+
+	char score_char[10];
+	sprintf(score_char, "%d", score);
+	printf("score int : %d score char : %s\n",score, score_char);
+
+	SDL_Surface *surface_score = NULL;
+	surface_score = TTF_RenderText_Blended(font, score_char, *color); 
+	if (surface_score == NULL)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+
+	SDL_Texture *texture_score;
+	texture_score = SDL_CreateTextureFromSurface(renderer, surface_score);		
+	
+	if (texture_score == NULL)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+
+	SDL_FreeSurface(surface_score);		
+
+	return texture_score;
+}
+
+
 void play_with_texture_1(SDL_Texture *my_texture, SDL_Window *window,
 						 SDL_Renderer *renderer)
 {
@@ -54,12 +102,15 @@ void play_with_texture_1(SDL_Texture *my_texture, SDL_Window *window,
 				   &destination); // Création de l'élément à afficher
 }
 
-void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_markov[][7])
+void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_markov[][7], int score)
 {
 
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
 	SDL_DisplayMode screen;
+
+	char score_char[10];
+	sprintf(score_char, "%d", score);
 
 	if (0 != SDL_Init(SDL_INIT_VIDEO))
 	{
@@ -88,6 +139,43 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_
 	{
 		exit(EXIT_FAILURE);
 	}
+
+	// Compteur de score
+	if (TTF_Init() < 0)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	TTF_Font *font = NULL;				   // la variable 'police de caractère'
+	font = TTF_OpenFont("stocky.ttf", 20); // La police à charger, la taille désirée
+	if (font == NULL)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
+
+	SDL_Color color = {255, 255, 255, 255};								// la couleur du texte
+
+	SDL_Surface *surface_texte_score = NULL;			
+	surface_texte_score = TTF_RenderText_Blended(font, "SCORE", color); 
+	if (surface_texte_score == NULL)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	SDL_Texture *texture_texte_score = NULL;
+	texture_texte_score = SDL_CreateTextureFromSurface(renderer, surface_texte_score);
+	if (texture_texte_score == NULL)
+	{
+		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	SDL_FreeSurface(surface_texte_score);
+
+	SDL_Texture *texture_score = NULL;
+	
+	
 
 	// Création de la texture de la voiture
 	SDL_Texture *voiture = IMG_LoadTexture(renderer, "./src/Voiture.png");
@@ -215,6 +303,9 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_
 		// 		SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[i][j]);
 		// 	}
 		// }
+		texture_score = update_score(font, &color, renderer, score);
+		draw_score(renderer, 0, 0, texture_texte_score);
+		draw_score(renderer, 0, 30, texture_score);
 		SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 		SDL_RenderPresent(renderer);
 		SDL_Delay(100);
@@ -222,6 +313,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_
 
 		nouveau_etat(etat_cour, tab_etats, dernier, premier, tab_markov);
 		p = 0;
+		score = score + 1;
 		printf("Passage\n");
 	}
 	SDL_DestroyTexture(travaux);
@@ -233,7 +325,7 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_
 	printf("Passage4\n");
 }
 
-void Intro_jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_markov[][7])
+void Intro_jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_markov[][7], int score)
 {
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
@@ -376,7 +468,7 @@ void Intro_jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int ta
 			SDL_DestroyTexture(text_texture2);
 			SDL_DestroyWindow(window);
 			TTF_Quit();
-			sdl_Jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
+			sdl_Jeu(premier, dernier, tab_etats, etat_cour, tab_markov, score);
 			stop = 1;
 		}
 
