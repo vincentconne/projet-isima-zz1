@@ -17,92 +17,122 @@ int valeur_random(int MIN, int MAX)
 }
 
 // Traduction de l'état en la ligne à lire pour la chaine de Markov
-int traduc_etat_markov(int *etat_cour){
+int traduc_etat_markov(int *etat_cour)
+{
 
     int res;
 
-    switch(etat_cour[0]){
+    switch (etat_cour[0])
+    {
+    case 0:
+        switch (etat_cour[1])
+        {
         case 0:
-        switch (etat_cour[1]){
-            case 0:
-            if (etat_cour[2]){
+            if (etat_cour[2])
+            {
                 res = 2;
-            } 
-            else {
+            }
+            else
+            {
                 res = 0;
             }
-            case 1:
-            if (etat_cour[2]){
+            break;
+        case 1:
+            if (etat_cour[2])
+            {
                 res = 5;
-            } 
-            else {
+            }
+            else
+            {
                 res = 3;
             }
+            break;
         }
-        case 1:
-        switch (etat_cour[1]){
-            case 0:
-            if (etat_cour[2]){
+    case 1:
+        switch (etat_cour[1])
+        {
+        case 0:
+            if (etat_cour[2])
+            {
                 res = 6;
-            } 
-            else {
+            }
+            else
+            {
                 res = 1;
             }
-            case 1:
-                res = 4;
+            break;
+        case 1:
+            res = 4;
+            break;
         }
-
+        break;
     }
     return res;
 }
 
 // Passage de Markov à l'état choisi
-void traduc_markov_etat(int colonne, int *etat_suiv){
-    switch (colonne){
-        case 0:
-        etat_suiv[0] = 0; etat_suiv[1] = 0; etat_suiv[2] = 0;
+void traduc_markov_etat(int colonne, int *etat_suiv)
+{
+    switch (colonne)
+    {
+    case 0:
+        etat_suiv[0] = 0;
+        etat_suiv[1] = 0;
+        etat_suiv[2] = 0;
         break;
-        case 1:
-        etat_suiv[0] = 1; etat_suiv[1] = 0; etat_suiv[2] = 0;
+    case 1:
+        etat_suiv[0] = 1;
+        etat_suiv[1] = 0;
+        etat_suiv[2] = 0;
         break;
-        case 2:
-        etat_suiv[0] = 0; etat_suiv[1] = 0; etat_suiv[2] = 1;
+    case 2:
+        etat_suiv[0] = 0;
+        etat_suiv[1] = 0;
+        etat_suiv[2] = 1;
         break;
-        case 3:
-        etat_suiv[0] = 0; etat_suiv[1] = 1; etat_suiv[2] = 0;
+    case 3:
+        etat_suiv[0] = 0;
+        etat_suiv[1] = 1;
+        etat_suiv[2] = 0;
         break;
-        case 4:
-        etat_suiv[0] = 1; etat_suiv[1] = 1; etat_suiv[2] = 0;
+    case 4:
+        etat_suiv[0] = 1;
+        etat_suiv[1] = 1;
+        etat_suiv[2] = 0;
         break;
-        case 5:
-        etat_suiv[0] = 0; etat_suiv[1] = 1; etat_suiv[2] = 1;
+    case 5:
+        etat_suiv[0] = 0;
+        etat_suiv[1] = 1;
+        etat_suiv[2] = 1;
         break;
-        case 6:
-        etat_suiv[0] = 1; etat_suiv[1] = 0; etat_suiv[2] = 1;
+    case 6:
+        etat_suiv[0] = 1;
+        etat_suiv[1] = 0;
+        etat_suiv[2] = 1;
         break;
     }
 }
 
-
 // Calcul du nouvel état de la route
-void nouveau_etat(int *etat_cour, int **tab_etats,int dernier, int premier,int tab_markov[7][7]){
-    
-    int alea  = valeur_random(1,10);
-    int i = traduc_etat_markov(etat_cour);
-    int j=0;
-    int somme_proba = 0 ;
+void nouveau_etat(int *etat_cour, int **tab_etats, int dernier, int premier, int tab_markov[7][7])
+{
 
-    while((alea > somme_proba) && (j<7)){
+    int alea = valeur_random(1, 10);
+    int i = traduc_etat_markov(etat_cour);
+    int j = 0;
+    int somme_proba = 0;
+
+    while ((alea > somme_proba) && (j < 7))
+    {
         somme_proba += tab_markov[i][j];
         j++;
     }
-    traduc_markov_etat(j,etat_cour);
+    traduc_markov_etat(j, etat_cour);
 
     // Ajout du nouvel état dans la table
-    tab_etats[dernier]=etat_cour;
+    tab_etats[dernier] = etat_cour;
 
     // Mise à jour des indices du tableau
     premier = dernier;
-    dernier = (5+dernier-1)%5;
-
+    dernier = (5 + dernier - 1) % 5;
 }

@@ -99,7 +99,12 @@ void animation(SDL_Texture *my_texture,SDL_Texture *text_bg,SDL_Window *window, 
     SDL_RenderCopy(renderer,my_texture,&source,&destination);
 }
 
-int main(){
+int main(int argc, char **argv){
+
+  (void) argc;
+  (void) argv;
+
+  // Définitions
   SDL_Texture *cha_run[10];
   SDL_Texture *text_bg=NULL;
   SDL_Window *window = NULL;
@@ -142,3 +147,4 @@ int main(){
   IMG_Quit();
   SDL_DestroyWindow(window);
   SDL_Quit();
+}  

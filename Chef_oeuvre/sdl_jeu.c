@@ -7,10 +7,11 @@
 #include <SDL2/SDL_image.h>
 #include "jeu.h"
 #include "sdl_jeu.h"
+
 #define width 800
 #define height 800
 
-#define V 10
+#define VITESSE 10
 
 void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
 { // Je pense que vous allez faire moins laid :)
@@ -139,27 +140,27 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int *etat_cour, int tab_
 				switch (event.key.keysym.scancode)
 				{
 				case SDL_SCANCODE_LEFT:
-					if (rect_voiture.x - V > 100)
+					if (rect_voiture.x - VITESSE > 100)
 					{
-						rect_voiture.x -= V;
+						rect_voiture.x -= VITESSE;
 					}
 					break;
 				case SDL_SCANCODE_RIGHT:
-					if (rect_voiture.x + V < 650)
+					if (rect_voiture.x + VITESSE < 650)
 					{
-						rect_voiture.x += V;
+						rect_voiture.x += VITESSE;
 					}
 					break;
 				case SDL_SCANCODE_UP:
-					if (rect_voiture.y - V > 0)
+					if (rect_voiture.y - VITESSE > 0)
 					{
-						rect_voiture.y -= V;
+						rect_voiture.y -= VITESSE;
 					}
 					break;
 				case SDL_SCANCODE_DOWN:
-					if (rect_voiture.y + V < 700)
+					if (rect_voiture.y + VITESSE < 700)
 					{
-						rect_voiture.y += V;
+						rect_voiture.y += VITESSE;
 					}
 					// case SDL_SCANCODE_DOWN && SDL_SCANCODE_RIGHT:
 					// 	if (rect_voiture.y + V < 600 && rect_voiture.x + V < 600)
