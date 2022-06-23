@@ -24,7 +24,7 @@ Cet exercice avait pour but de nous faire manipuler les fonctions de bases au ni
 
 Comme pour les derniers exercices, vous trouverez 3 sous dossiers de contenant chacun de nos exemples.
 
-Cet exercice avait pour but de apprendre le manipulation de sprite et donc d'images avec SDL2, SDL2_TTF et SDL2_image, notamment en affichant un fond de fenêtre ou en animant une image de personnage.
+Cet exercice avait pour but de apprendre le manipulation de sprite et donc d'images avec **SDL2**, **SDL2_TTF** et **SDL2_image**, notamment en affichant un fond de fenêtre ou en animant une image de personnage.
 
 ***
 
@@ -64,7 +64,7 @@ Comme pour la survie on utilise aussi un tableau de booléens ```NAISSANCE```.
 
 ***
 
-## Notre Chef d'oeuvre : ATTENTION DANGER !
+## Notre Chef d'oeuvre : ATTENTION TRAVAUX !
 
 Le but de cet exercice, était de proposer un jeu intégrant le principe de la chaîne de Markov.
 
