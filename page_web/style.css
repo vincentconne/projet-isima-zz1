@@ -151,6 +151,11 @@ img{
 	align-content: center;
 }
 
+img.alone{
+	width: 40%;
+	margin: auto;
+}
+
 div.gif{
 	background-color: lightgrey;
 	padding: 10px;
