@@ -177,7 +177,6 @@ void sdl_Jeu(int **monde, int **tmp, int indice_fct)
 			}
 			AfficheMessage(renderer);
 		}
-		// SDL_Delay(100); //  delai minimal
 	}
 
 	SDL_DestroyRenderer(renderer);
