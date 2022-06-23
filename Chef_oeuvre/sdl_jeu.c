@@ -11,7 +11,7 @@
 #define width 800
 #define height 800
 
-#define VITESSE 10
+#define VITESSE 200
 
 int score = 0;
 
@@ -183,10 +183,10 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 	SDL_Texture *voiture = IMG_LoadTexture(renderer, "./src/Voiture.png");
 
 	SDL_Rect rect_voiture;
-	rect_voiture.x = 350;
-	rect_voiture.y = 600;
-	rect_voiture.w = 50;
-	rect_voiture.h = 100;
+	rect_voiture.x = 375;
+	rect_voiture.y = 650;
+	rect_voiture.w = 60;
+	rect_voiture.h = 120;
 
 	SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 
@@ -246,24 +246,24 @@ void sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int ta
 						rect_voiture.x += VITESSE;
 					}
 					break;
-				case SDL_SCANCODE_UP:
-					if (rect_voiture.y - VITESSE > 0)
-					{
-						rect_voiture.y -= VITESSE;
-					}
-					break;
-				case SDL_SCANCODE_DOWN:
-					if (rect_voiture.y + VITESSE < 700)
-					{
-						rect_voiture.y += VITESSE;
-					}
-					// case SDL_SCANCODE_DOWN && SDL_SCANCODE_RIGHT:
-					// 	if (rect_voiture.y + V < 600 && rect_voiture.x + V < 600)
-					// 	{
-					// 		rect_voiture.y += V;
-					// 		rect_voiture.x += V;
-					// 	}
-					break;
+				// case SDL_SCANCODE_UP:
+				// 	if (rect_voiture.y - VITESSE > 0)
+				// 	{
+				// 		rect_voiture.y -= VITESSE;
+				// 	}
+				// 	break;
+				// case SDL_SCANCODE_DOWN:
+				// 	if (rect_voiture.y + VITESSE < 700)
+				// 	{
+				// 		rect_voiture.y += VITESSE;
+				// 	}
+				// 	// case SDL_SCANCODE_DOWN && SDL_SCANCODE_RIGHT:
+				// 	// 	if (rect_voiture.y + V < 600 && rect_voiture.x + V < 600)
+				// 	// 	{
+				// 	// 		rect_voiture.y += V;
+				// 	// 		rect_voiture.x += V;
+				// 	// 	}
+				// 	break;
 				default:
 					break;
 				}
@@ -433,6 +433,7 @@ void Intro_jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int 
 	SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
 	SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
 	int finClique = 0;
+
 	while (program_on && stop == 0)
 	{ // Voilà la boucle des évènements
 
