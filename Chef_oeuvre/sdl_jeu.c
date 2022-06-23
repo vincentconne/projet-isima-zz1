@@ -68,6 +68,7 @@ void sdl_Jeu()
 
 	SDL_GetCurrentDisplayMode(0, &screen);
 
+	// Création de la fenêtre
 	window = SDL_CreateWindow("Autoroute",
 							  SDL_WINDOWPOS_CENTERED,
 							  SDL_WINDOWPOS_CENTERED, width,
@@ -79,6 +80,7 @@ void sdl_Jeu()
 		exit(EXIT_FAILURE);
 	}
 
+	// Création du renderer
 	renderer = SDL_CreateRenderer(window, -1,
 								  SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer == NULL)
@@ -86,8 +88,8 @@ void sdl_Jeu()
 		exit(EXIT_FAILURE);
 	}
 
-	SDL_GetCurrentDisplayMode(0, &screen);
 
+	// Création de la texture de la voiture
 	SDL_Texture *voiture = IMG_LoadTexture(renderer, "./src/Voiture.png");
 
 	SDL_Rect rect_voiture;
@@ -98,6 +100,7 @@ void sdl_Jeu()
 
 	SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
 
+	// Création des textures pour le fond
 	SDL_Texture *background = IMG_LoadTexture(renderer, "./src/sansblanc1.png");
 	SDL_Texture *background2 = IMG_LoadTexture(renderer, "./src/sansblanc2.png");
 
@@ -105,8 +108,11 @@ void sdl_Jeu()
 	{
 		exit(EXIT_FAILURE);
 	}
+
+
 	int i = 1;
 	int exit = 0;
+
 	while (!exit)
 	{
 		SDL_Event event;
@@ -114,6 +120,7 @@ void sdl_Jeu()
 		{
 			if (event.type == SDL_KEYDOWN)
 			{
+				// Déplacement de la voiture
 				switch (event.key.keysym.scancode)
 				{
 				case SDL_SCANCODE_LEFT:
@@ -160,6 +167,8 @@ void sdl_Jeu()
 		// play_with_texture_4(voiture, window, renderer, background);
 		// draw(renderer, &rectangle);
 		// clear(renderer);
+		
+		// Affichage de la route (défilement)
 		if (i == 1)
 		{
 			play_with_texture_1(background, window, renderer);
@@ -197,17 +206,20 @@ void Intro_jeu()
 
 	SDL_GetCurrentDisplayMode(0, &screen);
 
+	// Création de la fenêtre
 	window = SDL_CreateWindow("ATTENTION TRAVAUX",
 							  SDL_WINDOWPOS_CENTERED,
 							  SDL_WINDOWPOS_CENTERED, width,
 							  height,
 							  SDL_WINDOW_OPENGL);
+							  
 	if (NULL == window)
 	{
 		fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 
+	// Création du renderer
 	renderer = SDL_CreateRenderer(window, -1,
 								  SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer == NULL)
@@ -217,8 +229,8 @@ void Intro_jeu()
 
 	SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
 	SDL_Event event;				// c'est le type IMPORTANT !!
-	SDL_GetCurrentDisplayMode(0, &screen);
 
+	// Création de la texture de fond
 	SDL_Texture *fond = IMG_LoadTexture(renderer, "./src/Titre.png");
 
 	if (fond == NULL)
