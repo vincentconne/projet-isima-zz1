@@ -1,12 +1,12 @@
 # Projet ZZ1 ISIMA - Groupe 1 - CONNE RUSAK WALCH
 
-Projet de première année ISIMA effectué par le groupe 1 composé de Vincent CONNE, Loup RUSAK et Mathilde WALCH.
+Projet de première année ISIMA effectué par le **groupe 1** composé de **Vincent CONNE, Loup RUSAK et Mathilde WALCH**.
 
 ***
 
 ## X Fenêtré
 
-Dans le dossier X_fenetre, vous trouverez 3 sous dossiers contenant chacun de nos exemples.
+Dans le dossier **X_fenetre**, vous trouverez **3 sous dossiers** contenant chacun de nos exemples.
 
 Cet exercice avait pour but de nous faire créer des fenêtres, de les déplacer et de les fermer, en manipulant la SDL2.
 
@@ -24,93 +24,72 @@ Cet exercice avait pour but de nous faire manipuler les fonctions de bases au ni
 
 Comme pour les derniers exercices, vous trouverez 3 sous dossiers de contenant chacun de nos exemples.
 
-Cet exercice avait pour but de apprendre le manipulation de sprite et donc d'images avec la SDL2, notamment en affichant un fond de fenêtre ou en animant une image de personnage.
+Cet exercice avait pour but de apprendre le manipulation de sprite et donc d'images avec **SDL2**, **SDL2_TTF** et **SDL2_image**, notamment en affichant un fond de fenêtre ou en animant une image de personnage.
 
 ***
 
 ## Jeu de la vie
 
+**Automate cellulaire** dont les règles ont été définies par J. Conway en 1970.
+
 ### Principe
+
+L'état de l'automate à l'étape n se crée en fonction de l'état à l'étape n-1. 
+L'évolution de l'état d'une cellule dépend de ses huit états voisins les plus proches. 
+
+Les règles:  
+* A l'étape suivante, l'étape n-1 occupera une cellule vide avec seulement 3 cellules adjacentes. (Naissance liée à l'environnement optimal)
+On utilise un tableau de booléens ```SURVIE``` pour mettre en forme les règles. 
+* Les cellules qui sont occupées au niveau n-1 et qui ont deux ou trois cellules adjacentes sont conservées au niveau n. Sinon, il sera vide. (Mort due à la désertification ou à la surpopulation)
+Comme pour la survie on utilise aussi un tableau de booléens ```NAISSANCE```.
 
 ### Comment jouer ?
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+1. Vous êtes au menu, choisissez entre les deux modes :
+    * **Monde délimité**
+    * **Monde thorique**
 
-```
-cd existing_repo
-git remote add origin https://gitlab.isima.fr/groupe-1-projet-isima-conne-walch-rusak/g1-projet-isima-zz1.git
-git branch -M master
-git push -uf origin master
-```
+2. Vous arrivez maintenant sur une page blanche. Vous pouvez soit placer les premières cellules à votre guise à l'aide de la souris ou alors appuyer sur la touche **l** pour charger une configuration fichier texte existante.
 
-## Integrate with your tools
+3. Si vous avez choisi de placer les cellules par vous-même, appuyez sur **espace** pour lancer le jeu de la vie.
 
-- [ ] [Set up project integrations](https://gitlab.isima.fr/groupe-1-projet-isima-conne-walch-rusak/g1-projet-isima-zz1/-/settings/integrations)
+4. Vous voyez maintenant le jeu se dérouler sous vos yeux et vous ralentir le processus en appuyant sur la **flèche du bas** ou alors l'accelérer avec **flèche du haut**.
 
-## Collaborate with your team
+5. Cas possibles :
+    * Si le monde devient vide alors le message *"cycle"* sera écrit.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+    * Si le monde devient stable et ne bouge plus alors le message *"monde stable"* sera écrit.
 
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+    Dans les deux cas quittez le jeu en appuyant sur la croix pour fermer la fenêtre.
 
 ***
 
-# Editing this README
+## Notre Chef d'oeuvre : ATTENTION TRAVAUX !
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Le but de cet exercice, était de proposer un jeu intégrant le principe de la chaîne de Markov.
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### Principe
 
-## Name
-Choose a self-explaining name for your project.
+Nous avons donc décidé de proposer un jeu mettant en scène une voiture et des portions de route qui se ferment et se rouvrent selon une chaine de markov se basant sur l'état précédent de la route. L’objectif du jeu étant de ne rouler que sur les routes ouvertes. 
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Comment jouer ?
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+1. Vous êtes au menu, les règles et commandes sont rappelées dans la partie inférieur de l'interface. Pour débuter cliquez sur le bandeau ***jouer***.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+2. Vous arrivez maintenant sur la page de jeu. Vous pouvez prendre le temps de vous familiariser avec de décors et par la suite appuyer sur la touche **espace** pour débuter la "run".
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+3. Votre objectif est d'éviter les travaux en vous déplaçant de droite à gauche sur la route et faire le score le plus élevé possible. 
+    * Pour vous déplacer à droite d'une portion de route appuyez sur la **flèche droite**.
+    * Pour vous déplacer à gauche d'une portion de route appuyez sur la **flèche gauche**.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+5. Lorsque vous heurtez une zone de chantier avec votre voiture, vous perdez et une fenetre avec votre score est alors affichée.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+6. Pour quitter le jeu, appuyez sur la croix de la fenêtre.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+***
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## Notre Jeu par apprentissage par renforcement : <insérez un nom>
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+*à venir :P*
+ 
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
