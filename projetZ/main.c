@@ -24,7 +24,7 @@ int main()
 
     SDL_GetCurrentDisplayMode(0, &screen);
 
-    window = SDL_CreateWindow("Jeu de la Vie",
+    window = SDL_CreateWindow("Ice",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,
@@ -45,7 +45,6 @@ int main()
 
     SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
     SDL_Event event;                // c'est le type IMPORTANT !!
-    SDL_GetCurrentDisplayMode(0, &screen);
 
     SDL_Texture *fond;
     fond = load_texture_from_image("./src/fond_glace.png", window, renderer);
@@ -63,27 +62,10 @@ int main()
     destination = window_dimensions; // On fixe les dimensions de l'affichage à  celles de la fenêtre
 
     SDL_Texture *roc1 = IMG_LoadTexture(renderer, "./src/rocher.png");
-    SDL_Texture *platform = IMG_LoadTexture(renderer, "./src/ice.jpg");
-    SDL_Texture *arrived = IMG_LoadTexture(renderer, "./src/arrivee.jpg");
-    SDL_Rect entree = {600, 800, 100, 100};
-    SDL_Rect sortie = {600, 0, 100, 100};
+    //SDL_Rect entree = {600, 800, 100, 100};
+    //SDL_Rect sortie = {600, 0, 100, 100};
 
-    // SDL_Rect plateforme = {600,200,100,100};
-    SDL_Rect rect_plateforme[3];
-    rect_plateforme[0].x = 600;
-    rect_plateforme[0].y = 200;
-    rect_plateforme[0].w = 100;
-    rect_plateforme[0].h = 100;
-    rect_plateforme[1].x = 300;
-    rect_plateforme[1].y = 600;
-    rect_plateforme[1].w = 100;
-    rect_plateforme[1].h = 100;
-    rect_plateforme[2].x = 1100;
-    rect_plateforme[2].y = 600;
-    rect_plateforme[2].w = 100;
-    rect_plateforme[2].h = 100;
-
-    SDL_Rect rect_roc[11];
+    SDL_Rect rect_roc[13];
     rect_roc[0].x = 200;
     rect_roc[0].y = 100;
     rect_roc[0].w = 100;
@@ -128,6 +110,14 @@ int main()
     rect_roc[10].y = 300;
     rect_roc[10].w = 100;
     rect_roc[10].h = 100;
+    rect_roc[11].x = 1100;
+    rect_roc[11].y = 700;
+    rect_roc[11].w = 100;
+    rect_roc[11].h = 100;
+    rect_roc[12].x = 500;
+    rect_roc[12].y = 200;
+    rect_roc[12].w = 100;
+    rect_roc[12].h = 100;
 
     SDL_Rect rect_mur[6];
     rect_mur[0].x = 0;
@@ -173,17 +163,11 @@ int main()
             }
         }
         SDL_RenderCopy(renderer, fond, &source, &destination);
-        for (int i = 0; i < 11; i++)
+        for (int i = 0; i < 13; i++)
         {
             SDL_RenderCopy(renderer, roc1, NULL, &rect_roc[i]);
         }
 
-        SDL_RenderCopy(renderer, arrived, NULL, &sortie);
-        SDL_RenderCopy(renderer, platform, NULL, &entree);
-        for (int i = 0; i < 3; i++)
-        {
-            SDL_RenderCopy(renderer, platform, NULL, &rect_plateforme[i]);
-        }
         for (int i = 0; i < 6; i++)
         {
             SDL_RenderFillRect(renderer, &rect_mur[i]);
@@ -193,10 +177,7 @@ int main()
     }
 
     SDL_DestroyTexture(roc1);
-    SDL_DestroyTexture(platform);
-    SDL_DestroyTexture(arrived);
     SDL_DestroyWindow(window);
-    // TTF_Quit();
     SDL_Quit();
     return statut;
 }
