@@ -1,9 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
+// IMPORTS SDL2
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
+// IMPORTS STANDARDS
+#include <stdio.h>
+#include <stdlib.h>
+
+// Chargement d'une texture
 SDL_Texture* load_texture_from_image(char *file_image_name, SDL_Window *window, SDL_Renderer *renderer)
 {
     SDL_Surface *my_image = NULL;   // Variable de passage
@@ -29,7 +33,7 @@ SDL_Texture* load_texture_from_image(char *file_image_name, SDL_Window *window, 
     return my_texture;
 }
 
-// Gestion des erreurs
+// Gestion des erreurs et fin SDL
 void end_sdl(char ok,char const* msg,SDL_Window* window,SDL_Renderer* renderer) {
   char msg_formated[255];                                                         
   int l;
