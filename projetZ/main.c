@@ -1,51 +1,74 @@
-#include <stdio.h>
-#include <stdlib.h>
+// IMPORTS SDL2
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+
+// IMPORTS STANDARDS
+#include <stdio.h>
+#include <stdlib.h>
+
+// IMPORTS FICHIERS
 #include "jeu.h"
 #include "sdl_jeu.h"
 #include "texture.h"
 
+// CONSTANTES
 #define width 1300
 #define height 900
 
-int main()
-{
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-    int statut = EXIT_FAILURE;
-    SDL_DisplayMode screen;
-    int stop = 0;
+// FONCTIONS
 
+// Initialisation de la SDL2
+void initSDL(SDL_Window *window, SDL_Renderer *renderer)
+{
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
         end_sdl(0, "ERROR SDL INIT", window, renderer);
     }
+}
 
-    SDL_GetCurrentDisplayMode(0, &screen);
-
-    window = SDL_CreateWindow("Jeu de la Vie",
+// Création de fenêtres
+SDL_Window* createWindow(SDL_Window *window, SDL_Renderer *renderer char *titre, int w, int h){
+    window = SDL_CreateWindow(titre,
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,
                               SDL_WINDOW_OPENGL);
-    if (NULL == window)
-    {
-        end_sdl(0, "ERROR WINDOW", window, renderer);
-    }
+    if (NULL == window) end_sdl(0, "ERROR WINDOW", window, renderer);
+}
 
-    renderer = SDL_CreateRenderer(window, -1,
-                                  SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (renderer == NULL)
-    {
-        end_sdl(0, "ERROR RENDERER", window, renderer);
-    }
+// Fonction main
+int main(void)
+{
+    int statut = EXIT_FAILURE;
+    int stop = 0;
+
+    SDL_Window *window = NULL;
+    SDL_Renderer *renderer = NULL;
+    SDL_DisplayMode screen;
+
+    SDL_Event event; 
+
+    SDL_bool program_on = SDL_TRUE;
+
+    // Textures
+    SDL_Texture *roc1;
+    SDL_Texture *platform;
+    SDL_Texture *arrived;;
+    
+    // Rectangles
+    SDL_Rect entree = {600, 800, 100, 100};
+    SDL_Rect sortie = {600, 0, 100, 100};
+    
+    initSDL(window, renderer);
+
+    SDL_GetCurrentDisplayMode(0, &screen);
+
+    createWindow(window, renderer, "Projet Z", width, height);
+    
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == NULL) end_sdl(0, "ERROR RENDERER", window, renderer);
 
     statut = EXIT_SUCCESS;
-
-    SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
-    SDL_Event event;                // c'est le type IMPORTANT !!
-    SDL_GetCurrentDisplayMode(0, &screen);
 
     SDL_Texture *fond;
     fond = load_texture_from_image("./src/fond_glace.png", window, renderer);
@@ -53,20 +76,17 @@ int main()
         source = {0},            // Rectangle définissant la zone de la texture à récupérer
         window_dimensions = {0}, // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
         destination = {0};       // Rectangle définissant où la zone_source doit être déposée dans le renderer
-
     SDL_GetWindowSize(
         window, &window_dimensions.w,
         &window_dimensions.h); // Récupération des dimensions de la fenêtre
     SDL_QueryTexture(fond, NULL, NULL,
                      &source.w, &source.h); // Récupération des dimensions de l'image
-
     destination = window_dimensions; // On fixe les dimensions de l'affichage à  celles de la fenêtre
 
-    SDL_Texture *roc1 = IMG_LoadTexture(renderer, "./src/rocher.png");
-    SDL_Texture *platform = IMG_LoadTexture(renderer, "./src/ice.jpg");
-    SDL_Texture *arrived = IMG_LoadTexture(renderer, "./src/arrivee.jpg");
-    SDL_Rect entree = {600, 800, 100, 100};
-    SDL_Rect sortie = {600, 0, 100, 100};
+    roc1 = IMG_LoadTexture(renderer, "./src/rocher.png");
+    platform = IMG_LoadTexture(renderer, "./src/ice.jpg");
+    arrived = IMG_LoadTexture(renderer, "./src/arrivee.jpg");
+    
 
     // SDL_Rect plateforme = {600,200,100,100};
     SDL_Rect rect_plateforme[3];
