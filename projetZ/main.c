@@ -135,7 +135,7 @@ int main(void)
 
     statut = EXIT_SUCCESS;
 
-    fond = load_texture_from_image("./src/fond_glace.png", window, renderer);
+    fond = load_texture_from_image("./src/fond_glace.png", renderer);
     SDL_Rect
         source = {0},            // Rectangle définissant la zone de la texture à récupérer
         window_dimensions = {0}, // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
