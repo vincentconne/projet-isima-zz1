@@ -65,12 +65,30 @@ void initRoc(SDL_Rect *rect_roc)
 // Initialisation du tableau des murs
 void initMur(SDL_Rect *rect_mur)
 {
-    rect_mur[0].x = 0; rect_mur[0].y = 0; rect_mur[0].w = 100; rect_mur[0].h = 900;
-    rect_mur[1].x = 1200; rect_mur[1].y = 0; rect_mur[1].w = 100; rect_mur[1].h = 900;
-    rect_mur[2].x = 100; rect_mur[2].y = 0; rect_mur[2].w = 500; rect_mur[2].h = 100;
-    rect_mur[3].x = 700; rect_mur[3].y = 0; rect_mur[3].w = 500; rect_mur[3].h = 100;
-    rect_mur[4].x = 100;  rect_mur[4].y = 800; rect_mur[4].w = 500; rect_mur[4].h = 100;
-    rect_mur[5].x = 700; rect_mur[5].y = 800; rect_mur[5].w = 500; rect_mur[5].h = 100;
+    rect_mur[0].x = 0;
+    rect_mur[0].y = 0;
+    rect_mur[0].w = 100;
+    rect_mur[0].h = 900;
+    rect_mur[1].x = 1200;
+    rect_mur[1].y = 0;
+    rect_mur[1].w = 100;
+    rect_mur[1].h = 900;
+    rect_mur[2].x = 100;
+    rect_mur[2].y = 0;
+    rect_mur[2].w = 500;
+    rect_mur[2].h = 100;
+    rect_mur[3].x = 700;
+    rect_mur[3].y = 0;
+    rect_mur[3].w = 500;
+    rect_mur[3].h = 100;
+    rect_mur[4].x = 100;
+    rect_mur[4].y = 800;
+    rect_mur[4].w = 500;
+    rect_mur[4].h = 100;
+    rect_mur[5].x = 700;
+    rect_mur[5].y = 800;
+    rect_mur[5].w = 500;
+    rect_mur[5].h = 100;
 }
 
 // Fonction main
@@ -94,8 +112,6 @@ int main(void)
     // Rectangles
     // SDL_Rect entree = {600, 800, 100, 100};
     // SDL_Rect sortie = {600, 0, 100, 100};
-
-    SDL_Rect rect_plateforme[3];
     SDL_Rect rect_roc[13];
     SDL_Rect rect_mur[6];
 
