@@ -9,6 +9,8 @@
 #define width 1300
 #define height 900
 
+#define VITESSE 10
+
 int main()
 {
     SDL_Window *window = NULL;
@@ -62,8 +64,8 @@ int main()
     destination = window_dimensions; // On fixe les dimensions de l'affichage à  celles de la fenêtre
 
     SDL_Texture *roc1 = IMG_LoadTexture(renderer, "./src/rocher.png");
-    //SDL_Rect entree = {600, 800, 100, 100};
-    //SDL_Rect sortie = {600, 0, 100, 100};
+    // SDL_Rect entree = {600, 800, 100, 100};
+    // SDL_Rect sortie = {600, 0, 100, 100};
 
     SDL_Rect rect_roc[13];
     rect_roc[0].x = 200;
@@ -145,20 +147,78 @@ int main()
     rect_mur[5].w = 500;
     rect_mur[5].h = 100;
 
+    SDL_Texture *esquimauU = IMG_LoadTexture(renderer, "./src/static_forward.png");
+    SDL_Texture *esquimauR = IMG_LoadTexture(renderer, "./src/static_right.png");
+    SDL_Texture *esquimauL = IMG_LoadTexture(renderer, "./src/static_left.png");
+    SDL_Texture *esquimauD = IMG_LoadTexture(renderer, "./src/static_down.png");
+    SDL_Texture *esquimau = esquimauU;
+    SDL_Texture *top_bot_mur = IMG_LoadTexture(renderer, "./src/top_bot_mur.png");
+    SDL_Texture *side_mur = IMG_LoadTexture(renderer, "./src/side_mur.png");
+
+    SDL_Rect rect_esquimau;
+    rect_esquimau.x = 600;
+    rect_esquimau.y = 800;
+    rect_esquimau.w = 100;
+    rect_esquimau.h = 100;
+
     while (program_on && stop == 0)
     { // Voilà la boucle des évènements
 
-        if (SDL_PollEvent(&event))
+        while (SDL_PollEvent(&event))
         { // si la file d'évènements n'est pas vide : défiler l'élément en tête
           // de file dans 'event'
-            switch (event.type)
+            if (event.type == SDL_KEYDOWN)
             {
+                // Déplacement de la esquimau
+                switch (event.key.keysym.scancode)
+                {
+                case SDL_SCANCODE_SPACE:
+                    break;
+                case SDL_SCANCODE_LEFT:
 
-            case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
-                program_on = SDL_FALSE; // Il est temps d'arrêter le programme
-                break;
-
-            default: // Si L'évènement défilé ne nous intéresse pas
+                    if (rect_esquimau.y <= 700 && rect_esquimau.x - VITESSE >= 100)
+                    {
+                        rect_esquimau.x -= VITESSE;
+                    }
+                    esquimau = esquimauL;
+                    break;
+                case SDL_SCANCODE_RIGHT:
+                    if (rect_esquimau.y <= 700 && rect_esquimau.x + VITESSE <= 1100) // CAS cotés case
+                    {
+                        rect_esquimau.x += VITESSE;
+                    }
+                    esquimau = esquimauR;
+                    break;
+                case SDL_SCANCODE_UP:
+                    if (rect_esquimau.x >= 560 && rect_esquimau.x < 650 && rect_esquimau.y >= 0)
+                    {
+                        rect_esquimau.y -= VITESSE;
+                    }
+                    else if (rect_esquimau.y - VITESSE >= 100)
+                    {
+                        rect_esquimau.y -= VITESSE;
+                    }
+                    esquimau = esquimauU;
+                    break;
+                case SDL_SCANCODE_DOWN:
+                    if (rect_esquimau.x >= 560 && rect_esquimau.x < 650 && rect_esquimau.y <= 800)
+                    {
+                        rect_esquimau.y += VITESSE;
+                    }
+                    else if (rect_esquimau.y + VITESSE <= 700)
+                    {
+                        rect_esquimau.y += VITESSE;
+                    }
+                    esquimau = esquimauD;
+                    break;
+                default:
+                    break;
+                }
+            }
+            else if (event.type == SDL_QUIT)
+            {
+                program_on = SDL_FALSE;
+                puts("FIN DE MON PROGRAMME");
                 break;
             }
         }
@@ -168,11 +228,16 @@ int main()
             SDL_RenderCopy(renderer, roc1, NULL, &rect_roc[i]);
         }
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 2; i++)
         {
-            SDL_RenderFillRect(renderer, &rect_mur[i]);
+            SDL_RenderCopy(renderer, side_mur, NULL, &rect_mur[i]);
         }
-
+        for (int i = 2; i < 6; i++)
+        {
+            SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
+        }
+        SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+        printf("X esqui: %d Y esqui: %d\n", rect_esquimau.x, rect_esquimau.y);
         SDL_RenderPresent(renderer);
     }
 
