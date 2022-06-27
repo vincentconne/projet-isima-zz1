@@ -15,7 +15,6 @@
 
 // long int score = 0;
 
-
 // void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
 // {
 // 	SDL_Rect rectangle;

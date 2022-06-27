@@ -1,6 +1,7 @@
-#ifndef jeu_h
-#define jeu_h
+#ifndef JEU_H
+#define JEU_H
 
+// FONCTIONS
 int valeur_random(int MIN, int MAX);
 
 #endif
