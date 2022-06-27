@@ -110,12 +110,20 @@ int main(void)
     // Textures
     SDL_Texture *fond;
     SDL_Texture *roc1;
+    SDL_Texture *esquimauU;
+    SDL_Texture *esquimauR;
+    SDL_Texture *esquimauL;
+    SDL_Texture *esquimauD;
+    SDL_Texture *esquimau;
+    SDL_Texture *top_bot_mur;
+    SDL_Texture *side_mur;
 
     // Rectangles
     // SDL_Rect entree = {600, 800, 100, 100};
     // SDL_Rect sortie = {600, 0, 100, 100};
     SDL_Rect rect_roc[13];
     SDL_Rect rect_mur[6];
+    SDL_Rect rect_esquimau;
 
     // Initialisation des composants
     initSDL(window, renderer);
@@ -137,15 +145,14 @@ int main(void)
 
     statut = EXIT_SUCCESS;
 
-    SDL_Texture *esquimauU = IMG_LoadTexture(renderer, "./src/static_forward.png");
-    SDL_Texture *esquimauR = IMG_LoadTexture(renderer, "./src/static_right.png");
-    SDL_Texture *esquimauL = IMG_LoadTexture(renderer, "./src/static_left.png");
-    SDL_Texture *esquimauD = IMG_LoadTexture(renderer, "./src/static_down.png");
-    SDL_Texture *esquimau = esquimauU;
-    SDL_Texture *top_bot_mur = IMG_LoadTexture(renderer, "./src/top_bot_mur.png");
-    SDL_Texture *side_mur = IMG_LoadTexture(renderer, "./src/side_mur.png");
+    esquimauU = IMG_LoadTexture(renderer, "./src/static_forward.png");
+    esquimauR = IMG_LoadTexture(renderer, "./src/static_right.png");
+    esquimauL = IMG_LoadTexture(renderer, "./src/static_left.png");
+    esquimauD = IMG_LoadTexture(renderer, "./src/static_down.png");
+    esquimau = esquimauU;
+    top_bot_mur = IMG_LoadTexture(renderer, "./src/top_bot_mur.png");
+    side_mur = IMG_LoadTexture(renderer, "./src/side_mur.png");
 
-    SDL_Rect rect_esquimau;
     rect_esquimau.x = 600;
     rect_esquimau.y = 800;
     rect_esquimau.w = 100;
@@ -249,7 +256,7 @@ int main(void)
             SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
         }
         SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
-        printf("X esqui: %d Y esqui: %d\n", rect_esquimau.x, rect_esquimau.y);
+        //printf("X esqui: %d Y esqui: %d\n", rect_esquimau.x, rect_esquimau.y);
         SDL_RenderPresent(renderer);
     }
 
