@@ -408,19 +408,17 @@
 			</div>
 
 			<!-- Apprentissage renforcement -->
-			<!-- <div class="col-xs-12 col-sm-12 col-lg-12 categ" id="renforcement">
+			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="renforcement">
 				<h2 class="categ">Apprentissage par renforcement</h2>
+				<h4><b> ⛸ ICE SLIDER ⛸</b></h4><br>
 				<div class="row gif">
 					<div class="col-xs-12 col-sm-12 col-lg-4">
-						<h4>Vincent</h4>
 						<img src="images/PaveVincent.gif">
 					</div>
 					<div class="col-xs-12 col-sm-12 col-lg-4">
-						<h4>Loup</h4>
 						<img src="images/PaveVincent.gif">
 					</div>
 					<div class="col-xs-12 col-sm-12 col-lg-4">
-						<h4>Mathilde</h4>
 						<img src="images/PaveVincent.gif">
 					</div>
 				</div>
@@ -430,19 +428,46 @@
 				<br>
 
 				<h5>Principe</h5>
-				<p>Le principe de cet exercice était de nous permettre de nous entrainer à la manipulation et aux
-					déplacements des fenêtre en SDL2.</p>
+				<p>
+					C'est le projet final que nous avions à réaliser ! Un petit jeu dans lequel 
+					une intelligence artificielle joue et apprend via un mécanisme par renforcement.
+				</p>
+				<p>
+					L'apprentissage par renforcement consiste pour une intelligence artificielle à apprendre les actions
+					à prendre à partir d'expériences et de perceptions, afin d'optimiser les récompenses au cours du temps.
+					<br>
+					En effet, l'agent intelligent prend une décision en fonction de son <b>état courant</b> et de la perception 
+					de son environnement à cet état.
+					En retour, cet environnement lui donne des <b>récompenses</b>, qui peuvent être positives ou négatives.
+				</p>
+				<p>
+					Au cours de nombreuses tentatives, l'agent va développer un comportement stratégique optimal, 
+					qui essaiera de <b>maximiser la somme des récompenses</b> au cours du temps.
+				</p>
+
+				<h5>Conception</h5>
+				<p>Nous avons décidé pour se faire, de réaliser un jeu sur principe de <b>labyrinthe</b>. 
+					Cependant, celui-ci ne sera pas un labyrinthe traditionnel puisque <b>les chemins ne seront pas délimités</b>.
+					Se trouveront seulement sur la zone de jeu des <b>rochers</b> ou des <b>murs</b> se servant de <b>points d'appuis</b>. <br>
+					En effet le sol sera de <b>glace</b> et le personnage devra, pour atteindre la sortie, bouger dans une des quatres directions de
+					sorte qu'il puisse atteindre un rocher ou un mur et s'appuyer dessus pour aller dans une autre direction.
+					Autrement, il continuera de glisser sur la glace jusqu'à rencontrer un obstacle, même si ce n'est pas le bon chemin.
+				</p>
+				<p>
+					Le but de l'agent intelligent sera donc d'apprendre à trouver le bon chemin (ou les bons chemins) 
+					permettant d'atteindre la sortie dans le temps imparti.
+				</p>
 
 				<h5>Démarche</h5>
+				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
+
+				<h5>Démarche algorithmique</h5>
 				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
 
 				<h5>Explications</h5>
 				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
 
 				<h5>Code</h5>
-				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
-
-				<h5>Détail par personne</h5>
 				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
 
 				<hr>
@@ -452,7 +477,7 @@
 	</div>
 </body>
 
-<footer>
+<!-- <footer>
 	<div class="row">
 		<h6>Projet réalisé par :</h6>
 		<div class="col-xs-12 col-sm-12 col-lg-4">
@@ -478,8 +503,8 @@
 		<div class="col-xs-12 col-sm-12 col-lg-4">
 			<p>2022 - Tout droits réservés.</p>
 		</div>
-	</div> -->
+	</div>
 
-</footer>
+</footer> -->
 
 </html>
