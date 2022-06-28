@@ -2,6 +2,8 @@
 
 Projet de première année ISIMA effectué par le **groupe 1** composé de **Vincent CONNE, Loup RUSAK et Mathilde WALCH**.
 
+Vous trouverez ici toutes les informations nécessaire pour comprendre le fonctionnement de nos programmes et jeu ainsi que comment y jouer.
+
 ***
 
 ## X Fenêtré
