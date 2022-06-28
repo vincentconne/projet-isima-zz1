@@ -1,8 +1,8 @@
-#ifndef ia_h
-#define ia_h
+#ifndef IA_H
+#define IA_H
 
 /* Paramètre de définition du monde */
-#define NBETATS 20
+#define NBETATS 37
 // Valeurs des récompenses
 
 // Valeur moyenne des récompenses
@@ -13,15 +13,21 @@
 /* Paramètre d'apprentissage */
 #define NBEPOQUE 40
 #define NBITEPO 50
-int xi;
-
+#define XI 0.4
+#define G 0.8
 
 /* Paramètre des états */
 // Définition des états
 
 /* Paramètre de e_greedy */
-// valeur de epsilon en % (de 0 à 100)
-int epsilon;
+// valeur de epsilon en % (de 0 à 100) qui sera modifiée
+float epsilon = 0.8;
+
+/* FONCTIONS */
+int choixActionQSA (int **qsa, int x, int y);
+int eGreedy (int **qsa, int *epsilon, int x , int y);
+void prefLearningBase(int ** qsa, int x, int y, int T);
+void apprentissageQSA(int **qsa, int **run, int dernier, int action);
 
 // Fonctions
 void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap);

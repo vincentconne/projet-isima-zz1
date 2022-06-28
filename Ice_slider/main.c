@@ -122,7 +122,7 @@ void recherche1(int TabJeu[][13], int direction, int posEsquiX, int posEsquiY, i
     }
     else if (direction == 0)
     {
-        while (TabJeu[i][j] != 1)
+        while (i<9 && TabJeu[i][j] != 1)
         {
             i++;
         }
@@ -155,6 +155,39 @@ void recherche1(int TabJeu[][13], int direction, int posEsquiX, int posEsquiY, i
 // Fonction main
 int main(void)
 {
+
+    // /* INITIALISATION DE QSA */
+
+    // // Initialisation de la matrice
+    // float **qsa = (float**)malloc(sizeof(float*)*NBETATS);
+    // for (int i=0; i<NBITEPO; i++){
+    //     qsa[i] = (float*) malloc(sizeof(float)*4);
+    //     // 4 mouvements possibles
+    // }
+
+    // // Initialisation à 0
+    // for (int i=0; i<NBETATS; i++){
+    //     for (int j=0; j<4;j++){
+    //         qsa[i][j] = 0;
+    //     }
+    // }
+
+    // // Initialisation aléatoire
+    // // valeurs comprises entre 0 et la moyenne des récompenses
+    // for (int i = 0; i<NBETATS; i++){
+    //     for (int j=0; j<NBITEPO; j++){
+    //         qsa[i][j] = valeur_random(0,MOYREC);
+    //     }
+    // }
+
+
+    // /* INITIALISATION DU TABLEAU DE RUN */
+    // int **run = (int**)malloc(sizeof(int*)*NBITEPO);
+    // for (int i=0; i<NBITEPO;i++){
+    //     run[i]= (int*) malloc(sizeof(int)*4);
+    //     // 4 pour les coordonnées de l'état, récompense récupérée et l'action effectuée
+    // }
+
     int statut = EXIT_FAILURE;
     int stop = 0;
     int posEsquiX = 600;
