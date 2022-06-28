@@ -66,7 +66,7 @@ Comme pour la survie on utilise aussi un tableau de booléens ```NAISSANCE```.
 
 ## Notre Chef d'oeuvre : ATTENTION TRAVAUX !
 
-Le but de cet exercice, était de proposer un jeu intégrant le principe de la chaîne de Markov.
+Le but de cet exercice, était de proposer un jeu intégrant le principe de la **chaîne de Markov**.
 
 ### Principe
 
@@ -88,8 +88,24 @@ Nous avons donc décidé de proposer un jeu mettant en scène une voiture et des
 
 ***
 
-## Notre Jeu par apprentissage par renforcement : <insérez un nom>
+## Notre projet d'apprentissage par renforcement : ICE SLIDER
 
-*à venir :P*
+Pour ce dernier petit projet, le but était de réaliser un jeu avec de **l'apprentissage par renforcement**. Une intelligence artificielle joue donc à la place du joueur et apprend à réaliser les bonnes actions en fonction de ses multiples tentatives.
+
+### Principe
+
+Nous avons donc décidé de réaliser un jeu sur le principe d'un labyrinthe, mais avec comme particularité qu'**il n'y a pas de murs**, seulement des obstacles, et le **sol étant entièrement de glace**, le joueur doit trouver le chemin de la sortie en glissant et en s'appuyant sur les obstacles pour changer de direction.
+
+### Comment jouer ?
+
+Afin que vous puissiez également profiter de ce jeu en controlant vous-même votre personnage, nous avons inclus deux modes de jeux selectionnables depuis le menu, dont je parle juste en dessous.
+
+1. Vous êtes au menu, choisissez donc entre les deux modes proposés :
+    * Mode **Apprentissage** : une intelligence artificielle parcours le labyrinthe et réalise différents essais pour apprendre des ses erreurs et trouver la sortie de manière plus aisée.
+    * Mode **Manuel** : ici c'est vous qui controlez le personnage et vous deplacez dans le labyrinthe en direction de la sortie.
+
+2. Si vous avez choisi le mode apprentissage, laissez tourner le jeu et l'intelligence artificielle réaliser des essais et apprendre de ses erreurs. Tout est automatisé. Vous pouvez bien entendu quitter à tout moment avec la croix de la fenêtre.
+
+3. Si vous avez choisi le mode manuel, vous apparaissez au point de départ et c'est à vous de trouver la sortie en vous déplaçant dans les quatres directions possibles, en appuyant sur les **flèches directionnelles**.
  
 
