@@ -6,7 +6,7 @@
 // Valeurs des récompenses
 
 // Valeur moyenne des récompenses
-#define MOYREC 0.5
+#define MOYREC 5
 
 // Case de départ
 
@@ -21,6 +21,6 @@
 
 /* Paramètre de e_greedy */
 // valeur de epsilon en % (de 0 à 100) qui sera modifiée
-int epsilon = 0.8;
+float epsilon = 0.8;
 
 #endif
