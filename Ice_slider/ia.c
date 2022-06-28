@@ -5,7 +5,7 @@
 #include "jeu.h"
 #include "ia.h"
 
-int choix_action_qsa (int **qsa, int ligne){
+int choixActionQSA (int **qsa, int ligne){
     int action = 0;
     for (int i=0; i<4; i++){
         if (qsa[ligne][i]>qsa[ligne][action]){
@@ -15,18 +15,18 @@ int choix_action_qsa (int **qsa, int ligne){
     return action;
 }
 
-int traduc_etat_ligne(int x, int y){
+int traducEtatLigne(int x, int y){
     int ligne;
     // A FAIRE
     return ligne;
 }
 
-int e_greedy (int **qsa, int *epsilon, int x , int y){
+int eGreedy (int **qsa, int *epsilon, int x , int y){
     int action;
-    int ligne = traduc_etat_ligne(x,y);
+    int ligne = traducEtatLigne(x,y);
     int alea = valeur_random (0,100);
     if (alea > *epsilon){
-        action = choix_action_qsa(qsa,ligne);
+        action = choixActionQSA(qsa,ligne);
     }
     else {
         action = valeur_random(0, 3);
@@ -35,9 +35,9 @@ int e_greedy (int **qsa, int *epsilon, int x , int y){
     return action;
 }
 
-void pref_learning_base(int ** qsa, int x, int y, int T){
+void prefLearningBase(int ** qsa, int x, int y, int T){
     int energie[4];
-    int ligne = traduc_etat_ligne(x,y);
+    int ligne = traducEtatLigne(x,y);
     int z;
     int action = 3;
     float alpha = valeur_random(0, 9) / 10;
@@ -55,6 +55,39 @@ void pref_learning_base(int ** qsa, int x, int y, int T){
             i = 5;
         }
     }
-
     return action;
+}
+
+void apprentissageQSA(int **qsa, int **run, int dernier, int action){
+
+    int ligneSuiv;
+
+    // Traitement de la première itération
+    int x = run[dernier-1][0];
+    int y = run[dernier-1][1];
+    int rec = run[dernier][2];
+    int action = run[dernier-1][3];
+    int ligne = traducEtatLigne(x,y);
+
+    qsa[ligne][action] += XI * rec - qsa[ligne][action];
+
+    // Traitement des autres lignes
+    for (int i=dernier-2; i<0; i--){
+        float max;
+
+        ligneSuiv = traducEtatLigne(run[i+1][0],run[i+1][1]);
+        for (int i=0; i<4; i++){
+            if (qsa[ligneSuiv][i]>max){
+                max = qsa[ligneSuiv][i];
+            }
+        }
+
+        x = run[i][0];
+        y = run[i][1];
+        rec = run[i+1][2];
+        action = run[i][3];
+
+        ligne=traducEtatLigne(x,y);
+        qsa[ligne][action] += XI * (rec + G * max - qsa[ligne][action]);
+    }
 }

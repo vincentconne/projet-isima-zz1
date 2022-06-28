@@ -1,26 +1,26 @@
-#ifndef ia_h
-#define ia_h
+#ifndef IA_H
+#define IA_H
 
 /* Paramètre de définition du monde */
-int nb_etats = 20;
+#define NBETATS 37
 // Valeurs des récompenses
 
 // Valeur moyenne des récompenses
-int moy_rec = 5;
+#define MOYREC 5
 
 // Case de départ
 
 /* Paramètre d'apprentissage */
-int nb_epoque = 40;
-int nb_itepo = 50;
-int xi;
-
+#define NBEPOQUE 40
+#define NBITEPO 50
+#define XI 0.4
+#define G 0.8
 
 /* Paramètre des états */
 // Définition des états
 
 /* Paramètre de e_greedy */
-// valeur de epsilon en % (de 0 à 100)
-int epsilon;
+// valeur de epsilon en % (de 0 à 100) qui sera modifiée
+float epsilon = 0.8;
 
 #endif
