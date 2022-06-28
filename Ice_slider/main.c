@@ -10,6 +10,7 @@
 #include "jeu.h"
 #include "sdl_jeu.h"
 #include "texture.h"
+#include "ia.h"
 
 // CONSTANTES
 #define width 1300
@@ -96,6 +97,39 @@ void initMur(SDL_Rect *rect_mur)
 // Fonction main
 int main(void)
 {
+
+    /* INITIALISATION DE QSA */
+
+    // Initialisation de la matrice
+    float **qsa = (float**)malloc(sizeof(float*)*nb_etats);
+    for (int i=0; i<nb_itepo; i++){
+        qsa[i] = (float*) malloc(sizeof(float)*4);
+        // 4 mouvements possibles
+    }
+
+    // Initialisation à 0
+    for (int i=0; i<nb_etats; i++){
+        for (int j=0; j<4;j++){
+            qsa[i][j] = 0;
+        }
+    }
+
+    // Initialisation aléatoire
+    // valeurs comprises entre 0 et la moyenne des récompenses
+    for (int i = 0; i<nb_etats; i++){
+        for (int j=0; j<nb_itepo; j++){
+            qsa[i][j] = valeur_random(0,moy_rec);
+        }
+    }
+
+
+    /* INITIALISATION DU TABLEAU DE RUN */
+    int **run = (int*)malloc(sizeof(int*)*nb_itepo);
+    for (int i=0; i<nb_itepo;i++){
+        run[i]= (int*) malloc(sizeof(int)*4);
+        // 4 pour les coordonnées de l'état 
+    }
+
     int statut = EXIT_FAILURE;
     int stop = 0;
 
