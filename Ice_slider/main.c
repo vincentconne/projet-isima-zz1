@@ -101,14 +101,14 @@ int main(void)
     /* INITIALISATION DE QSA */
 
     // Initialisation de la matrice
-    float **qsa = (float**)malloc(sizeof(float*)*nb_etats);
-    for (int i=0; i<nb_itepo; i++){
+    float **qsa = (float**)malloc(sizeof(float*)*NBETATS);
+    for (int i=0; i<NBITEPO; i++){
         qsa[i] = (float*) malloc(sizeof(float)*4);
         // 4 mouvements possibles
     }
 
     // Initialisation à 0
-    for (int i=0; i<nb_etats; i++){
+    for (int i=0; i<NBETATS; i++){
         for (int j=0; j<4;j++){
             qsa[i][j] = 0;
         }
@@ -116,18 +116,18 @@ int main(void)
 
     // Initialisation aléatoire
     // valeurs comprises entre 0 et la moyenne des récompenses
-    for (int i = 0; i<nb_etats; i++){
-        for (int j=0; j<nb_itepo; j++){
-            qsa[i][j] = valeur_random(0,moy_rec);
+    for (int i = 0; i<NBETATS; i++){
+        for (int j=0; j<NBITEPO; j++){
+            qsa[i][j] = valeur_random(0,MOYREC);
         }
     }
 
 
     /* INITIALISATION DU TABLEAU DE RUN */
-    int **run = (int*)malloc(sizeof(int*)*nb_itepo);
-    for (int i=0; i<nb_itepo;i++){
+    int **run = (int**)malloc(sizeof(int*)*NBITEPO);
+    for (int i=0; i<NBITEPO;i++){
         run[i]= (int*) malloc(sizeof(int)*4);
-        // 4 pour les coordonnées de l'état 
+        // 4 pour les coordonnées de l'état, récompense récupérée et l'action effectuée
     }
 
     int statut = EXIT_FAILURE;
