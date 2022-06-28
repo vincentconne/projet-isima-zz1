@@ -23,4 +23,10 @@
 // valeur de epsilon en % (de 0 à 100) qui sera modifiée
 float epsilon = 0.8;
 
+/* FONCTIONS */
+int choixActionQSA (int **qsa, int x, int y);
+int eGreedy (int **qsa, int *epsilon, int x , int y);
+void prefLearningBase(int ** qsa, int x, int y, int T);
+void apprentissageQSA(int **qsa, int **run, int dernier, int action);
+
 #endif
