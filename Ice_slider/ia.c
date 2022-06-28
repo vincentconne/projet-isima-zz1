@@ -50,7 +50,7 @@ int eGreedy (int **qsa, int *epsilon, int x , int y){
     return action;
 }
 
-void prefLearningBase(int ** qsa, int x, int y, int T){
+int prefLearningBase(int ** qsa, int x, int y, int T){
     int energie[4];
     int z;
     int action = 3;
@@ -82,7 +82,7 @@ void apprentissageQSA(int **qsa, int **run, int dernier, int action){
     int x = run[dernier-1][0];
     int y = run[dernier-1][1];
     int rec = run[dernier][2];
-    int action = run[dernier-1][3];
+    //int action = run[dernier-1][3]; //Soucis de redéfinition
     int ligne = x*9+y;
 
     qsa[ligne][2+action] += XI * rec - qsa[ligne][2+action];
