@@ -2,17 +2,17 @@
 #define ia_h
 
 /* Paramètre de définition du monde */
-int nb_etats = 20;
+#define NBETATS 20
 // Valeurs des récompenses
 
 // Valeur moyenne des récompenses
-int moy_rec = 5;
+#define MOYREC 5
 
 // Case de départ
 
 /* Paramètre d'apprentissage */
-int nb_epoque = 40;
-int nb_itepo = 50;
+#define NBEPOQUE 40
+#define NBITEPO 50
 int xi;
 
 
@@ -22,5 +22,8 @@ int xi;
 /* Paramètre de e_greedy */
 // valeur de epsilon en % (de 0 à 100)
 int epsilon;
+
+// Fonctions
+void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap);
 
 #endif

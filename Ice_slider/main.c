@@ -19,6 +19,9 @@
 
 #define VITESSE 10
 
+#define NBCOLMAP width / 100
+#define NBLIGNESMAP height / 100
+
 // FONCTIONS
 
 // Initialisation de la SDL2
@@ -152,41 +155,15 @@ void recherche1(int TabJeu[][13], int direction, int posEsquiX, int posEsquiY, i
 // Fonction main
 int main(void)
 {
-
-    /* INITIALISATION DE QSA */
-
-    // Initialisation de la matrice
-    float **qsa = (float**)malloc(sizeof(float*)*nb_etats);
-    for (int i=0; i<nb_itepo; i++){
-        qsa[i] = (float*) malloc(sizeof(float)*4);
-        // 4 mouvements possibles
-    }
-
-    // Initialisation à 0
-    for (int i=0; i<nb_etats; i++){
-        for (int j=0; j<4;j++){
-            qsa[i][j] = 0;
-        }
-    }
-
-    // Initialisation aléatoire
-    // valeurs comprises entre 0 et la moyenne des récompenses
-    for (int i = 0; i<nb_etats; i++){
-        for (int j=0; j<nb_itepo; j++){
-            qsa[i][j] = valeur_random(0,moy_rec);
-        }
-    }
-
-
-    /* INITIALISATION DU TABLEAU DE RUN */
-    int **run = (int**)malloc(sizeof(int*)*nb_itepo);
-    for (int i=0; i<nb_itepo;i++){
-        run[i]= (int*) malloc(sizeof(int)*4);
-        // 4 pour les coordonnées de l'état 
-    }
-
     int statut = EXIT_FAILURE;
     int stop = 0;
+    int posEsquiX = 600;
+    int posEsquiY = 800;
+    int posPrecX;
+    int posPrecY;
+    int CouplePrec[2] = {0, 0};
+    int direction = 8;
+    int SORTIE = 0;
 
     int TabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
@@ -197,13 +174,28 @@ int main(void)
                          {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
                          {1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1},
                          {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1}};
-    int posEsquiX = 600;
-    int posEsquiY = 800;
-    int posPrecX;
-    int posPrecY;
-    int CouplePrec[2] = {0, 0};
-    int direction = 8;
-    int SORTIE = 0;
+
+    int run[NBITEPO][4];
+
+    /* INITIALISATION DU TABLEAU DE RUN */
+    // int **run = (int **)malloc(sizeof(int *) * nb_itepo);
+    // for (int i = 0; i < nb_itepo; i++)
+    // {
+    //     run[i] = (int *)malloc(sizeof(int) * 4);
+    //     // 4 pour les coordonnées de l'état
+    // }
+
+    float qsa[NBLIGNESMAP * NBCOLMAP][6];
+    initQsa(qsa, NBLIGNESMAP, NBCOLMAP);
+
+    /* INITIALISATION DE QSA */
+    // // Initialisation aléatoire
+    // // valeurs comprises entre 0 et la moyenne des récompenses
+    // for (int i = 0; i<nb_etats; i++){
+    //     for (int j=0; j<nb_itepo; j++){
+    //         qsa[i][j] = valeur_random(0,moy_rec);
+    //     }
+    // }
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -282,7 +274,7 @@ int main(void)
     initMur(rect_mur);
 
     // Boucle de jeu
-    while (program_on && stop == 0 && SORTIE !=3)
+    while (program_on && stop == 0 && SORTIE != 3)
     { // Voilà la boucle des évènements
 
         while (SDL_PollEvent(&event))
@@ -363,7 +355,7 @@ int main(void)
             SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
         }
 
-        //Changement de position de l'esquimau (glisse)
+        // Changement de position de l'esquimau (glisse)
         if (direction == 2 && posEsquiX == posPrecX && posEsquiY != posPrecY)
         {
             rect_esquimau.y -= 5;
@@ -385,7 +377,7 @@ int main(void)
             posEsquiX += 5;
         }
 
-        if(posEsquiX ==600 && posEsquiY==0)
+        if (posEsquiX == 600 && posEsquiY == 0)
         {
             SORTIE = 3;
         }
