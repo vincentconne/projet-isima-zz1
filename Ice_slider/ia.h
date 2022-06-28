@@ -14,7 +14,7 @@ int moy_rec = 5;
 int nb_epoque = 40;
 int nb_itepo = 50;
 int xi;
-int gamma;
+
 
 /* Paramètre des états */
 // Définition des états

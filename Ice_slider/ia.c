@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "jeu.h"
+#include "ia.h"
 
 int choix_action_qsa (int **qsa, int ligne){
     int action = 0;

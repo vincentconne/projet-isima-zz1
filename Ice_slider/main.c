@@ -179,7 +179,7 @@ int main(void)
 
 
     /* INITIALISATION DU TABLEAU DE RUN */
-    int **run = (int*)malloc(sizeof(int*)*nb_itepo);
+    int **run = (int**)malloc(sizeof(int*)*nb_itepo);
     for (int i=0; i<nb_itepo;i++){
         run[i]= (int*) malloc(sizeof(int)*4);
         // 4 pour les coordonnées de l'état 
