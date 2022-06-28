@@ -5,6 +5,7 @@
 // IMPORTS STANDARDS
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 // IMPORTS FICHIERS
 #include "jeu.h"
@@ -92,6 +93,106 @@ void initMur(SDL_Rect *rect_mur)
     rect_mur[5].y = 800;
     rect_mur[5].w = 500;
     rect_mur[5].h = 100;
+}
+bool check_collision(SDL_Rect A, SDL_Rect B)
+{
+    // Les cotes des rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    // Calcul les cotes du rectangle A
+    leftA = A.x;
+    rightA = A.x + A.w;
+    topA = A.y;
+    bottomA = A.y + A.h;
+
+    // Calcul les cotes du rectangle B
+    leftB = B.x;
+    rightB = B.x + B.w;
+    topB = B.y;
+    bottomB = B.y + B.h;
+
+    // Tests de collision
+    if (bottomA <= topB)
+    {
+        return false;
+    }
+
+    if (topA >= bottomB)
+    {
+        return false;
+    }
+
+    if (rightA <= leftB)
+    {
+        return false;
+    }
+
+    if (leftA >= rightB)
+    {
+        return false;
+    }
+
+    // Si conditions collision detectee
+    return true;
+}
+
+int check_collision2(SDL_Rect A, SDL_Rect B, int direction)
+{
+    // Les cotes des rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    // Calcul les cotes du rectangle A
+    leftA = A.x;
+    rightA = A.x + A.w;
+    topA = A.y;
+    bottomA = A.y + A.h;
+
+    // Calcul les cotes du rectangle B
+    leftB = B.x;
+    rightB = B.x + B.w;
+    topB = B.y;
+    bottomB = B.y + B.h;
+
+    // Tests de collision
+    if (direction == 2)
+    {
+        if (bottomA <= topB)
+        {
+            return 2;
+        }
+    }
+
+    else if (direction == 8)
+    {
+        if (topA >= bottomB)
+        {
+            return 8;
+        }
+    }
+    else if (direction == 6)
+    {
+        if (rightA <= leftB)
+        {
+            return 6;
+        }
+    }
+
+    else if (direction == 4)
+    {
+        if (leftA >= rightB)
+        {
+            return 4;
+        }
+    }
+
+    // Si conditions collision detectee
+    return 0;
 }
 
 // Fonction main
@@ -209,6 +310,13 @@ int main(void)
     initRoc(rect_roc);
     initMur(rect_mur);
 
+    // Variables de Collision
+    bool collision = false;
+    int direction = 0;
+    int col_prec = 2; // collision precedente initialisée à 2, le bas
+    int test = 2;
+    int cpt = 0;
+    SDL_bool retour = SDL_FALSE;
     // Boucle de jeu
     while (program_on && stop == 0)
     { // Voilà la boucle des évènements
@@ -225,40 +333,64 @@ int main(void)
                     break;
                 case SDL_SCANCODE_LEFT:
 
-                    if (rect_esquimau.y <= 700 && rect_esquimau.x - VITESSE >= 100)
-                    {
-                        rect_esquimau.x -= VITESSE;
-                    }
+                    // if (rect_esquimau.y <= 700 && rect_esquimau.x - VITESSE >= 100)
+                    // {
+                    //     rect_esquimau.x -= VITESSE;
+                    // }
                     esquimau = esquimauL;
+                    collision = false;
+                    direction = 4;
+                    test = 4;
+                    retour = SDL_FALSE;
+                    rect_esquimau.y += 5;
+
                     break;
                 case SDL_SCANCODE_RIGHT:
-                    if (rect_esquimau.y <= 700 && rect_esquimau.x + VITESSE <= 1100) // CAS cotés case
-                    {
-                        rect_esquimau.x += VITESSE;
-                    }
+                    // if (rect_esquimau.y <= 700 && rect_esquimau.x + VITESSE <= 1100) // CAS cotés case
+                    // {
+                    //     rect_esquimau.x += VITESSE;
+                    // }
                     esquimau = esquimauR;
+                    collision = false;
+                    direction = 6;
+                    test = 6;
+                    retour = SDL_FALSE;
+                    rect_esquimau.y += 5;
+
                     break;
                 case SDL_SCANCODE_UP:
-                    if (rect_esquimau.x >= 560 && rect_esquimau.x < 650 && rect_esquimau.y >= 0)
-                    {
-                        rect_esquimau.y -= VITESSE;
-                    }
-                    else if (rect_esquimau.y - VITESSE >= 100)
-                    {
-                        rect_esquimau.y -= VITESSE;
-                    }
+                    // if (rect_esquimau.x >= 560 && rect_esquimau.x < 650 && rect_esquimau.y >= 0)
+                    // {
+                    //     rect_esquimau.y -= VITESSE;
+                    // }
+                    // else if (rect_esquimau.y - VITESSE >= 100)
+                    // {
+                    //     rect_esquimau.y -= VITESSE;
+                    // }
+
                     esquimau = esquimauU;
+                    collision = false;
+                    direction = 8;
+                    test = 8;
+                    retour = SDL_FALSE;
+                    rect_esquimau.x -= 5;
                     break;
                 case SDL_SCANCODE_DOWN:
-                    if (rect_esquimau.x >= 560 && rect_esquimau.x < 650 && rect_esquimau.y <= 800)
-                    {
-                        rect_esquimau.y += VITESSE;
-                    }
-                    else if (rect_esquimau.y + VITESSE <= 700)
-                    {
-                        rect_esquimau.y += VITESSE;
-                    }
+                    // if (rect_esquimau.x >= 560 && rect_esquimau.x < 650 && rect_esquimau.y <= 800)
+                    // {
+                    //     rect_esquimau.y += VITESSE;
+                    // }
+                    // else if (rect_esquimau.y + VITESSE <= 700)
+                    // {
+                    //     rect_esquimau.y += VITESSE;
+                    // }
                     esquimau = esquimauD;
+                    collision = false;
+                    direction = 2;
+                    test = 2;
+                    retour = SDL_FALSE;
+                    rect_esquimau.y -= 5;
+
                     break;
                 default:
                     break;
@@ -289,9 +421,68 @@ int main(void)
         {
             SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
         }
+        // for (int i = 0; i < 13; i++)
+        // {
+        //     if (collision == false)
+        //     {
+        //         collision = check_collision(rect_esquimau, rect_roc[i]);
+        //     }
+        // }
+        // if (collision == false)
+        // {
+        //     if (direction == 8)
+        //     {
+        //         rect_esquimau.y -= 5;
+        //     }
+        //     else if (direction == 2)
+        //     {
+        //         rect_esquimau.y += 5;
+        //     }
+        //     else if (direction == 4)
+        //     {
+        //         rect_esquimau.x -= 5;
+        //     }
+        //     else if (direction == 6)
+        //     {
+        //         rect_esquimau.x += 5;
+        //     }
+        // }
+        for (int i = 0; i < 13; i++)
+        {
+            if (retour == SDL_FALSE)
+            {
+                // test = check_collision2(rect_esquimau, rect_roc[i],direction);
+                // col_prec = test;
+                // printf("n*%d: %d\n", cpt, test);
+                // printf("x %d | y %d\n", rect_roc[i].x, rect_roc[i].y);
+                // cpt++;
+                retour = SDL_HasIntersection(&rect_esquimau, &rect_roc[i]);
+            }
+        }
+        if (retour == SDL_FALSE)
+        {
+            if (direction == 8)
+            {
+                rect_esquimau.y -= 5;
+            }
+            else if (direction == 2)
+            {
+                rect_esquimau.y += 5;
+            }
+            else if (direction == 4)
+            {
+                rect_esquimau.x -= 5;
+            }
+            else if (direction == 6)
+            {
+                rect_esquimau.x += 5;
+            }
+        }
+        printf("x %d | y %d\n", rect_esquimau.x, rect_esquimau.y);
         SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
-        //printf("X esqui: %d Y esqui: %d\n", rect_esquimau.x, rect_esquimau.y);
+        // printf("X esqui: %d Y esqui: %d\n", rect_esquimau.x, rect_esquimau.y);
         SDL_RenderPresent(renderer);
+        cpt = 0;
     }
 
     SDL_DestroyTexture(roc1);
