@@ -119,7 +119,7 @@ void recherche1(int TabJeu[][13], int direction, int posEsquiX, int posEsquiY, i
     }
     else if (direction == 0)
     {
-        while (TabJeu[i][j] != 1)
+        while (i<9 && TabJeu[i][j] != 1)
         {
             i++;
         }

@@ -101,7 +101,7 @@
 				<br>
 
 				<h5>Principe</h5>
-				<p>Cet exercice avait pour but de nous faire créer des fenêtres, 
+				<p>Cet exercice avait pour but de nous faire créer des fenêtres,
 					de les déplacer et de les fermer, en manipulant la SDL2.</p>
 
 				<h5>Démarche</h5>
@@ -143,7 +143,7 @@
 				<br>
 
 				<h5>Principe</h5>
-				<p>Cet exercice avait pour but de nous faire manipuler les fonctions de bases 
+				<p>Cet exercice avait pour but de nous faire manipuler les fonctions de bases
 					au niveau des rendus dans une fenêtre, en manipulant des formes, des couleurs ...</p>
 
 				<h5>Démarche</h5>
@@ -164,7 +164,7 @@
 			<!-- Jeu de la vie -->
 			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="jeudelavie">
 				<h2 class="categ">Jeu de la vie</h2>
-				<h4><b>Automate cellulaire</b> dont les règles 
+				<h4><b>Automate cellulaire</b> dont les règles
 					ont été définies par J. Conway en 1970.</h4><br>
 				<div class="row gif">
 					<div class="col-xs-12 col-sm-12 col-lg-4">
@@ -187,17 +187,21 @@
 					L'état de l'automate à l'étape n se crée en fonction de l'état à l'étape n-1. <br>
 					L'évolution de l'état d'une cellule dépend de ses huit états voisins les plus proches. <br>
 
-					<b>Les règles:</b>  <br>
-					<b>*</b> A l'étape suivante, l'étape n-1 occupera une cellule vide avec seulement 3 cellules adjacentes. (Naissance liée à l'environnement optimal)<br>
-					<b>*</b> Les cellules qui sont occupées au niveau n-1 et qui ont deux ou trois cellules adjacentes sont conservées au niveau n. Sinon, il sera vide. (Mort due à la désertification ou à la surpopulation)
+					<b>Les règles:</b> <br>
+					<b>*</b> A l'étape suivante, l'étape n-1 occupera une cellule vide avec seulement 3 cellules
+					adjacentes. (Naissance liée à l'environnement optimal)<br>
+					<b>*</b> Les cellules qui sont occupées au niveau n-1 et qui ont deux ou trois cellules adjacentes
+					sont conservées au niveau n. Sinon, il sera vide. (Mort due à la désertification ou à la
+					surpopulation)
 				</p>
 
 				<h5>Démarche algorithmique</h5>
 				<p><b>Mort et naissance des cellules :</b><br>
-					On utilise un tableau de booléens <b>SURVIE</b>, en fonction du nombre de voisins cellulaires, pour mettre en forme les règles de survie d'une cellule
+					On utilise un tableau de booléens <b>SURVIE</b>, en fonction du nombre de voisins cellulaires, pour
+					mettre en forme les règles de survie d'une cellule
 					et un tableau <b>NAISSANCE</b> similaire pour mettre en forme les règles de naissance d'une cellule.
 				</p>
-				<p>D'un point de vue algorithmique cette fois-ci on va donc utiliser 
+				<p>D'un point de vue algorithmique cette fois-ci on va donc utiliser
 					des <b>0</b> ou des <b>1</b> en contenu du tableau pour représenter nos booléens.<br>
 					A chaque nouveau tour, le nombre calculé de voisins est en réalite l'indice-1 de la case du tableau
 					à regarder pour obtenir la règle.
@@ -206,7 +210,8 @@
 				<img src="images/tableauxjeuvie.png" class="alone"><br><br>
 
 				<p><b>Sauvegarde et chargement :</b><br>
-					Sauvegarde sous <b>forme matricielle de la grille</b> dans un fichier texte en appuyant en jeu sur la touche <b>s</b>.<br>
+					Sauvegarde sous <b>forme matricielle de la grille</b> dans un fichier texte en appuyant en jeu sur
+					la touche <b>s</b>.<br>
 					Chargement durant la phase de choix des premières cellules en appuyant sur la touche <b>l</b>
 					pour réutiliser le fichier texte et charger la configuration de jeu.
 				</p>
@@ -216,21 +221,26 @@
 				<h5>Comment jouer ?</h5>
 				<p>
 					<b>1.</b> Vous êtes au menu, choisissez entre les deux modes :
-						<b>Monde délimité</b>
-						<b>Monde thorique</b>
+					<b>Monde délimité</b>
+					<b>Monde thorique</b>
 					<br>
-					<b>2.</b> Vous arrivez maintenant sur une page blanche. Vous pouvez soit placer les premières cellules à votre guise à l'aide de la souris ou alors appuyer sur la touche <b>l</b> pour charger une configuration fichier texte existante.
+					<b>2.</b> Vous arrivez maintenant sur une page blanche. Vous pouvez soit placer les premières
+					cellules à votre guise à l'aide de la souris ou alors appuyer sur la touche <b>l</b> pour charger
+					une configuration fichier texte existante.
 					<br>
-					<b>3.</b> Si vous avez choisi de placer les cellules par vous-même, appuyez sur <b>espace</b> pour lancer le jeu de la vie.
+					<b>3.</b> Si vous avez choisi de placer les cellules par vous-même, appuyez sur <b>espace</b> pour
+					lancer le jeu de la vie.
 					<br>
-					<b>4.</b> Vous voyez maintenant le jeu se dérouler sous vos yeux et vous ralentir le processus en appuyant sur la <b>flèche du bas</b> ou alors l'accelérer avec <b>flèche du haut</b>.
+					<b>4.</b> Vous voyez maintenant le jeu se dérouler sous vos yeux et vous ralentir le processus en
+					appuyant sur la <b>flèche du bas</b> ou alors l'accelérer avec <b>flèche du haut</b>.
 					<br>
 					<b>5.</b> Cas possibles :<br>
-						<b>*</b> Si le monde devient vide alors le message <b>"cycle"</b> sera écrit.
-						<br>
-						<b>*</b> Si le monde devient stable et ne bouge plus alors le message <b>"monde stable"</b> sera écrit.
+					<b>*</b> Si le monde devient vide alors le message <b>"cycle"</b> sera écrit.
+					<br>
+					<b>*</b> Si le monde devient stable et ne bouge plus alors le message <b>"monde stable"</b> sera
+					écrit.
 
-						Dans les deux cas quittez le jeu en appuyant sur la croix pour fermer la fenêtre.
+					Dans les deux cas quittez le jeu en appuyant sur la croix pour fermer la fenêtre.
 				</p>
 
 				<img src="images/jeuvie_delimite.gif" class="alone"><br><br>
@@ -256,7 +266,7 @@
 			<div class="col-xs-12 col-sm-12 col-lg-12 categ" id="animsprite">
 				<h2 class="categ">Animation de Sprites</h2>
 				<div class="row gif">
-					
+
 					<div class="col-xs-12 col-sm-12 col-lg-4">
 						<h4>Vincent</h4>
 						<img src="images/sprite_vincent.gif">
@@ -276,8 +286,8 @@
 				<br>
 
 				<h5>Principe</h5>
-				<p>Cet exercice avait pour but de apprendre le manipulation de sprite et donc 
-					d'images avec <b>SDL2</b>, <b>SDL2_TTF</b> et <b>SDL2_IMAGE</b>, 
+				<p>Cet exercice avait pour but de apprendre le manipulation de sprite et donc
+					d'images avec <b>SDL2</b>, <b>SDL2_TTF</b> et <b>SDL2_IMAGE</b>,
 					notamment en affichant un fond de fenêtre ou en animant une image de personnage.</p>
 
 				<h5>Démarche</h5>
@@ -319,18 +329,18 @@
 				<br>
 
 				<h5>Principe</h5>
-				<p>Nous avons donc décidé de proposer un jeu mettant en scène une voiture 
-					et des portions de route qui se ferment et se rouvrent selon une chaine 
-					de markov se basant sur l'état précédent de la route. 
+				<p>Nous avons donc décidé de proposer un jeu mettant en scène une voiture
+					et des portions de route qui se ferment et se rouvrent selon une chaine
+					de markov se basant sur l'état précédent de la route.
 					L’objectif du jeu étant de ne rouler que sur les routes ouvertes. </p>
 
 				<h5>Démarche</h5>
-				<p>Dans le cas de notre jeu, nous avons donc la présence de 
-					la chaîne de Markov sur les probabilité de fermeture 
+				<p>Dans le cas de notre jeu, nous avons donc la présence de
+					la chaîne de Markov sur les probabilité de fermeture
 					d’une route en connaissant son état à l’instant précédent.
 					<br>
 					La route est une grille de 3 unités de large et chaque travaux occupe 1 unité.
-					Cependant afin que le joueur ne puisse que perdre à cause de lui-même, nous avons décidé 
+					Cependant afin que le joueur ne puisse que perdre à cause de lui-même, nous avons décidé
 					de n'occuper au maximum que 2 des 3 cases et, si 2 cases obstruées il y a, la prochaine vague
 					sera soit la même soit vide.<br>
 					Les probabilités des états sont donc rangées dans ce tableau double :<br>
@@ -340,53 +350,56 @@
 
 				<h5>Démarche algorithmique</h5>
 				<p>
-					La chaîne de Markov se base sur tous les états possibles 
-					pour les trois routes en même temps. 
-					Pour celà, on considère une matrice de <b>1 (pour l’état fermé)</b> et de 
-					<b>0 (état ouvert)</b> qui permet de déterminer l’aspect de la route sur 
-					plusieurs portions. On utilise un entier dans lequel on stocke la 
-					ligne de début afin de pouvoir ne remplacer que la dernière ligne 
-					(d’un point de vue affichage) par la nouvelle calculée grâce à Markov. 
+					La chaîne de Markov se base sur tous les états possibles
+					pour les trois routes en même temps.
+					Pour celà, on considère une matrice de <b>1 (pour l’état fermé)</b> et de
+					<b>0 (état ouvert)</b> qui permet de déterminer l’aspect de la route sur
+					plusieurs portions. On utilise un entier dans lequel on stocke la
+					ligne de début afin de pouvoir ne remplacer que la dernière ligne
+					(d’un point de vue affichage) par la nouvelle calculée grâce à Markov.
 					Cela évite de devoir modifier toute la matrice à chaque fois.
 				</p>
-				<p>Pour obtenir ce nouvel état, on demande un nombre <b>entre 1 et 10</b> puis on 
-					détermine à quel état cela correspond. 
+				<p>Pour obtenir ce nouvel état, on demande un nombre <b>entre 1 et 10</b> puis on
+					détermine à quel état cela correspond.
 					(Les probabilités sont donnée par des entiers entre 1 et 10)
 				</p>
 				<p>
-					On peut noter ici qu’on pourrait améliorer la lisibilité du programme 
-					en associant chaque état (ensemble de 0 et de 1) 
-					au nombre binaire associé pour les indices de ligne et de colonne 
+					On peut noter ici qu’on pourrait améliorer la lisibilité du programme
+					en associant chaque état (ensemble de 0 et de 1)
+					au nombre binaire associé pour les indices de ligne et de colonne
 					de la matrice de Markov.
 				</p>
 
 				<h5>Code de l'affichage (SDL2)</h5>
 				<p>
 					Nous avons créé 3 fenêtres :<br>
-					<b>1.</b> Menu du jeu inspiré du Jeu de la vie avec le bouton <b>JOUER</b> 
+					<b>1.</b> Menu du jeu inspiré du Jeu de la vie avec le bouton <b>JOUER</b>
 					et les <b>Règles</b>.<br>
-					<b>2.</b> Passage à la fenêtre en cliquant sur jouer puis affichage d’un fond Sprite à 
+					<b>2.</b> Passage à la fenêtre en cliquant sur jouer puis affichage d’un fond Sprite à
 					2 images qui s’alternent pour donner une impression de la voiture en mouvement. <br>
-					Affichage également de la consigne “Appuyez sur ESPACE pour commencer” afin de préparer 
-					le joueur à l’exécution de la partie jouable. Le joueur peut d’hors et déjà placer son 
+					Affichage également de la consigne “Appuyez sur ESPACE pour commencer” afin de préparer
+					le joueur à l’exécution de la partie jouable. Le joueur peut d’hors et déjà placer son
 					véhicule sur la voie qu’il souhaite.<br>
-					Après appuie sur <b>ESPACE</b> les obstacles (travaux) arrivent par ligne (total de 5 lignes) 
-					et agissent comme une file lors de leur disparition, FIFO. Ils arrivent grâce aux 
-					chaînes de Markov (nouveau comportement influencé par les probabilités sachant le 
-					comportement du précédent). <br>Un compteur est mis en place en haut à droite qui fait +1 
+					Après appuie sur <b>ESPACE</b> les obstacles (travaux) arrivent par ligne (total de 5 lignes)
+					et agissent comme une file lors de leur disparition, FIFO. Ils arrivent grâce aux
+					chaînes de Markov (nouveau comportement influencé par les probabilités sachant le
+					comportement du précédent). <br>Un compteur est mis en place en haut à droite qui fait +1
 					à chaque ligne passée. <br><b>BUT</b>: esquiver les travaux.<br>
 					<b>3.</b> Passage à la 3ème fenêtre par collision entre le véhicule et un
-					 espace de travaux. Entraîne un affichage du même fond que celui du menu 
-					 avec notamment le score du joueur.
+					espace de travaux. Entraîne un affichage du même fond que celui du menu
+					avec notamment le score du joueur.
 				</p>
 
 				<h5>Potentielles améliorations</h5>
-				<p>- Permettre au mouvements des éléments du jeu d’être plus fluides 
+				<p>- Permettre au mouvements des éléments du jeu d’être plus fluides
 					(gestion du jeu non pas par grille mais selon la position des obstacles)<br>
-					- Sauvegarder le score maximal et le nom du joueur puis les écraser si celui du nouveau joueur est meilleur. 
+					- Sauvegarder le score maximal et le nom du joueur puis les écraser si celui du nouveau joueur est
+					meilleur.
 					Donc avoir chargé la sauvegarde du score maximal et son joueur au préalable dans le jeu.<br>
-					- Ajout d'une explosion au niveau de la collision avant passage à la 3ème fenêtre. Ou bien ne pas afficher de 3ème 
-					fenêtre et mettre son contenu à la fin de la 2ème au moment de l’explosion de la voiture et donc de la collision.
+					- Ajout d'une explosion au niveau de la collision avant passage à la 3ème fenêtre. Ou bien ne pas
+					afficher de 3ème
+					fenêtre et mettre son contenu à la fin de la 2ème au moment de l’explosion de la voiture et donc de
+					la collision.
 				</p>
 
 				<h5>Code</h5>
@@ -413,7 +426,7 @@
 				<h4><b> ⛸ ICE SLIDER ⛸</b></h4><br>
 				<div class="row gif">
 					<div class="col-xs-12 col-sm-12 col-lg-4">
-						<img src="images/PaveVincent.gif">
+						<img src="images/etats.png">
 					</div>
 					<div class="col-xs-12 col-sm-12 col-lg-4">
 						<img src="images/PaveVincent.gif">
@@ -429,36 +442,48 @@
 
 				<h5>Principe</h5>
 				<p>
-					C'est le projet final que nous avions à réaliser ! Un petit jeu dans lequel 
+					C'est le projet final que nous avions à réaliser ! Un petit jeu dans lequel
 					une intelligence artificielle joue et apprend via un mécanisme par renforcement.
 				</p>
 				<p>
 					L'apprentissage par renforcement consiste pour une intelligence artificielle à apprendre les actions
-					à prendre à partir d'expériences et de perceptions, afin d'optimiser les récompenses au cours du temps.
+					à prendre à partir d'expériences et de perceptions, afin d'optimiser les récompenses au cours du
+					temps.
 					<br>
-					En effet, l'agent intelligent prend une décision en fonction de son <b>état courant</b> et de la perception 
+					En effet, l'agent intelligent prend une décision en fonction de son <b>état courant</b> et de la
+					perception
 					de son environnement à cet état.
-					En retour, cet environnement lui donne des <b>récompenses</b>, qui peuvent être positives ou négatives.
+					En retour, cet environnement lui donne des <b>récompenses</b>, qui peuvent être positives ou
+					négatives.
 				</p>
 				<p>
-					Au cours de nombreuses tentatives, l'agent va développer un comportement stratégique optimal, 
+					Au cours de nombreuses tentatives, l'agent va développer un comportement stratégique optimal,
 					qui essaiera de <b>maximiser la somme des récompenses</b> au cours du temps.
 				</p>
 
 				<h5>Conception</h5>
-				<p>Nous avons décidé pour se faire, de réaliser un jeu sur principe de <b>labyrinthe</b>. 
-					Cependant, celui-ci ne sera pas un labyrinthe traditionnel puisque <b>les chemins ne seront pas délimités</b>.
-					Se trouveront seulement sur la zone de jeu des <b>rochers</b> ou des <b>murs</b> se servant de <b>points d'appuis</b>. <br>
-					En effet le sol sera de <b>glace</b> et le personnage devra, pour atteindre la sortie, bouger dans une des quatres directions de
-					sorte qu'il puisse atteindre un rocher ou un mur et s'appuyer dessus pour aller dans une autre direction.
-					Autrement, il continuera de glisser sur la glace jusqu'à rencontrer un obstacle, même si ce n'est pas le bon chemin.
+				<p>Nous avons décidé pour se faire, de réaliser un jeu sur principe du <b>labyrinthe</b>.
+					Cependant, celui-ci ne sera pas un labyrinthe traditionnel puisque <b>les chemins ne seront pas
+						délimités</b>.
+					Se trouveront seulement sur la zone de jeu, des <b>rochers</b> ou des <b>murs</b> se servant de
+					<b>points d'appuis</b>. <br>
+					En effet le sol sera de <b>glace</b> et le personnage devra, pour atteindre la sortie, bouger dans
+					une des quatres directions de
+					sorte qu'il puisse atteindre un rocher ou un mur et s'appuyer dessus pour aller dans une autre
+					direction.
+					Autrement, il continuera de glisser sur la glace jusqu'à rencontrer un obstacle, même si ce n'est
+					pas le bon chemin.
 				</p>
 				<p>
-					Le but de l'agent intelligent sera donc d'apprendre à trouver le bon chemin (ou les bons chemins) 
-					permettant d'atteindre la sortie dans le temps imparti.
+					Le but de l'agent intelligent sera donc d'apprendre à trouver le bon chemin (ou les bons chemins)
+					permettant d'atteindre la sortie en un moindre nombre d'étapes. Car oui, plusieurs combinaisons
+					amenent à la même sortie.
 				</p>
 
 				<h5>Démarche</h5>
+				<br>
+				<img src="images/etats.png" width="70%" ><br><br>
+				<img src="images/chemin.png" width="70%" ><br><br>
 				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
 
 				<h5>Démarche algorithmique</h5>
