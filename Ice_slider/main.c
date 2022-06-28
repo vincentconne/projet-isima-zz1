@@ -5,6 +5,7 @@
 // IMPORTS STANDARDS
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 // IMPORTS FICHIERS
 #include "jeu.h"
@@ -94,6 +95,60 @@ void initMur(SDL_Rect *rect_mur)
     rect_mur[5].h = 100;
 }
 
+// recherche de 1
+void recherche1(int TabJeu[][13], int direction, int posEsquiX, int posEsquiY, int tab_retour[2])
+{
+    int i = posEsquiY / 100;
+    int j = posEsquiX / 100;
+    if (direction == 2)
+    {
+        while (TabJeu[i][j] != 2 && TabJeu[i][j] != 1)
+        {
+            i--;
+        }
+        if (TabJeu[i][j] == 2) // Si je suis sur la case de sortie 2
+        {
+            tab_retour[0] = i;
+            tab_retour[1] = j;
+        }
+        else
+        {
+            tab_retour[0] = i + 1;
+            tab_retour[1] = j;
+        }
+    }
+    else if (direction == 0)
+    {
+        while (TabJeu[i][j] != 1)
+        {
+            i++;
+        }
+
+        tab_retour[0] = i - 1;
+        tab_retour[1] = j;
+    }
+    else if (direction == 1)
+    {
+        while (TabJeu[i][j] != 1)
+        {
+            j--;
+        }
+
+        tab_retour[0] = i;
+        tab_retour[1] = j + 1;
+    }
+    else if (direction == 3)
+    {
+        while (TabJeu[i][j] != 1)
+        {
+            j++;
+        }
+
+        tab_retour[0] = i;
+        tab_retour[1] = j - 1;
+    }
+}
+
 // Fonction main
 int main(void)
 {
@@ -132,6 +187,23 @@ int main(void)
 
     int statut = EXIT_FAILURE;
     int stop = 0;
+
+    int TabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
+                         {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+                         {1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1},
+                         {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+                         {1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1},
+                         {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1}};
+    int posEsquiX = 600;
+    int posEsquiY = 800;
+    int posPrecX;
+    int posPrecY;
+    int CouplePrec[2] = {0, 0};
+    int direction = 8;
+    int SORTIE = 0;
 
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
@@ -210,7 +282,7 @@ int main(void)
     initMur(rect_mur);
 
     // Boucle de jeu
-    while (program_on && stop == 0)
+    while (program_on && stop == 0 && SORTIE !=3)
     { // Voilà la boucle des évènements
 
         while (SDL_PollEvent(&event))
@@ -224,41 +296,42 @@ int main(void)
                 case SDL_SCANCODE_SPACE:
                     break;
                 case SDL_SCANCODE_LEFT:
-
-                    if (rect_esquimau.y <= 700 && rect_esquimau.x - VITESSE >= 100)
-                    {
-                        rect_esquimau.x -= VITESSE;
-                    }
                     esquimau = esquimauL;
+
+                    direction = 1;
+
+                    recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                    posPrecX = CouplePrec[1] * 100;
+                    posPrecY = CouplePrec[0] * 100;
+
                     break;
                 case SDL_SCANCODE_RIGHT:
-                    if (rect_esquimau.y <= 700 && rect_esquimau.x + VITESSE <= 1100) // CAS cotés case
-                    {
-                        rect_esquimau.x += VITESSE;
-                    }
                     esquimau = esquimauR;
+
+                    direction = 3;
+
+                    recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                    posPrecX = (CouplePrec[1] * 100);
+                    posPrecY = CouplePrec[0] * 100;
+
                     break;
                 case SDL_SCANCODE_UP:
-                    if (rect_esquimau.x >= 560 && rect_esquimau.x < 650 && rect_esquimau.y >= 0)
-                    {
-                        rect_esquimau.y -= VITESSE;
-                    }
-                    else if (rect_esquimau.y - VITESSE >= 100)
-                    {
-                        rect_esquimau.y -= VITESSE;
-                    }
                     esquimau = esquimauU;
+
+                    direction = 2;
+                    recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                    posPrecX = CouplePrec[1] * 100;
+                    posPrecY = CouplePrec[0] * 100;
+
                     break;
                 case SDL_SCANCODE_DOWN:
-                    if (rect_esquimau.x >= 560 && rect_esquimau.x < 650 && rect_esquimau.y <= 800)
-                    {
-                        rect_esquimau.y += VITESSE;
-                    }
-                    else if (rect_esquimau.y + VITESSE <= 700)
-                    {
-                        rect_esquimau.y += VITESSE;
-                    }
                     esquimau = esquimauD;
+
+                    direction = 0;
+                    recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                    posPrecX = CouplePrec[1] * 100;
+                    posPrecY = CouplePrec[0] * 100;
+
                     break;
                 default:
                     break;
@@ -289,8 +362,34 @@ int main(void)
         {
             SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
         }
+
+        //Changement de position de l'esquimau (glisse)
+        if (direction == 2 && posEsquiX == posPrecX && posEsquiY != posPrecY)
+        {
+            rect_esquimau.y -= 5;
+            posEsquiY -= 5;
+        }
+        else if (direction == 0 && posEsquiX == posPrecX && posEsquiY != posPrecY)
+        {
+            rect_esquimau.y += 5;
+            posEsquiY += 5;
+        }
+        else if (direction == 1 && posEsquiX != posPrecX && posEsquiY == posPrecY)
+        {
+            rect_esquimau.x -= 5;
+            posEsquiX -= 5;
+        }
+        else if (direction == 3 && posEsquiX != posPrecX && posEsquiY == posPrecY)
+        {
+            rect_esquimau.x += 5;
+            posEsquiX += 5;
+        }
+
+        if(posEsquiX ==600 && posEsquiY==0)
+        {
+            SORTIE = 3;
+        }
         SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
-        //printf("X esqui: %d Y esqui: %d\n", rect_esquimau.x, rect_esquimau.y);
         SDL_RenderPresent(renderer);
     }
 
