@@ -366,12 +366,8 @@ void sdl_IA()
 
     float qsa[NBLIGNESMAP * NBCOLMAP][6];
 
-    float reward[NBLIGNESMAP * NBCOLMAP][6];
-
     initTabIa(qsa, NBLIGNESMAP, NBCOLMAP, 0);
 
-    initReward(reward, NBLIGNESMAP, NBCOLMAP);
-    
     int j = 0;
     int i = 0;
     float eps = 0.8;
