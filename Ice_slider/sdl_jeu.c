@@ -326,22 +326,22 @@ void sdl_Jeu()
         }
 
         // Changement de position de l'esquimau (glisse)
-        if (direction == 2 && posEsquiX == posPrecX && posEsquiY != posPrecY)
+        if (direction == 2 && posEsquiY != posPrecY)
         {
             rect_esquimau.y -= 5;
             posEsquiY -= 5;
         }
-        else if (direction == 0 && posEsquiX == posPrecX && posEsquiY != posPrecY)
+        else if (direction == 0&& posEsquiY != posPrecY)
         {
             rect_esquimau.y += 5;
             posEsquiY += 5;
         }
-        else if (direction == 1 && posEsquiX != posPrecX && posEsquiY == posPrecY)
+        else if (direction == 1 && posEsquiX != posPrecX)
         {
             rect_esquimau.x -= 5;
             posEsquiX -= 5;
         }
-        else if (direction == 3 && posEsquiX != posPrecX && posEsquiY == posPrecY)
+        else if (direction == 3 && posEsquiX != posPrecX)
         {
             rect_esquimau.x += 5;
             posEsquiX += 5;
