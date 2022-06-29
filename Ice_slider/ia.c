@@ -16,6 +16,7 @@ void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap)
         for (int k = 3; k < 6; k++)
         {
             qsa[j][k] = 0;
+            //qsa[j][k] = valeur_random(0,MOYREC);
         }   
     }  
 }
