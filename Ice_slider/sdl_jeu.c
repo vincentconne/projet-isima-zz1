@@ -516,42 +516,42 @@ void sdl_IA()
             finMouvement = 1;
             while (finMouvement)
             {
-                printf("finMouv : %d \n",finMouvement);
-                if (direction == 2)
+                printf("finMouv : %d \n", finMouvement);
+                if (direction == 2  && posEsquiY != posPrecY)
                 {
                     rect_esquimau.y -= 5;
                     posEsquiY -= 5;
-                    if (posEsquiY == posPrecY)
-                    {
-                        finMouvement = 0;
-                    }
                 }
-                else if (direction == 0)
+                else if (direction == 2 && posEsquiY == posPrecY)
+                {
+                    finMouvement = 0;
+                }
+                else if (direction == 0 && posEsquiY != posPrecY)
                 {
                     rect_esquimau.y += 5;
                     posEsquiY += 5;
-                    if (posEsquiY == posPrecY)
-                    {
-                        finMouvement = 0;
-                    }
                 }
-                else if (direction == 1)
+                else if (direction == 0 && posEsquiY == posPrecY)
+                {
+                    finMouvement = 0;
+                }
+                else if (direction == 1 && posEsquiX != posPrecX)
                 {
                     rect_esquimau.x -= 5;
                     posEsquiX -= 5;
-                    if (posEsquiX == posPrecX)
-                    {
-                        finMouvement = 0;
-                    }
                 }
-                else if (direction == 3)
+                else if (direction == 1 && posEsquiX == posPrecX)
+                {
+                    finMouvement = 0;
+                }
+                else if (direction == 3 && posEsquiX != posPrecX)
                 {
                     rect_esquimau.x += 5;
                     posEsquiX += 5;
-                    if (posEsquiX == posPrecX)
-                    {
-                        finMouvement = 0;
-                    }
+                }
+                else if (direction == 3 && posEsquiX == posPrecX)
+                {
+                    finMouvement = 0;
                 }
                 // Affichage du fond
                 SDL_RenderCopy(renderer, fond, &source, &destination);
@@ -585,6 +585,7 @@ void sdl_IA()
         }
         // MAJ QSA & REI POS
         apprentissageQSA(qsa, run, j, direction);
+        //j = 0;
         posEsquiX = 600;
         posEsquiY = 800;
         rect_esquimau.x = 600;

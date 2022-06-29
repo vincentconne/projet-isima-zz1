@@ -12,7 +12,7 @@
 
 /* Paramètre d'apprentissage */
 #define NBEPOQUE 40
-#define NBITEPO 50
+#define NBITEPO 20
 #define XI 0.4
 #define G 0.8
 
