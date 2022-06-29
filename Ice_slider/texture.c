@@ -6,6 +6,7 @@
 // IMPORTS STANDARDS
 #include <stdio.h>
 #include <stdlib.h>
+#include "texture.h"
 
 // Chargement d'une texture
 SDL_Texture *load_texture_from_image(char *file_image_name, SDL_Renderer *renderer)

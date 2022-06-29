@@ -21,6 +21,15 @@
 
 /* Paramètre de e_greedy */
 // valeur de epsilon en % (de 0 à 100) qui sera modifiée
-float epsilon = 0.8;
+#define EPSILON = 0.8;
+
+/* FONCTIONS */
+int choixActionQSA (int **qsa, int x, int y);
+int eGreedy (int **qsa, int *epsilon, int x , int y);
+int prefLearningBase(int ** qsa, int x, int y, int T);
+void apprentissageQSA(int **qsa, int **run, int dernier, int action);
+
+// Fonctions
+void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap);
 
 #endif
