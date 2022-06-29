@@ -1,673 +1,516 @@
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <time.h>
-// #include <stdbool.h>
-// #include <string.h>
-// #include <SDL2/SDL_ttf.h>
-// #include <SDL2/SDL_image.h>
-// #include "jeu.h"
-// #include "sdl_jeu.h"
-
-// #define width 800
-// #define height 800
-
-// #define VITESSE 200
-
-// long int score = 0;
-
-// void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
-// {
-// 	SDL_Rect rectangle;
-
-// 	SDL_SetRenderDrawColor(renderer,
-// 						   50, 0, 0, // mode Red, Green, Blue (tous dans 0..255)
-// 						   255);	 // 0 = transparent ; 255 = opaque
-// 	rectangle.x = xg;				 // x haut gauche du rectangle
-// 	rectangle.y = yg;				 // y haut gauche du rectangle
-// 	rectangle.w = 800;				 // sa largeur (w = width)
-// 	rectangle.h = 100;				 // sa hauteur (h = height)
-
-// 	SDL_RenderFillRect(renderer, &rectangle);
-
-// 	SDL_QueryTexture(text_texture, NULL, NULL, &rectangle.w, &rectangle.h); // récupération de la taille (w, h) du texte
-// 	SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
-// }
-
-// void draw_score(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
-// { // Je pense que vous allez faire moins laid :)
-// 	SDL_Rect rectangle;
-
-// 	SDL_SetRenderDrawColor(renderer,
-// 						   50, 0, 0, // mode Red, Green, Blue (tous dans 0..255)
-// 						   255);	 // 0 = transparent ; 255 = opaque
-// 	rectangle.x = xg;				 // x haut gauche du rectangle
-// 	rectangle.y = yg;				 // y haut gauche du rectangle
-// 	rectangle.w = 100;				 // sa largeur (w = width)
-// 	rectangle.h = 30;				 // sa hauteur (h = height)
-
-// 	SDL_RenderFillRect(renderer, &rectangle);
-
-// 	SDL_QueryTexture(text_texture, NULL, NULL, &rectangle.w, &rectangle.h); // récupération de la taille (w, h) du texte
-// 	SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
-// }
-
-// // Mise à jour de la texture du score a chaque changement
-// SDL_Texture *update_score(TTF_Font *font, SDL_Color *color, SDL_Renderer *renderer)
-// {
-
-// 	char score_char[10];
-// 	sprintf(score_char, "%ld", score);
-
-// 	SDL_Surface *surface_score = NULL;
-// 	surface_score = TTF_RenderText_Blended(font, score_char, *color);
-// 	if (surface_score == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_Texture *texture_score;
-// 	texture_score = SDL_CreateTextureFromSurface(renderer, surface_score);
-
-// 	if (texture_score == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_FreeSurface(surface_score);
-
-// 	return texture_score;
-// }
-
-// void play_with_texture_1(SDL_Texture *my_texture, SDL_Window *window,
-// 						 SDL_Renderer *renderer)
-// {
-// 	SDL_Rect
-// 		source = {0},			 // Rectangle définissant la zone de la texture à récupérer
-// 		window_dimensions = {0}, // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
-// 		destination = {0};		 // Rectangle définissant où la zone_source doit être déposée dans le renderer
-
-// 	SDL_GetWindowSize(
-// 		window, &window_dimensions.w,
-// 		&window_dimensions.h); // Récupération des dimensions de la fenêtre
-// 	SDL_QueryTexture(my_texture, NULL, NULL,
-// 					 &source.w, &source.h); // Récupération des dimensions de l'image
-
-// 	destination = window_dimensions; // On fixe les dimensions de l'affichage à  celles de la fenêtre
-
-// 	/* On veut afficher la texture de façon à ce que l'image occupe la totalité de la fenêtre */
-
-// 	SDL_RenderCopy(renderer, my_texture,
-// 				   &source,
-// 				   &destination); // Création de l'élément à afficher
-// }
-
-// int sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int tab_markov[][7])
-// {
-
-// 	SDL_Window *window = NULL;
-// 	SDL_Renderer *renderer = NULL;
-// 	SDL_DisplayMode screen;
-
-// 	char score_char[10];
-// 	sprintf(score_char, "%ld", score);
-
-// 	if (0 != SDL_Init(SDL_INIT_VIDEO))
-// 	{
-// 		fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_GetCurrentDisplayMode(0, &screen);
-
-// 	// Création de la fenêtre
-// 	window = SDL_CreateWindow("Autoroute",
-// 							  SDL_WINDOWPOS_CENTERED,
-// 							  SDL_WINDOWPOS_CENTERED, width,
-// 							  height,
-// 							  SDL_WINDOW_OPENGL);
-// 	if (NULL == window)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	// Création du renderer
-// 	renderer = SDL_CreateRenderer(window, -1,
-// 								  SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-// 	if (renderer == NULL)
-// 	{
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	// Compteur de score
-// 	if (TTF_Init() < 0)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	TTF_Font *font = NULL;				   // la variable 'police de caractère'
-// 	font = TTF_OpenFont("stocky.ttf", 20); // La police à charger, la taille désirée
-// 	if (font == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
-
-// 	SDL_Color color = {255, 255, 255, 255}; // la couleur du texte
-
-// 	SDL_Surface *surface_texte_score = NULL;
-// 	surface_texte_score = TTF_RenderText_Blended(font, "SCORE", color);
-// 	if (surface_texte_score == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	SDL_Texture *texture_texte_score = NULL;
-// 	texture_texte_score = SDL_CreateTextureFromSurface(renderer, surface_texte_score);
-// 	if (texture_texte_score == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	SDL_FreeSurface(surface_texte_score);
-
-// 	SDL_Texture *texture_score = NULL;
-
-// 	// Création de la texture de la voiture
-// 	SDL_Texture *voiture = IMG_LoadTexture(renderer, "./src/Voiture.png");
-
-// 	SDL_Rect rect_voiture;
-// 	rect_voiture.x = 375;
-// 	rect_voiture.y = 650;
-// 	rect_voiture.w = 60;
-// 	rect_voiture.h = 120;
-
-// 	SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
-
-// 	// Création des textures pour le fond
-// 	SDL_Texture *background = IMG_LoadTexture(renderer, "./src/sansblanc1.png");
-// 	SDL_Texture *background2 = IMG_LoadTexture(renderer, "./src/sansblanc2.png");
-
-// 	if (voiture == NULL && background == NULL && background2 == NULL)
-// 	{
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	int i = 1;
-// 	int sortie = 0;
-
-// 	SDL_Texture *travaux = IMG_LoadTexture(renderer, "./src/barriere.png");
-
-// 	SDL_Rect rect_travaux[5][3]; //= {32*(SDL_GetTicks()/1000%6)}
-// 	for (int i = 0; i < 5; i++)
-// 	{
-// 		for (int j = 0; j < 3; j++)
-// 		{
-// 			rect_travaux[i][j].x = 150 + j * 200;
-// 			rect_travaux[i][j].y = i * 160; //(i*800)/5
-// 			rect_travaux[i][j].w = 100;
-// 			rect_travaux[i][j].h = 100;
-// 		}
-// 	}
-
-// 	// initialisation pour les tours de lignes
-
-// 	int ligne = premier;
-// 	int p = 0;
-// 	int position = 1;
-
-// 	// boucle de travail
-// 	// int sortie = 0;
-// 	int depart = 0;
-// 	while (!sortie)
-// 	{
-// 		SDL_Event event;
-// 		while (SDL_PollEvent(&event))
-// 		{
-// 			if (event.type == SDL_KEYDOWN)
-// 			{
-// 				// Déplacement de la voiture
-// 				switch (event.key.keysym.scancode)
-// 				{
-// 				case SDL_SCANCODE_SPACE:
-// 					depart = 1;
-// 					break;
-// 				case SDL_SCANCODE_LEFT:
-// 					if (rect_voiture.x - VITESSE > 100)
-// 					{
-// 						rect_voiture.x -= VITESSE;
-// 					}
-// 					break;
-// 				case SDL_SCANCODE_RIGHT:
-// 					if (rect_voiture.x + VITESSE < 650)
-// 					{
-// 						rect_voiture.x += VITESSE;
-// 					}
-// 					break;
-// 				default:
-// 					break;
-// 				}
-// 			}
-// 			else if (event.type == SDL_QUIT)
-// 			{
-// 				sortie = 1;
-// 				puts("FIN DE MON PROGRAMME");
-// 				break;
-// 			}
-// 		}
-// 		if (!depart)
-// 		{
-// 			SDL_RenderClear(renderer);
-// 			// Affichage de la route (défilement)
-// 			if (i == 1)
-// 			{
-// 				play_with_texture_1(background, window, renderer);
-// 				i = 0;
-// 			}
-// 			else
-// 			{
-// 				play_with_texture_1(background2, window, renderer);
-// 				i = 1;
-// 			}
-// 			SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
-// 			SDL_Surface *Espace = AffichageEspace();
-// 			SDL_Texture *text_textureEspace = SDL_CreateTextureFromSurface(renderer, Espace); // transfert de la surface à la texture de Espace
-// 			if (text_textureEspace == NULL)
-// 			{
-// 				fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 				exit(EXIT_FAILURE);
-// 			}
-// 			SDL_FreeSurface(Espace); // la texture ne sert plus à rien
-// 			draw(renderer, 0, 400, text_textureEspace);
-// 			SDL_RenderPresent(renderer);
-// 			SDL_Delay(150);
-// 		}
-// 		else
-// 		{
-// 			// Définition de la postition de la voiture sur la grille
-// 			if (rect_voiture.x == 175)
-// 			{
-// 				position = 0;
-// 			}
-// 			else if (rect_voiture.x == 375)
-// 			{
-// 				position = 1;
-// 			}
-// 			else
-// 			{
-// 				position = 2;
-// 			}
-
-// 			// Affichage de la route (défilement)
-// 			if (i == 1)
-// 			{
-// 				play_with_texture_1(background, window, renderer);
-// 				i = 0;
-// 			}
-// 			else
-// 			{
-// 				play_with_texture_1(background2, window, renderer);
-// 				i = 1;
-// 			}
-// 			for (p = 0; p < 5; p++)
-// 			{
-// 				for (int k = 0; k < 3; k++)
-// 				{
-// 					if (tab_etats[ligne][k])
-// 					{
-// 						SDL_RenderCopy(renderer, travaux, NULL, &rect_travaux[p][k]);
-// 					}
-// 				}
-// 				ligne = (ligne + 1) % 5;
-// 			}
-// 			texture_score = update_score(font, &color, renderer);
-// 			draw_score(renderer, 0, 0, texture_texte_score);
-// 			draw_score(renderer, 0, 30, texture_score);
-// 			SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
-
-// 			sortie = collision(tab_etats, position, dernier);
-
-// 			SDL_RenderPresent(renderer);
-// 			SDL_PumpEvents();
-// 			SDL_Delay(150);
-// 			SDL_RenderClear(renderer);
-// 			nouveau_etat(etat_cour, tab_etats, &dernier, &premier, tab_markov);
-// 			ligne = premier;
-
-// 			score = score + 1;
-// 		}
-// 	}
-// 	SDL_DestroyTexture(travaux);
-// 	SDL_DestroyTexture(voiture);
-// 	IMG_Quit();
-// 	SDL_DestroyWindow(window);
-// 	SDL_Quit();
-
-// 	return score;
-// }
-
-// void Intro_jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int tab_markov[][7])
-// {
-// 	SDL_Window *window = NULL;
-// 	SDL_Renderer *renderer = NULL;
-// 	SDL_DisplayMode screen;
-// 	int stop = 0;
-
-// 	if (0 != SDL_Init(SDL_INIT_VIDEO))
-// 	{
-// 		fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_GetCurrentDisplayMode(0, &screen);
-
-// 	// Création de la fenêtre
-// 	window = SDL_CreateWindow("ATTENTION TRAVAUX",
-// 							  SDL_WINDOWPOS_CENTERED,
-// 							  SDL_WINDOWPOS_CENTERED, width,
-// 							  height,
-// 							  SDL_WINDOW_OPENGL);
-
-// 	if (NULL == window)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	// Création du renderer
-// 	renderer = SDL_CreateRenderer(window, -1,
-// 								  SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-// 	if (renderer == NULL)
-// 	{
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
-// 	SDL_Event event;				// c'est le type IMPORTANT !!
-
-// 	// Création de la texture de fond
-// 	SDL_Texture *fond = IMG_LoadTexture(renderer, "./src/Titre.png");
-
-// 	if (fond == NULL)
-// 	{
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_Rect
-// 		source = {0},			 // Rectangle définissant la zone de la texture à récupérer
-// 		window_dimensions = {0}, // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
-// 		destination = {0};		 // Rectangle définissant où la zone_source doit être déposée dans le renderer
-
-// 	SDL_GetWindowSize(
-// 		window, &window_dimensions.w,
-// 		&window_dimensions.h); // Récupération des dimensions de la fenêtre
-// 	SDL_QueryTexture(fond, NULL, NULL,
-// 					 &source.w, &source.h); // Récupération des dimensions de l'image
-
-// 	destination = window_dimensions; // On fixe les dimensions de l'affichage à  celles de la fenêtre
-
-// 	if (TTF_Init() < 0)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	TTF_Font *font = NULL, *font2 = NULL;  // la variable 'police de caractère'
-// 	font = TTF_OpenFont("stocky.ttf", 55); // La police à charger, la taille désirée
-// 	font2 = TTF_OpenFont("stocky.ttf", 38);
-// 	if (font == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
-
-// 	SDL_Color color = {255, 255, 255, 255};																	  // la couleur du texte
-// 	SDL_Surface *text_surface1 = NULL;																		  // la surface  (uniquement transitoire)
-// 	text_surface1 = TTF_RenderText_Blended(font, "JOUER", color);											  // création du texte dans la surface
-// 	SDL_Surface *text_surface2 = NULL;																		  // la surface  (uniquement transitoire)
-// 	text_surface2 = TTF_RenderText_Blended(font2, "REGLES: Fleches GAUCHE & DROITE", color); // création du texte dans la surface
-// 	if (text_surface1 == NULL && text_surface2 == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_Texture *text_texture1 = NULL;									   // la texture qui contient le texte
-// 	text_texture1 = SDL_CreateTextureFromSurface(renderer, text_surface1); // transfert de la surface à la texture
-// 	SDL_Texture *text_texture2 = NULL;									   // la texture qui contient le texte
-// 	text_texture2 = SDL_CreateTextureFromSurface(renderer, text_surface2); // transfert de la surface à la texture
-// 	if (text_texture1 == NULL && text_texture2)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
-// 	SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
-// 	int finClique = 0;
-// 	int score = 0;
-
-// 	while (program_on && stop == 0)
-// 	{ // Voilà la boucle des évènements
-
-// 		if (SDL_PollEvent(&event))
-// 		{ // si la file d'évènements n'est pas vide : défiler l'élément en tête
-// 		  // de file dans 'event'
-// 			switch (event.type)
-// 			{
-// 			case SDL_MOUSEBUTTONUP:
-// 				if (event.button.button == SDL_BUTTON_LEFT && 0 < event.button.x && event.button.x < 800 &&
-// 					400 < event.button.y && event.button.y < 500)
-// 				{
-// 					finClique = 2;
-// 				}
-// 				break;
-
-// 			case SDL_QUIT:				// Un évènement simple, on a cliqué sur la x de la fenêtre
-// 				program_on = SDL_FALSE; // Il est temps d'arrêter le programme
-// 				break;
-
-// 			default: // Si L'évènement défilé ne nous intéresse pas
-// 				break;
-// 			}
-// 		}
-// 		if (finClique == 0)
-// 		{
-// 			SDL_RenderCopy(renderer, fond,
-// 						   &source,
-// 						   &destination);
-// 			draw(renderer, 0, 400, text_texture1);
-// 			draw(renderer, 0, 550, text_texture2);
-// 		}
-// 		else
-// 		{
-// 			SDL_DestroyTexture(text_texture1);
-// 			SDL_DestroyTexture(text_texture2);
-// 			SDL_DestroyWindow(window);
-// 			TTF_Quit();
-// 			score = sdl_Jeu(premier, dernier, tab_etats, etat_cour, tab_markov);
-// 			fenetre_Fin(score);
-// 			stop = 1;
-// 		}
-
-// 		SDL_RenderPresent(renderer); // affichage
-// 	}
-
-// 	SDL_DestroyTexture(text_texture1);
-// 	SDL_DestroyTexture(text_texture2);
-// 	SDL_DestroyWindow(window);
-// 	TTF_Quit();
-// 	SDL_Quit();
-// }
-
-// int collision(int **tab_etats, int position, int dernier)
-// {
-// 	return (tab_etats[dernier][position]);
-// }
-
-// SDL_Surface *AffichageEspace()
-// {
-
-// 	if (TTF_Init() < 0)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	TTF_Font *font = NULL;				   // la variable 'police de caractère'
-// 	font = TTF_OpenFont("stocky.ttf", 40); // La police à charger, la taille désirée
-// 	if (font == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
-
-// 	SDL_Color color = {255, 255, 255, 255};														   // la couleur du texte
-// 	SDL_Surface *text_surface1 = TTF_RenderText_Blended(font, "Pret ? Appuyez sur Espace", color); // création du texte dans la surface
-// 	if (text_surface1 == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	return text_surface1;
-// }
-
-// void fenetre_Fin(int score)
-// {
-// 	SDL_Window *window = NULL;
-// 	SDL_Renderer *renderer = NULL;
-// 	SDL_DisplayMode screen;
-// 	int stop = 0;
-
-// 	if (0 != SDL_Init(SDL_INIT_VIDEO))
-// 	{
-// 		fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_GetCurrentDisplayMode(0, &screen);
-
-// 	// Création de la fenêtre
-// 	window = SDL_CreateWindow("ATTENTION TRAVAUX",
-// 							  SDL_WINDOWPOS_CENTERED,
-// 							  SDL_WINDOWPOS_CENTERED, width,
-// 							  height,
-// 							  SDL_WINDOW_OPENGL);
-
-// 	if (NULL == window)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	// Création du renderer
-// 	renderer = SDL_CreateRenderer(window, -1,
-// 								  SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-// 	if (renderer == NULL)
-// 	{
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_bool program_on = SDL_TRUE; // Booléen pour dire que le programme doit continuer
-// 	SDL_Event event;				// c'est le type IMPORTANT !!
-
-// 	// Création de la texture de fond
-// 	SDL_Texture *fond = IMG_LoadTexture(renderer, "./src/Titre.png");
-
-// 	if (fond == NULL)
-// 	{
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_Rect
-// 		source = {0},			 // Rectangle définissant la zone de la texture à récupérer
-// 		window_dimensions = {0}, // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
-// 		destination = {0};		 // Rectangle définissant où la zone_source doit être déposée dans le renderer
-
-// 	SDL_GetWindowSize(
-// 		window, &window_dimensions.w,
-// 		&window_dimensions.h); // Récupération des dimensions de la fenêtre
-// 	SDL_QueryTexture(fond, NULL, NULL,
-// 					 &source.w, &source.h); // Récupération des dimensions de l'image
-
-// 	destination = window_dimensions; // On fixe les dimensions de l'affichage à  celles de la fenêtre
-
-// 	if (TTF_Init() < 0)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	TTF_Font *font = NULL, *font2 = NULL;  // la variable 'police de caractère'
-// 	font = TTF_OpenFont("stocky.ttf", 55); // La police à charger, la taille désirée
-// 	font2 = TTF_OpenFont("stocky.ttf", 40);
-// 	if (font == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	TTF_SetFontStyle(font, TTF_STYLE_ITALIC); // en italique, gras
-
-// 	SDL_Color color = {255, 255, 255, 255};											   // la couleur du texte
-// 	SDL_Surface *text_surface1 = NULL;												   // la surface  (uniquement transitoire)
-// 	text_surface1 = TTF_RenderText_Blended(font, "Accident! Essaie Encore!", color); // création du texte dans la surface
-// 	char score_char[20] = "Score: ";
-// 	char score_int[10] = "";
-// 	sprintf(score_int, "%d", score);
-// 	strcat(score_char, score_int);
-// 	SDL_Surface *text_surface2 = NULL;								  // la surface  (uniquement transitoire)
-// 	text_surface2 = TTF_RenderText_Blended(font2, score_char, color); // création du texte dans la surface
-// 	if (text_surface1 == NULL && text_surface2 == NULL)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-
-// 	SDL_Texture *text_texture1 = NULL;									   // la texture qui contient le texte
-// 	text_texture1 = SDL_CreateTextureFromSurface(renderer, text_surface1); // transfert de la surface à la texture
-// 	SDL_Texture *text_texture2 = NULL;									   // la texture qui contient le texte
-// 	text_texture2 = SDL_CreateTextureFromSurface(renderer, text_surface2); // transfert de la surface à la texture
-// 	if (text_texture1 == NULL && text_texture2)
-// 	{
-// 		fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
-// 	SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
-
-// 	while (program_on && stop == 0)
-// 	{ // Voilà la boucle des évènements
-
-// 		if (SDL_PollEvent(&event))
-// 		{ // si la file d'évènements n'est pas vide : défiler l'élément en tête
-// 		  // de file dans 'event'
-// 			switch (event.type)
-// 			{
-// 			case SDL_QUIT:				// Un évènement simple, on a cliqué sur la x de la fenêtre
-// 				program_on = SDL_FALSE; // Il est temps d'arrêter le programme
-// 				break;
-
-// 			default: // Si L'évènement défilé ne nous intéresse pas
-// 				break;
-// 			}
-// 		}
-// 		SDL_RenderCopy(renderer, fond,
-// 						   &source,
-// 						   &destination);
-// 		draw(renderer, 0, 400, text_texture1);
-// 		draw(renderer, 0, 550, text_texture2);
-
-// 		SDL_RenderPresent(renderer); // affichage
-// 	}
-
-// 	SDL_DestroyTexture(text_texture1);
-// 	SDL_DestroyTexture(text_texture2);
-// 	SDL_DestroyWindow(window);
-// 	TTF_Quit();
-// 	SDL_Quit();
-// }
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
+#include <string.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include "jeu.h"
+#include "sdl_jeu.h"
+#include "texture.h"
+
+#define width 1300
+#define height 900
+
+#define VITESSE 5
+
+void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
+{
+    SDL_Rect rectangle;
+
+    rectangle.x = xg;  // x haut gauche du rectangle
+    rectangle.y = yg;  // y haut gauche du rectangle
+    rectangle.w = 100; // sa largeur (w = width)
+    rectangle.h = 100; // sa hauteur (h = height)
+
+    SDL_QueryTexture(text_texture, NULL, NULL, &rectangle.w, &rectangle.h); // récupération de la taille (w, h) du texte
+    SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
+}
+
+// FONCTIONS
+
+// Initialisation de la SDL2
+void initSDL(SDL_Window *window, SDL_Renderer *renderer)
+{
+    if (0 != SDL_Init(SDL_INIT_VIDEO))
+    {
+        end_sdl(0, "ERROR SDL INIT", window, renderer);
+    }
+}
+
+// Initialisation du tableau des rochers
+void initRoc(SDL_Rect *rect_roc)
+{
+    for (int i = 0; i < 13; i++)
+    {
+        rect_roc[i].w = 100;
+        rect_roc[i].h = 100;
+    }
+    rect_roc[0].x = 200;
+    rect_roc[0].y = 100;
+    rect_roc[1].x = 100;
+    rect_roc[1].y = 200;
+    rect_roc[2].x = 100;
+    rect_roc[2].y = 700;
+    rect_roc[3].x = 200;
+    rect_roc[3].y = 400;
+    rect_roc[4].x = 600;
+    rect_roc[4].y = 300;
+    rect_roc[5].x = 600;
+    rect_roc[5].y = 500;
+    rect_roc[6].x = 700;
+    rect_roc[6].y = 700;
+    rect_roc[7].x = 800;
+    rect_roc[7].y = 400;
+    rect_roc[8].x = 900;
+    rect_roc[8].y = 600;
+    rect_roc[9].x = 1000;
+    rect_roc[9].y = 100;
+    rect_roc[10].x = 1100;
+    rect_roc[10].y = 300;
+    rect_roc[11].x = 1100;
+    rect_roc[11].y = 700;
+    rect_roc[12].x = 500;
+    rect_roc[12].y = 200;
+}
+
+// Initialisation du tableau des murs
+void initMur(SDL_Rect *rect_mur)
+{
+    rect_mur[0].x = 0;
+    rect_mur[0].y = 0;
+    rect_mur[0].w = 100;
+    rect_mur[0].h = 900;
+    rect_mur[1].x = 1200;
+    rect_mur[1].y = 0;
+    rect_mur[1].w = 100;
+    rect_mur[1].h = 900;
+    rect_mur[2].x = 100;
+    rect_mur[2].y = 0;
+    rect_mur[2].w = 500;
+    rect_mur[2].h = 100;
+    rect_mur[3].x = 700;
+    rect_mur[3].y = 0;
+    rect_mur[3].w = 500;
+    rect_mur[3].h = 100;
+    rect_mur[4].x = 100;
+    rect_mur[4].y = 800;
+    rect_mur[4].w = 500;
+    rect_mur[4].h = 100;
+    rect_mur[5].x = 700;
+    rect_mur[5].y = 800;
+    rect_mur[5].w = 500;
+    rect_mur[5].h = 100;
+}
+
+// recherche de 1
+void recherche1(int TabJeu[][13], int direction, int posEsquiX, int posEsquiY, int tab_retour[2])
+{
+    int i = posEsquiY / 100;
+    int j = posEsquiX / 100;
+    if (direction == 2)
+    {
+        while (TabJeu[i][j] != 2 && TabJeu[i][j] != 1)
+        {
+            i--;
+        }
+        if (TabJeu[i][j] == 2) // Si je suis sur la case de sortie 2
+        {
+            tab_retour[0] = i;
+            tab_retour[1] = j;
+        }
+        else
+        {
+            tab_retour[0] = i + 1;
+            tab_retour[1] = j;
+        }
+    }
+    else if (direction == 0)
+    {
+        while (i < 9 && TabJeu[i][j] != 1)
+        {
+            i++;
+        }
+
+        tab_retour[0] = i - 1;
+        tab_retour[1] = j;
+    }
+    else if (direction == 1)
+    {
+        while (TabJeu[i][j] != 1)
+        {
+            j--;
+        }
+
+        tab_retour[0] = i;
+        tab_retour[1] = j + 1;
+    }
+    else if (direction == 3)
+    {
+        while (TabJeu[i][j] != 1)
+        {
+            j++;
+        }
+
+        tab_retour[0] = i;
+        tab_retour[1] = j - 1;
+    }
+}
+
+void sdl_Jeu()
+{
+    int stop = 0;
+
+    int TabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
+                         {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+                         {1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1},
+                         {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+                         {1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1},
+                         {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1}};
+    int posEsquiX = 600;
+    int posEsquiY = 800;
+    int posPrecX;
+    int posPrecY;
+    int CouplePrec[2] = {0, 0};
+    int direction = 8;
+    int SORTIE = 0;
+
+    SDL_Window *window = NULL;
+    SDL_Renderer *renderer = NULL;
+    SDL_DisplayMode screen;
+
+    SDL_Event event;
+
+    SDL_bool program_on = SDL_TRUE;
+
+    // Textures
+    SDL_Texture *fond;
+    SDL_Texture *roc1;
+    SDL_Texture *esquimauU;
+    SDL_Texture *esquimauR;
+    SDL_Texture *esquimauL;
+    SDL_Texture *esquimauD;
+    SDL_Texture *esquimau;
+    SDL_Texture *top_bot_mur;
+    SDL_Texture *side_mur;
+
+    // Rectangles
+    // SDL_Rect entree = {600, 800, 100, 100};
+    // SDL_Rect sortie = {600, 0, 100, 100};
+    SDL_Rect rect_roc[13];
+    SDL_Rect rect_mur[6];
+    SDL_Rect rect_esquimau;
+
+    // Initialisation des composants
+    initSDL(window, renderer);
+
+    // Récupération taille écran
+    SDL_GetCurrentDisplayMode(0, &screen);
+
+    window = SDL_CreateWindow("Projet Z",
+                              SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, width,
+                              height,
+                              SDL_WINDOW_OPENGL);
+    if (NULL == window)
+        end_sdl(0, "ERROR WINDOW", window, renderer);
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == NULL)
+        end_sdl(0, "ERROR RENDERER", window, renderer);
+
+    esquimauU = IMG_LoadTexture(renderer, "./src/static_forward.png");
+    esquimauR = IMG_LoadTexture(renderer, "./src/static_right.png");
+    esquimauL = IMG_LoadTexture(renderer, "./src/static_left.png");
+    esquimauD = IMG_LoadTexture(renderer, "./src/static_down.png");
+    esquimau = esquimauU;
+    top_bot_mur = IMG_LoadTexture(renderer, "./src/top_bot_mur.png");
+    side_mur = IMG_LoadTexture(renderer, "./src/side_mur.png");
+
+    rect_esquimau.x = 600;
+    rect_esquimau.y = 800;
+    rect_esquimau.w = 100;
+    rect_esquimau.h = 100;
+
+    fond = load_texture_from_image("./src/fond_glace.png", renderer);
+    SDL_Rect
+        source = {0},            // Rectangle définissant la zone de la texture à récupérer
+        window_dimensions = {0}, // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
+        destination = {0};       // Rectangle définissant où la zone_source doit être déposée dans le renderer
+    SDL_GetWindowSize(
+        window, &window_dimensions.w,
+        &window_dimensions.h); // Récupération des dimensions de la fenêtre
+    SDL_QueryTexture(fond, NULL, NULL,
+                     &source.w, &source.h); // Récupération des dimensions de l'image
+    destination = window_dimensions;        // On fixe les dimensions de l'affichage à  celles de la fenêtre
+
+    roc1 = IMG_LoadTexture(renderer, "./src/rocher.png");
+
+    initRoc(rect_roc);
+    initMur(rect_mur);
+
+    // Boucle de jeu
+    while (program_on && stop == 0 && SORTIE != 3)
+    { // Voilà la boucle des évènements
+
+        while (SDL_PollEvent(&event))
+        { // si la file d'évènements n'est pas vide : défiler l'élément en tête
+          // de file dans 'event'
+            if (event.type == SDL_KEYDOWN)
+            {
+                // Déplacement de la esquimau
+                switch (event.key.keysym.scancode)
+                {
+                case SDL_SCANCODE_SPACE:
+                    break;
+                case SDL_SCANCODE_LEFT:
+                    esquimau = esquimauL;
+
+                    direction = 1;
+
+                    recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                    posPrecX = CouplePrec[1] * 100;
+                    posPrecY = CouplePrec[0] * 100;
+
+                    break;
+                case SDL_SCANCODE_RIGHT:
+                    esquimau = esquimauR;
+
+                    direction = 3;
+
+                    recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                    posPrecX = (CouplePrec[1] * 100);
+                    posPrecY = CouplePrec[0] * 100;
+
+                    break;
+                case SDL_SCANCODE_UP:
+                    esquimau = esquimauU;
+
+                    direction = 2;
+                    recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                    posPrecX = CouplePrec[1] * 100;
+                    posPrecY = CouplePrec[0] * 100;
+
+                    break;
+                case SDL_SCANCODE_DOWN:
+                    esquimau = esquimauD;
+
+                    direction = 0;
+                    recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                    posPrecX = CouplePrec[1] * 100;
+                    posPrecY = CouplePrec[0] * 100;
+
+                    break;
+                default:
+                    break;
+                }
+            }
+            else if (event.type == SDL_QUIT)
+            {
+                program_on = SDL_FALSE;
+                puts("FIN DE MON PROGRAMME");
+                break;
+            }
+        }
+
+        // Affichage du fond
+        SDL_RenderCopy(renderer, fond, &source, &destination);
+
+        // Affichage des rocks
+        for (int i = 0; i < 13; i++)
+        {
+            SDL_RenderCopy(renderer, roc1, NULL, &rect_roc[i]);
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+            SDL_RenderCopy(renderer, side_mur, NULL, &rect_mur[i]);
+        }
+        for (int i = 2; i < 6; i++)
+        {
+            SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
+        }
+
+        // Changement de position de l'esquimau (glisse)
+        if (direction == 2 && posEsquiX == posPrecX && posEsquiY != posPrecY)
+        {
+            rect_esquimau.y -= 5;
+            posEsquiY -= 5;
+        }
+        else if (direction == 0 && posEsquiX == posPrecX && posEsquiY != posPrecY)
+        {
+            rect_esquimau.y += 5;
+            posEsquiY += 5;
+        }
+        else if (direction == 1 && posEsquiX != posPrecX && posEsquiY == posPrecY)
+        {
+            rect_esquimau.x -= 5;
+            posEsquiX -= 5;
+        }
+        else if (direction == 3 && posEsquiX != posPrecX && posEsquiY == posPrecY)
+        {
+            rect_esquimau.x += 5;
+            posEsquiX += 5;
+        }
+
+        if (posEsquiX == 600 && posEsquiY == 0)
+        {
+            SORTIE = 3;
+        }
+        SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+        SDL_RenderPresent(renderer);
+    }
+
+    SDL_DestroyTexture(roc1);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
+
+void Intro_jeu()
+{
+    int stop = 0;
+
+    SDL_Window *window = NULL;
+    SDL_Renderer *renderer = NULL;
+    SDL_DisplayMode screen;
+
+    SDL_Event event;
+
+    SDL_bool program_on = SDL_TRUE;
+
+    // Textures
+    SDL_Texture *fond;
+
+    // Initialisation des composants
+    initSDL(window, renderer);
+
+    SDL_GetCurrentDisplayMode(0, &screen);
+
+    // Création de la fenêtre
+    window = SDL_CreateWindow("ICE SLIDER",
+                              SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, width,
+                              height,
+                              SDL_WINDOW_OPENGL);
+
+    if (NULL == window)
+        end_sdl(0, "ERROR WINDOW", window, renderer);
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == NULL)
+        end_sdl(0, "ERROR RENDERER", window, renderer);
+
+    // Création de la texture de fond
+    fond = load_texture_from_image("./src/menu_ice_slider.png", renderer);
+    if (fond == NULL)
+        end_sdl(0, "ERROR TEXTURE", window, renderer);
+
+    SDL_Rect
+        source = {0},            // Rectangle définissant la zone de la texture à récupérer
+        window_dimensions = {0}, // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
+        destination = {0};       // Rectangle définissant où la zone_source doit être déposée dans le renderer
+
+    SDL_GetWindowSize(
+        window, &window_dimensions.w,
+        &window_dimensions.h); // Récupération des dimensions de la fenêtre
+    SDL_QueryTexture(fond, NULL, NULL,
+                     &source.w, &source.h); // Récupération des dimensions de l'image
+
+    destination = window_dimensions; // On fixe les dimensions de l'affichage à  celles de la fenêtre
+
+    if (TTF_Init() < 0)
+        end_sdl(0, "ERROR TEXTURE", window, renderer);
+
+    TTF_Font *font = NULL, *font2 = NULL;             // la variable 'police de caractère'
+    font = TTF_OpenFont("./src/SnowtopCaps.otf", 70); // La police à charger, la taille désirée
+    font2 = TTF_OpenFont("./src/SnowtopCaps.otf", 70);
+    if (font == NULL)
+        end_sdl(0, "ERROR TEXTURE", window, renderer);
+    if (font2 == NULL)
+        end_sdl(0, "ERROR TEXTURE", window, renderer);
+
+    TTF_SetFontStyle(font, TTF_STYLE_NORMAL); // en italique, gras
+
+    SDL_Color color = {255, 255, 255, 255};                       // la couleur du texte
+    SDL_Surface *text_surface1 = NULL;                            // la surface  (uniquement transitoire)
+    text_surface1 = TTF_RenderText_Blended(font, "JOUER", color); // création du texte dans la surface
+    SDL_Surface *text_surface2 = NULL;                            // la surface  (uniquement transitoire)
+    text_surface2 = TTF_RenderText_Blended(font2, "IA", color);   // création du texte dans la surface
+    if (text_surface1 == NULL && text_surface2 == NULL)
+    {
+        fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+
+    SDL_Texture *text_texture1 = NULL;                                     // la texture qui contient le texte
+    text_texture1 = SDL_CreateTextureFromSurface(renderer, text_surface1); // transfert de la surface à la texture
+    SDL_Texture *text_texture2 = NULL;                                     // la texture qui contient le texte
+    text_texture2 = SDL_CreateTextureFromSurface(renderer, text_surface2); // transfert de la surface à la texture
+    if (text_texture1 == NULL && text_texture2)
+    {
+        fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
+    SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
+    SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
+    int finClique = 0;
+
+    while (program_on && stop == 0)
+    { // Voilà la boucle des évènements
+
+        if (SDL_PollEvent(&event))
+        { // si la file d'évènements n'est pas vide : défiler l'élément en tête
+          // de file dans 'event'
+            switch (event.type)
+            {
+            case SDL_MOUSEBUTTONUP:
+                if (event.button.button == SDL_BUTTON_LEFT && 220 < event.button.x && event.button.x < 600 &&
+                    650 < event.button.y && event.button.y < 800)
+                { // Cas Jeu à la main
+                    finClique = 1;
+                }
+                else if (event.button.button == SDL_BUTTON_LEFT && 700 < event.button.x && event.button.x < 1050 &&
+                         650 < event.button.y && event.button.y < 800)
+                { // Cas Jeu IA
+                    finClique = 2;
+                }
+                break;
+
+            case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
+                program_on = SDL_FALSE; // Il est temps d'arrêter le programme
+                break;
+
+            default: // Si L'évènement défilé ne nous intéresse pas
+                break;
+            }
+        }
+        if (finClique == 0)
+        {
+            SDL_RenderCopy(renderer, fond,
+                           &source,
+                           &destination);
+            draw(renderer, 320, 700, text_texture1);
+            draw(renderer, 850, 700, text_texture2);
+        }
+        else
+        {
+            SDL_DestroyTexture(text_texture1);
+            SDL_DestroyTexture(text_texture2);
+            SDL_DestroyWindow(window);
+            TTF_Quit();
+            sdl_Jeu();
+            stop = 1;
+        }
+
+        SDL_RenderPresent(renderer); // affichage
+    }
+
+    SDL_DestroyTexture(text_texture1);
+    SDL_DestroyTexture(text_texture2);
+    SDL_DestroyWindow(window);
+    TTF_Quit();
+    SDL_Quit();
+}
