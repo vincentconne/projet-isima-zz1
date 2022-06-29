@@ -4,33 +4,41 @@
 #include <math.h>
 #include "jeu.h"
 #include "ia.h"
+#include "sdl_jeu.h"
 
 // Prend les coordonnées du personnage et renvoie l'indice de la ligne état associée
 int traduc_etat_ligne(int x, int y)
 {
-    return ((x / 100) + ((y / 100) - 1));
+    return (((x / 100) * NBLIGNESMAP) + (y / 100));
 }
 
 // Initialise la matrice QSA avec des zéros pour les actions
 // | x | y | gauche | droite | haut | bas |
-void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap)
+void initTabIa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea)
 {
     for (int j = 0; j < nbColonnesMap * nbLignesMap; j++)
     {
-        qsa[j][1] = j / nbLignesMap;
-        qsa[j][2] = j % nbLignesMap;
-        for (int k = 3; k < 6; k++)
+        tab[j][0] = j / nbLignesMap;
+        tab[j][1] = j % nbLignesMap;
+        for (int k = 2; k < 6; k++)
         {
-            qsa[j][k] = 0;
-            // qsa[j][k] = valeur_random(0,MOYREC);
+            if (alea)
+                tab[j][k] = valeur_random(0, MOYREC);
+            else
+                tab[j][k] = 0;
         }
     }
+}
 
-    //Affichage de la matrice
-    // for (int i = 0; i < 117; i++)
-    // {
-    //     printf("[ %.1f ; %.1f ]\n", qsa[i][1], qsa[i][2]);
-    // }
+// Retourne la récompense en fonction de la position actuelle du joueur
+int getReward(int x, int y)
+{
+    int reward = 0;
+
+    if (x >= 600 && x < 700 && y >= 0 && y < 100)
+        reward = 1;
+
+    return reward;
 }
 
 int choixActionQSA(float qsa[][6], int x, int y)
@@ -51,7 +59,7 @@ int choixActionQSA(float qsa[][6], int x, int y)
 int eGreedy(float qsa[][6], float *epsilon, int x, int y)
 {
     int action;
-    int alea = valeur_random(0, 10)/10;
+    float alea = valeur_random(0, 10) / 10;
     if (alea > *epsilon)
     {
         action = choixActionQSA(qsa, x, y);
@@ -60,7 +68,7 @@ int eGreedy(float qsa[][6], float *epsilon, int x, int y)
     {
         action = valeur_random(0, 3);
     }
-    *epsilon = *epsilon * 0.8;
+    *epsilon = *epsilon * 0.7;
     return action;
 }
 

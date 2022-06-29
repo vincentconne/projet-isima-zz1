@@ -12,10 +12,6 @@
 #include "sdl_jeu.h"
 #include "ia.h"
 
-// CONSTANTES
-#define width 1300
-#define height 900
-
 // Fonction main
 int main(void)
 {
