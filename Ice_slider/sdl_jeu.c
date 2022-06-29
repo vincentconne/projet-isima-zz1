@@ -323,7 +323,7 @@ void sdl_Jeu()
             rect_esquimau.y -= VITESSE;
             posEsquiY -= VITESSE;
         }
-        else if (direction == 0&& posEsquiY != posPrecY)
+        else if (direction == 0 && posEsquiY != posPrecY)
         {
             rect_esquimau.y += VITESSE;
             posEsquiY += VITESSE;
@@ -461,7 +461,7 @@ void sdl_IA()
     // Boucle des epoques
     for (i = 0; i < NBEPOQUE; i++)
     {
-        printf("Période: %d\n",i);
+        printf("Période: %d\n", i);
         // Boucle de jeu
         while (program_on && SORTIE && j < NBITEPO)
         { // Voilà la boucle des évènements
@@ -480,16 +480,16 @@ void sdl_IA()
             {
                 // Calculs IA
                 direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
-                //printf("Nouvelle action choisie : %d\n", direction);
+                // printf("Nouvelle action choisie : %d\n", direction);
 
                 // Sauvegarde etat + action
                 run[j][0] = posEsquiX;
                 run[j][1] = posEsquiY;
                 run[j][2] = direction;
                 run[j][3] = getReward(posEsquiX, posEsquiY);
-                //run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
+                // run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
                 j++;
-                //printf("j: %d\n", j);
+                // printf("j: %d\n", j);
 
                 // Calcul nouvelle position
                 recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
@@ -581,7 +581,7 @@ void sdl_IA()
                         run[j][1] = posEsquiY;
                         run[j][2] = direction;
                         run[j][3] = getReward(posEsquiX, posEsquiY);
-                        //run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
+                        // run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
                     }
                     SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
                     SDL_PumpEvents();
@@ -694,10 +694,11 @@ void Intro_jeu()
         fprintf(stderr, "Erreur SDL_TTF : %s", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-    SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
-    SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
+    // SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
+    // SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
     int finClique = 0;
-
+    int SourisX = 0;
+    int SourisY = 0;
     while (program_on && stop == 0)
     { // Voilà la boucle des évènements
 
@@ -718,6 +719,30 @@ void Intro_jeu()
                     finClique = 2;
                 }
                 break;
+            case SDL_MOUSEMOTION:
+                if (220 < SourisX && SourisX < 600 &&
+                    650 < SourisY && SourisY < 800) // La souris est dans le réctangle JOUER //
+                {
+                    SDL_Color color = {116,165,241, 255};                                   // la couleur du texte
+                    text_surface1 = TTF_RenderText_Blended(font, "JOUER", color);          // création du texte dans la surface
+                    text_texture1 = SDL_CreateTextureFromSurface(renderer, text_surface1); // transfert de la surface à la texture
+                }
+                else if (700 < SourisX && SourisX < 1050 &&
+                         650 < SourisY && SourisY < 800) // La souris est dans le réctangle IA //
+                {
+                    SDL_Color color = {116,165,241, 255};                        // la couleur du texte
+                    text_surface2 = TTF_RenderText_Blended(font2, "IA", color); // création du texte dans la surface
+                    text_texture2 = SDL_CreateTextureFromSurface(renderer, text_surface2);
+                }
+                else
+                {
+                    SDL_Color color = {255, 255, 255, 255};                        // la couleur du texte
+                    text_surface1 = TTF_RenderText_Blended(font, "JOUER", color);          // création du texte dans la surface
+                    text_texture1 = SDL_CreateTextureFromSurface(renderer, text_surface1); // transfert de la surface à la texture
+                    text_surface2 = TTF_RenderText_Blended(font2, "IA", color); // création du texte dans la surface
+                    text_texture2 = SDL_CreateTextureFromSurface(renderer, text_surface2);
+                }
+                break;
 
             case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
                 program_on = SDL_FALSE; // Il est temps d'arrêter le programme
@@ -729,6 +754,7 @@ void Intro_jeu()
         }
         if (finClique == 0) // Pas encore cliqué
         {
+            SDL_GetMouseState(&SourisX, &SourisY);
             SDL_RenderCopy(renderer, fond,
                            &source,
                            &destination);
@@ -763,3 +789,6 @@ void Intro_jeu()
     TTF_Quit();
     SDL_Quit();
 }
+
+// SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
+//     SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
