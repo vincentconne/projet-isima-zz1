@@ -15,15 +15,6 @@
 // Fonction main
 int main(void)
 {
-    int run[NBITEPO][4];
-
-    float qsa[NBLIGNESMAP * NBCOLMAP][6];
-    float reward[NBLIGNESMAP * NBCOLMAP][6];
-
-    initTabIa(qsa, NBLIGNESMAP, NBCOLMAP, 0);
-
-    initReward(reward, NBLIGNESMAP, NBCOLMAP);
-
     Intro_jeu();
 
     return 0;

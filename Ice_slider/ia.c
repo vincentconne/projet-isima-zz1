@@ -103,7 +103,7 @@ void initReward(float tab[][6], int nbLignesMap, int nbColonnesMap)
     tab[traduc_etat_ligne(1100, 600)][5] = -1;
 }
 
-int choixActionQSA(int **qsa, int x, int y)
+int choixActionQSA(float qsa[][6], int x, int y)
 {
     int action = 0;
     int ligne = 0;
@@ -118,10 +118,10 @@ int choixActionQSA(int **qsa, int x, int y)
     return action;
 }
 
-int eGreedy(int **qsa, int *epsilon, int x, int y)
+int eGreedy(float qsa[][6], float *epsilon, int x, int y)
 {
     int action;
-    int alea = valeur_random(0, 100);
+    float alea = valeur_random(0, 10)/10;
     if (alea > *epsilon)
     {
         action = choixActionQSA(qsa, x, y);
@@ -134,7 +134,7 @@ int eGreedy(int **qsa, int *epsilon, int x, int y)
     return action;
 }
 
-int prefLearningBase(int **qsa, int x, int y, int T)
+int prefLearningBase(float qsa[][6], int x, int y, int T)
 {
     int energie[4];
     int z;
@@ -162,7 +162,7 @@ int prefLearningBase(int **qsa, int x, int y, int T)
     return action;
 }
 
-void apprentissageQSA(int **qsa, int **run, int dernier, int action)
+void apprentissageQSA(float qsa[][6], int run[][4], int dernier, int action)
 {
 
     int ligneSuiv;

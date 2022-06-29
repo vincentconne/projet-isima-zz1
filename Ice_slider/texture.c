@@ -62,3 +62,16 @@ void end_sdl(char ok, char const *msg, SDL_Window *window, SDL_Renderer *rendere
 
   SDL_Quit();
 }
+
+void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
+{
+    SDL_Rect rectangle;
+
+    rectangle.x = xg;  // x haut gauche du rectangle
+    rectangle.y = yg;  // y haut gauche du rectangle
+    rectangle.w = 100; // sa largeur (w = width)
+    rectangle.h = 100; // sa hauteur (h = height)
+
+    SDL_QueryTexture(text_texture, NULL, NULL, &rectangle.w, &rectangle.h); // récupération de la taille (w, h) du texte
+    SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
+}
