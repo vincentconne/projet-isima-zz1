@@ -415,7 +415,7 @@ void sdl_IA()
     // Récupération taille écran
     SDL_GetCurrentDisplayMode(0, &screen);
 
-    window = SDL_CreateWindow("ICE SLIDER",
+    window = SDL_CreateWindow("Projet Z",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,
@@ -521,8 +521,8 @@ void sdl_IA()
                     // printf("finMouv : %d \n", finMouvement);
                     if (direction == 2 && posEsquiY != posPrecY)
                     {
-                        rect_esquimau.y -= VITESSE;
-                        posEsquiY -= VITESSE;
+                        rect_esquimau.y -= VITESSEIA;
+                        posEsquiY -= VITESSEIA;
                     }
                     else if (direction == 2 && posEsquiY == posPrecY)
                     {
@@ -530,8 +530,8 @@ void sdl_IA()
                     }
                     else if (direction == 0 && posEsquiY != posPrecY)
                     {
-                        rect_esquimau.y += VITESSE;
-                        posEsquiY += VITESSE;
+                        rect_esquimau.y += VITESSEIA;
+                        posEsquiY += VITESSEIA;
                     }
                     else if (direction == 0 && posEsquiY == posPrecY)
                     {
@@ -539,8 +539,8 @@ void sdl_IA()
                     }
                     else if (direction == 1 && posEsquiX != posPrecX)
                     {
-                        rect_esquimau.x -= VITESSE;
-                        posEsquiX -= VITESSE;
+                        rect_esquimau.x -= VITESSEIA;
+                        posEsquiX -= VITESSEIA;
                     }
                     else if (direction == 1 && posEsquiX == posPrecX)
                     {
@@ -548,8 +548,8 @@ void sdl_IA()
                     }
                     else if (direction == 3 && posEsquiX != posPrecX)
                     {
-                        rect_esquimau.x += VITESSE;
-                        posEsquiX += VITESSE;
+                        rect_esquimau.x += VITESSEIA;
+                        posEsquiX += VITESSEIA;
                     }
                     else if (direction == 3 && posEsquiX == posPrecX)
                     {
@@ -623,7 +623,6 @@ void Intro_jeu()
 
     // Textures
     SDL_Texture *fond;
-     SDL_Texture *fond2 ;
 
     // Initialisation des composants
     initSDL(window, renderer);
@@ -647,9 +646,6 @@ void Intro_jeu()
     // Création de la texture de fond
     fond = load_texture_from_image("./src/menu_ice_slider.png", renderer);
     if (fond == NULL)
-        end_sdl(0, "ERROR TEXTURE", window, renderer);
-    fond2 = load_texture_from_image("./src/menu_ice_slider.png", renderer);
-    if (fond2 == NULL)
         end_sdl(0, "ERROR TEXTURE", window, renderer);
 
     SDL_Rect
@@ -703,7 +699,6 @@ void Intro_jeu()
     int finClique = 0;
     int SourisX = 0;
     int SourisY = 0;
-    int var = 0; // Changer le fond
     while (program_on && stop == 0)
     { // Voilà la boucle des évènements
 
@@ -760,20 +755,9 @@ void Intro_jeu()
         if (finClique == 0) // Pas encore cliqué
         {
             SDL_GetMouseState(&SourisX, &SourisY);
-            if (var == 1)
-            {
-                SDL_RenderCopy(renderer, fond,
-                               &source,
-                               &destination);
-                var = 0;
-            }
-            else
-            {
-                SDL_RenderCopy(renderer, fond2,
-                               &source,
-                               &destination);
-                var = 1;
-            }
+            SDL_RenderCopy(renderer, fond,
+                           &source,
+                           &destination);
             draw(renderer, 320, 700, text_texture1);
             draw(renderer, 850, 700, text_texture2);
         }
