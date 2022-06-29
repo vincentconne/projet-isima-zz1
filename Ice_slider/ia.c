@@ -5,6 +5,11 @@
 #include "jeu.h"
 #include "ia.h"
 
+// Prend les coordonnées du personnage et renvoie l'indice de la ligne état associée
+int traduc_etat_ligne(int x, int y)
+{
+    return ((x/100) + ((y/100)-1));
+}
 
 // Initialise la matrice QSA avec des zéros pour les actions (A MODIFIER POUR LES ETATS POSSIBLES)
 void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap)
@@ -33,11 +38,6 @@ int choixActionQSA (int **qsa, int x, int y){
     return action;
 }
 
-// Prend les coordonnées du personnage et renvoie l'indice de la ligne état associée
-int traduc_etat_ligne(int x, int y)
-{
-    return ((x/100) + ((y/100)-1));
-}
 
 int eGreedy (int **qsa, int *epsilon, int x , int y){
     int action;
