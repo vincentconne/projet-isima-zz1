@@ -368,7 +368,6 @@ void sdl_IA()
     initQsa(qsa, NBLIGNESMAP, NBCOLMAP);
     int j = 0;
     float eps = 0.8;
-    int dernier;
 
     int stop = 0;
 
@@ -517,6 +516,7 @@ void sdl_IA()
             finMouvement = 1;
             while (finMouvement)
             {
+                printf("finMouv : %d \n",finMouvement);
                 if (direction == 2)
                 {
                     rect_esquimau.y -= 5;

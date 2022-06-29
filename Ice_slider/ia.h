@@ -24,10 +24,10 @@
 #define EPSILON = 0.8;
 
 /* FONCTIONS */
-int choixActionQSA (int **qsa, int x, int y);
-int eGreedy (int **qsa, int *epsilon, int x , int y);
-int prefLearningBase(int ** qsa, int x, int y, int T);
-void apprentissageQSA(int **qsa, int **run, int dernier, int action);
+int choixActionQSA (float qsa[][6], int x, int y);
+int eGreedy (float qsa[][6], float *epsilon, int x , int y);
+int prefLearningBase(float qsa[][6], int x, int y, int T);
+void apprentissageQSA(float qsa[][6], int run[][4], int dernier, int action);
 int traduc_etat_ligne(int x, int y);
 void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap);
 
