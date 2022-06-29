@@ -367,9 +367,10 @@ void sdl_IA()
     float qsa[NBLIGNESMAP * NBCOLMAP][6];
     initQsa(qsa, NBLIGNESMAP, NBCOLMAP);
     int j = 0;
+    int i = 0;
     float eps = 0.8;
 
-    int stop = 0;
+    // int stop = 0;
 
     int TabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
@@ -464,10 +465,10 @@ void sdl_IA()
 
     int finMouvement = 1;
     // Boucle des epoques
-    for (int i = 0; i < NBEPOQUE; i++)
+    for (i = 0; i < NBEPOQUE; i++)
     {
         // Boucle de jeu
-        while (program_on && stop == 0 && (SORTIE || j < NBITEPO + 1))
+        while (program_on && SORTIE && j < NBITEPO + 1)
         { // Voilà la boucle des évènements
 
             while (SDL_PollEvent(&event))
@@ -480,118 +481,126 @@ void sdl_IA()
                     break;
                 }
             }
-
-            // Calculs IA
-            direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
-            printf("Nouvelle action choisie : %d\n", direction);
-
-            // Sauvegarde etat + action
-            run[j][0] = posEsquiX;
-            run[j][1] = posEsquiY;
-            run[j][2] = direction;
-            // run[j][3] = recompense;
-            j++;
-
-            // Calcul nouvelle position
-            recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
-            printf("La nouvelle position : %d %d\n",CouplePrec[1],CouplePrec[0]);
-            posPrecX = CouplePrec[1] * 100;
-            posPrecY = CouplePrec[0] * 100;
-
-            switch (direction)
+            if (program_on == SDL_TRUE)
             {
-            case 0:
-                esquimau = esquimauD;
-                break;
-            case 2:
-                esquimau = esquimauU;
-                break;
-            case 1:
-                esquimau = esquimauL;
-                break;
-            case 3:
-                esquimau = esquimauR;
-                break;
-            default:
-                break;
+                // Calculs IA
+                direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
+                //printf("Nouvelle action choisie : %d\n", direction);
+
+                // Sauvegarde etat + action
+                run[j][0] = posEsquiX;
+                run[j][1] = posEsquiY;
+                run[j][2] = direction;
+                // run[j][3] = recompense;
+                j++;
+                //printf("j: %d\n", j);
+
+                // Calcul nouvelle position
+                recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+                // printf("La nouvelle position : %d %d\n",CouplePrec[1],CouplePrec[0]);
+                posPrecX = CouplePrec[1] * 100;
+                posPrecY = CouplePrec[0] * 100;
+
+                switch (direction)
+                {
+                case 0:
+                    esquimau = esquimauD;
+                    break;
+                case 2:
+                    esquimau = esquimauU;
+                    break;
+                case 1:
+                    esquimau = esquimauL;
+                    break;
+                case 3:
+                    esquimau = esquimauR;
+                    break;
+                default:
+                    break;
+                }
+
+                finMouvement = 1;
+                while (finMouvement)
+                {
+                    // printf("finMouv : %d \n", finMouvement);
+                    if (direction == 2 && posEsquiY != posPrecY)
+                    {
+                        rect_esquimau.y -= 5;
+                        posEsquiY -= 5;
+                    }
+                    else if (direction == 2 && posEsquiY == posPrecY)
+                    {
+                        finMouvement = 0;
+                    }
+                    else if (direction == 0 && posEsquiY != posPrecY)
+                    {
+                        rect_esquimau.y += 5;
+                        posEsquiY += 5;
+                    }
+                    else if (direction == 0 && posEsquiY == posPrecY)
+                    {
+                        finMouvement = 0;
+                    }
+                    else if (direction == 1 && posEsquiX != posPrecX)
+                    {
+                        rect_esquimau.x -= 5;
+                        posEsquiX -= 5;
+                    }
+                    else if (direction == 1 && posEsquiX == posPrecX)
+                    {
+                        finMouvement = 0;
+                    }
+                    else if (direction == 3 && posEsquiX != posPrecX)
+                    {
+                        rect_esquimau.x += 5;
+                        posEsquiX += 5;
+                    }
+                    else if (direction == 3 && posEsquiX == posPrecX)
+                    {
+                        finMouvement = 0;
+                    }
+
+                    // Affichage du fond
+                    SDL_RenderCopy(renderer, fond, &source, &destination);
+
+                    // Affichage des rocks
+                    for (int i = 0; i < 13; i++)
+                    {
+                        SDL_RenderCopy(renderer, roc1, NULL, &rect_roc[i]);
+                    }
+
+                    for (int i = 0; i < 2; i++)
+                    {
+                        SDL_RenderCopy(renderer, side_mur, NULL, &rect_mur[i]);
+                    }
+                    for (int i = 2; i < 6; i++)
+                    {
+                        SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
+                    }
+
+                    if (posEsquiX == 600 && posEsquiY == 0)
+                    {
+                        SORTIE = 0;
+                        // run[j][0] = posEsquiX;
+                        // run[j][1] = posEsquiY;
+                        // run[j][2] = direction;
+                        // run[j][3] = recompense;
+                    }
+                    SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+                    SDL_PumpEvents();
+                    SDL_RenderPresent(renderer);
+                }
             }
-
-            finMouvement = 1;
-            while (finMouvement)
+            else
             {
-                printf("finMouv : %d \n", finMouvement);
-                if (direction == 2  && posEsquiY != posPrecY)
-                {
-                    rect_esquimau.y -= 5;
-                    posEsquiY -= 5;
-                }
-                else if (direction == 2 && posEsquiY == posPrecY)
-                {
-                    finMouvement = 0;
-                }
-                else if (direction == 0 && posEsquiY != posPrecY)
-                {
-                    rect_esquimau.y += 5;
-                    posEsquiY += 5;
-                }
-                else if (direction == 0 && posEsquiY == posPrecY)
-                {
-                    finMouvement = 0;
-                }
-                else if (direction == 1 && posEsquiX != posPrecX)
-                {
-                    rect_esquimau.x -= 5;
-                    posEsquiX -= 5;
-                }
-                else if (direction == 1 && posEsquiX == posPrecX)
-                {
-                    finMouvement = 0;
-                }
-                else if (direction == 3 && posEsquiX != posPrecX)
-                {
-                    rect_esquimau.x += 5;
-                    posEsquiX += 5;
-                }
-                else if (direction == 3 && posEsquiX == posPrecX)
-                {
-                    finMouvement = 0;
-                }
-
-
-                // Affichage du fond
-                SDL_RenderCopy(renderer, fond, &source, &destination);
-
-                // Affichage des rocks
-                for (int i = 0; i < 13; i++)
-                {
-                    SDL_RenderCopy(renderer, roc1, NULL, &rect_roc[i]);
-                }
-
-                for (int i = 0; i < 2; i++)
-                {
-                    SDL_RenderCopy(renderer, side_mur, NULL, &rect_mur[i]);
-                }
-                for (int i = 2; i < 6; i++)
-                {
-                    SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
-                }
-
-                if (posEsquiX == 600 && posEsquiY == 0)
-                {
-                    SORTIE = 0;
-                    // run[j][0] = posEsquiX;
-                    // run[j][1] = posEsquiY;
-                    // run[j][2] = direction;
-                    // run[j][3] = recompense;
-                }
-                SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
-                SDL_PumpEvents();
-                SDL_RenderPresent(renderer);
+                i = NBEPOQUE + 1;
             }
         }
+        printf("I: %d\n",i);
         // MAJ QSA & REI POS
         apprentissageQSA(qsa, run, j, direction);
-        //j = 0;
+        j = 0;
+        SORTIE = 1;
         posEsquiX = 600;
         posEsquiY = 800;
         rect_esquimau.x = 600;
