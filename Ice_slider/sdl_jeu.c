@@ -415,7 +415,7 @@ void sdl_IA()
     // Récupération taille écran
     SDL_GetCurrentDisplayMode(0, &screen);
 
-    window = SDL_CreateWindow("Projet Z",
+    window = SDL_CreateWindow("ICE SLIDER",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,
