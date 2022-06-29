@@ -473,8 +473,9 @@ void sdl_IA()
     // Boucle des epoques
     for (i = 0; i < NBEPOQUE; i++)
     {
+        printf("Période: %d\n",i);
         // Boucle de jeu
-        while (program_on && SORTIE && j < NBITEPO + 1)
+        while (program_on && SORTIE && j < NBITEPO)
         { // Voilà la boucle des évènements
 
             while (SDL_PollEvent(&event))
@@ -497,7 +498,7 @@ void sdl_IA()
                 run[j][0] = posEsquiX;
                 run[j][1] = posEsquiY;
                 run[j][2] = direction;
-                // run[j][3] = recompense;
+                run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
                 j++;
                 //printf("j: %d\n", j);
 
@@ -587,10 +588,10 @@ void sdl_IA()
                     if (posEsquiX == 600 && posEsquiY == 0)
                     {
                         SORTIE = 0;
-                        // run[j][0] = posEsquiX;
-                        // run[j][1] = posEsquiY;
-                        // run[j][2] = direction;
-                        // run[j][3] = recompense;
+                        run[j][0] = posEsquiX;
+                        run[j][1] = posEsquiY;
+                        run[j][2] = direction;
+                        run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
                     }
                     SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
                     SDL_PumpEvents();
@@ -602,7 +603,7 @@ void sdl_IA()
                 i = NBEPOQUE + 1;
             }
         }
-        printf("I: %d\n",i);
+        // printf("I: %d\n",i);
         // MAJ QSA & REI POS
         apprentissageQSA(qsa, run, j, direction);
         j = 0;
