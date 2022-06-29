@@ -29,6 +29,7 @@ int eGreedy (int **qsa, int *epsilon, int x , int y);
 int prefLearningBase(int ** qsa, int x, int y, int T);
 void apprentissageQSA(int **qsa, int **run, int dernier, int action);
 int traduc_etat_ligne(int x, int y);
-void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap);
+void initTabIa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea);
+void initReward(float reward[][6], int nbLignesMap, int nbColonnesMap);
 
 #endif

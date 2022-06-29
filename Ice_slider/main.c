@@ -12,22 +12,17 @@
 #include "sdl_jeu.h"
 #include "ia.h"
 
-// CONSTANTES
-#define width 1300
-#define height 900
-
-#define VITESSE 10
-
-#define NBCOLMAP width / 100
-#define NBLIGNESMAP height / 100
-
 // Fonction main
 int main(void)
 {
     int run[NBITEPO][4];
 
     float qsa[NBLIGNESMAP * NBCOLMAP][6];
-    initQsa(qsa, NBLIGNESMAP, NBCOLMAP);
+    float reward[NBLIGNESMAP * NBCOLMAP][6];
+
+    initTabIa(qsa, NBLIGNESMAP, NBCOLMAP, 0);
+
+    initReward(reward, NBLIGNESMAP, NBCOLMAP);
 
     Intro_jeu();
 

@@ -4,33 +4,103 @@
 #include <math.h>
 #include "jeu.h"
 #include "ia.h"
+#include "sdl_jeu.h"
 
 // Prend les coordonnées du personnage et renvoie l'indice de la ligne état associée
 int traduc_etat_ligne(int x, int y)
 {
-    return ((x / 100) + ((y / 100) - 1));
+    return (((x / 100) * NBLIGNESMAP) + (y / 100));
 }
 
 // Initialise la matrice QSA avec des zéros pour les actions
 // | x | y | gauche | droite | haut | bas |
-void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap)
+void initTabIa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea)
 {
     for (int j = 0; j < nbColonnesMap * nbLignesMap; j++)
     {
-        qsa[j][1] = j / nbLignesMap;
-        qsa[j][2] = j % nbLignesMap;
-        for (int k = 3; k < 6; k++)
+        tab[j][0] = j / nbLignesMap;
+        tab[j][1] = j % nbLignesMap;
+        for (int k = 2; k < 6; k++)
         {
-            qsa[j][k] = 0;
-            // qsa[j][k] = valeur_random(0,MOYREC);
+            if (alea)
+                tab[j][k] = valeur_random(0, MOYREC);
+            else
+                tab[j][k] = 0;
         }
     }
+}
 
-    //Affichage de la matrice
-    // for (int i = 0; i < 117; i++)
-    // {
-    //     printf("[ %.1f ; %.1f ]\n", qsa[i][1], qsa[i][2]);
-    // }
+void initReward(float tab[][6], int nbLignesMap, int nbColonnesMap)
+{
+
+    initTabIa(tab, nbLignesMap, nbColonnesMap, 0);
+
+    // Ligne 1
+    tab[traduc_etat_ligne(100, 300)][2] = -1;
+    tab[traduc_etat_ligne(100, 300)][4] = -1;
+    tab[traduc_etat_ligne(100, 500)][2] = -1;
+    tab[traduc_etat_ligne(100, 600)][2] = -1;
+    tab[traduc_etat_ligne(100, 600)][5] = -1;
+    // Ligne 2
+    tab[traduc_etat_ligne(200, 200)][2] = -1;
+    tab[traduc_etat_ligne(200, 200)][4] = -1;
+    tab[traduc_etat_ligne(200, 300)][5] = -1;
+    tab[traduc_etat_ligne(200, 500)][4] = -1;
+    tab[traduc_etat_ligne(200, 700)][2] = -1;
+    tab[traduc_etat_ligne(200, 700)][4] = -1;
+    // Ligne 3
+    tab[traduc_etat_ligne(300, 100)][2] = -1;
+    tab[traduc_etat_ligne(300, 100)][4] = -1;
+    tab[traduc_etat_ligne(300, 400)][2] = -1;
+    tab[traduc_etat_ligne(300, 700)][5] = -1;
+    // Ligne 4
+    tab[traduc_etat_ligne(400, 200)][3] = -1;
+    // Ligne 5
+    tab[traduc_etat_ligne(500, 300)][3] = -1;
+    tab[traduc_etat_ligne(500, 300)][4] = -1;
+    tab[traduc_etat_ligne(500, 500)][3] = -1;
+    tab[traduc_etat_ligne(500, 700)][5] = -1;
+    // Ligne 6
+    tab[traduc_etat_ligne(600, 200)][2] = -1;
+    tab[traduc_etat_ligne(600, 200)][4] = 1;
+    tab[traduc_etat_ligne(600, 200)][5] = -1;
+    tab[traduc_etat_ligne(600, 600)][4] = -1;
+    tab[traduc_etat_ligne(600, 700)][3] = -1;
+    tab[traduc_etat_ligne(600, 700)][5] = -1;
+    tab[traduc_etat_ligne(600, 800)][2] = -1;
+    tab[traduc_etat_ligne(600, 800)][3] = -1;
+    tab[traduc_etat_ligne(600, 800)][5] = -1;
+    // Ligne 7
+    tab[traduc_etat_ligne(700, 100)][4] = -1;
+    tab[traduc_etat_ligne(700, 400)][3] = -1;
+    tab[traduc_etat_ligne(700, 500)][2] = -1;
+    tab[traduc_etat_ligne(700, 600)][5] = -1;
+    // Ligne 8
+    tab[traduc_etat_ligne(800, 500)][4] = -1;
+    tab[traduc_etat_ligne(800, 600)][3] = -1;
+    tab[traduc_etat_ligne(800, 700)][2] = -1;
+    tab[traduc_etat_ligne(800, 700)][5] = -1;
+    // Ligne 9
+    tab[traduc_etat_ligne(900, 100)][3] = -1;
+    tab[traduc_etat_ligne(900, 100)][4] = -1;
+    tab[traduc_etat_ligne(900, 400)][2] = -1;
+    tab[traduc_etat_ligne(900, 500)][5] = -1;
+    // Ligne 10
+    tab[traduc_etat_ligne(1000, 200)][4] = -1;
+    tab[traduc_etat_ligne(1000, 600)][2] = -1;
+    tab[traduc_etat_ligne(1000, 700)][3] = -1;
+    tab[traduc_etat_ligne(1000, 700)][5] = -1;
+    // Ligne 11
+    tab[traduc_etat_ligne(1100, 100)][2] = -1;
+    tab[traduc_etat_ligne(1100, 100)][3] = -1;
+    tab[traduc_etat_ligne(1100, 100)][4] = -1;
+    tab[traduc_etat_ligne(1100, 200)][3] = -1;
+    tab[traduc_etat_ligne(1100, 200)][5] = -1;
+    tab[traduc_etat_ligne(1100, 400)][3] = -1;
+    tab[traduc_etat_ligne(1100, 400)][4] = -1;
+    tab[traduc_etat_ligne(1100, 500)][3] = -1;
+    tab[traduc_etat_ligne(1100, 600)][3] = -1;
+    tab[traduc_etat_ligne(1100, 600)][5] = -1;
 }
 
 int choixActionQSA(int **qsa, int x, int y)

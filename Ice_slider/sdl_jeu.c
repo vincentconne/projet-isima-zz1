@@ -9,11 +9,6 @@
 #include "sdl_jeu.h"
 #include "texture.h"
 
-#define width 1300
-#define height 900
-
-#define VITESSE 5
-
 void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
 {
     SDL_Rect rectangle;
