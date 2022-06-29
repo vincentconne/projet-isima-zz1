@@ -8,24 +8,15 @@
 #include "jeu.h"
 #include "sdl_jeu.h"
 #include "texture.h"
+#include "ia.h"
 
 #define width 1300
 #define height 900
 
 #define VITESSE 5
 
-void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture)
-{
-    SDL_Rect rectangle;
-
-    rectangle.x = xg;  // x haut gauche du rectangle
-    rectangle.y = yg;  // y haut gauche du rectangle
-    rectangle.w = 100; // sa largeur (w = width)
-    rectangle.h = 100; // sa hauteur (h = height)
-
-    SDL_QueryTexture(text_texture, NULL, NULL, &rectangle.w, &rectangle.h); // récupération de la taille (w, h) du texte
-    SDL_RenderCopy(renderer, text_texture, NULL, &rectangle);
-}
+#define NBCOLMAP width / 100
+#define NBLIGNESMAP height / 100
 
 // FONCTIONS
 
@@ -369,6 +360,242 @@ void sdl_Jeu()
     SDL_Quit();
 }
 
+void sdl_IA()
+{
+    int run[NBITEPO][4];
+
+    float qsa[NBLIGNESMAP * NBCOLMAP][6];
+    initQsa(qsa, NBLIGNESMAP, NBCOLMAP);
+    int j = 0;
+    float eps = 0.8;
+    int dernier;
+
+    int stop = 0;
+
+    int TabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
+                         {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+                         {1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1},
+                         {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
+                         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+                         {1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1},
+                         {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1}};
+    int posEsquiX = 600;
+    int posEsquiY = 800;
+    int posPrecX;
+    int posPrecY;
+    int CouplePrec[2] = {0, 0};
+    int direction = 8;
+    int SORTIE = 1;
+
+    SDL_Window *window = NULL;
+    SDL_Renderer *renderer = NULL;
+    SDL_DisplayMode screen;
+
+    SDL_Event event;
+
+    SDL_bool program_on = SDL_TRUE;
+
+    // Textures
+    SDL_Texture *fond;
+    SDL_Texture *roc1;
+    SDL_Texture *esquimauU;
+    SDL_Texture *esquimauR;
+    SDL_Texture *esquimauL;
+    SDL_Texture *esquimauD;
+    SDL_Texture *esquimau;
+    SDL_Texture *top_bot_mur;
+    SDL_Texture *side_mur;
+
+    // Rectangles
+    // SDL_Rect entree = {600, 800, 100, 100};
+    // SDL_Rect sortie = {600, 0, 100, 100};
+    SDL_Rect rect_roc[13];
+    SDL_Rect rect_mur[6];
+    SDL_Rect rect_esquimau;
+
+    // Initialisation des composants
+    initSDL(window, renderer);
+
+    // Récupération taille écran
+    SDL_GetCurrentDisplayMode(0, &screen);
+
+    window = SDL_CreateWindow("Projet Z",
+                              SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, width,
+                              height,
+                              SDL_WINDOW_OPENGL);
+    if (NULL == window)
+        end_sdl(0, "ERROR WINDOW", window, renderer);
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == NULL)
+        end_sdl(0, "ERROR RENDERER", window, renderer);
+
+    esquimauU = IMG_LoadTexture(renderer, "./src/static_forward.png");
+    esquimauR = IMG_LoadTexture(renderer, "./src/static_right.png");
+    esquimauL = IMG_LoadTexture(renderer, "./src/static_left.png");
+    esquimauD = IMG_LoadTexture(renderer, "./src/static_down.png");
+    esquimau = esquimauU;
+    top_bot_mur = IMG_LoadTexture(renderer, "./src/top_bot_mur.png");
+    side_mur = IMG_LoadTexture(renderer, "./src/side_mur.png");
+
+    rect_esquimau.x = 600;
+    rect_esquimau.y = 800;
+    rect_esquimau.w = 100;
+    rect_esquimau.h = 100;
+
+    fond = load_texture_from_image("./src/fond_glace.png", renderer);
+    SDL_Rect
+        source = {0},            // Rectangle définissant la zone de la texture à récupérer
+        window_dimensions = {0}, // Rectangle définissant la fenêtre, on n'utilisera que largeur et hauteur
+        destination = {0};       // Rectangle définissant où la zone_source doit être déposée dans le renderer
+    SDL_GetWindowSize(
+        window, &window_dimensions.w,
+        &window_dimensions.h); // Récupération des dimensions de la fenêtre
+    SDL_QueryTexture(fond, NULL, NULL,
+                     &source.w, &source.h); // Récupération des dimensions de l'image
+    destination = window_dimensions;        // On fixe les dimensions de l'affichage à  celles de la fenêtre
+
+    roc1 = IMG_LoadTexture(renderer, "./src/rocher.png");
+
+    initRoc(rect_roc);
+    initMur(rect_mur);
+
+    int finMouvement = 1;
+    // Boucle des epoques
+    for (int i = 0; i < NBEPOQUE; i++)
+    {
+        // Boucle de jeu
+        while (program_on && stop == 0 && (SORTIE || j < NBITEPO + 1))
+        { // Voilà la boucle des évènements
+
+            while (SDL_PollEvent(&event))
+            { // si la file d'évènements n'est pas vide : défiler l'élément en tête
+              // de file dans 'event'
+                if (event.type == SDL_QUIT)
+                {
+                    program_on = SDL_FALSE;
+                    puts("FIN DE MON PROGRAMME");
+                    break;
+                }
+            }
+
+            // Calculs IA
+            direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
+            // Sauvegarde etat + action
+            run[j][0] = posEsquiX;
+            run[j][1] = posEsquiY;
+            run[j][2] = direction;
+            // run[j][3] = recompense;
+            j++;
+
+            // Calcul nouvelle position
+            recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+            posPrecX = CouplePrec[1] * 100;
+            posPrecY = CouplePrec[0] * 100;
+
+            switch (direction)
+            {
+            case 0:
+                esquimau = esquimauD;
+                break;
+            case 2:
+                esquimau = esquimauU;
+                break;
+            case 1:
+                esquimau = esquimauL;
+                break;
+            case 3:
+                esquimau = esquimauR;
+                break;
+            default:
+                break;
+            }
+
+            finMouvement = 1;
+            while (finMouvement)
+            {
+                if (direction == 2)
+                {
+                    rect_esquimau.y -= 5;
+                    posEsquiY -= 5;
+                    if (posEsquiY == posPrecY)
+                    {
+                        finMouvement = 0;
+                    }
+                }
+                else if (direction == 0)
+                {
+                    rect_esquimau.y += 5;
+                    posEsquiY += 5;
+                    if (posEsquiY == posPrecY)
+                    {
+                        finMouvement = 0;
+                    }
+                }
+                else if (direction == 1)
+                {
+                    rect_esquimau.x -= 5;
+                    posEsquiX -= 5;
+                    if (posEsquiX == posPrecX)
+                    {
+                        finMouvement = 0;
+                    }
+                }
+                else if (direction == 3)
+                {
+                    rect_esquimau.x += 5;
+                    posEsquiX += 5;
+                    if (posEsquiX == posPrecX)
+                    {
+                        finMouvement = 0;
+                    }
+                }
+                // Affichage du fond
+                SDL_RenderCopy(renderer, fond, &source, &destination);
+
+                // Affichage des rocks
+                for (int i = 0; i < 13; i++)
+                {
+                    SDL_RenderCopy(renderer, roc1, NULL, &rect_roc[i]);
+                }
+
+                for (int i = 0; i < 2; i++)
+                {
+                    SDL_RenderCopy(renderer, side_mur, NULL, &rect_mur[i]);
+                }
+                for (int i = 2; i < 6; i++)
+                {
+                    SDL_RenderCopy(renderer, top_bot_mur, NULL, &rect_mur[i]);
+                }
+
+                if (posEsquiX == 600 && posEsquiY == 0)
+                {
+                    SORTIE = 0;
+                    run[j][0] = posEsquiX;
+                    run[j][1] = posEsquiY;
+                    run[j][2] = direction;
+                    // run[j][3] = recompense;
+                }
+                SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+                SDL_RenderPresent(renderer);
+            }
+        }
+        // MAJ QSA & REI POS
+        apprentissageQSA(qsa, run, j, direction);
+        posEsquiX = 600;
+        posEsquiY = 800;
+        rect_esquimau.x = 600;
+        rect_esquimau.y = 800;
+    }
+
+    SDL_DestroyTexture(roc1);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
+
 void Intro_jeu()
 {
     int stop = 0;
@@ -487,7 +714,7 @@ void Intro_jeu()
                 break;
             }
         }
-        if (finClique == 0)
+        if (finClique == 0) // Pas encore cliqué
         {
             SDL_RenderCopy(renderer, fond,
                            &source,
@@ -495,13 +722,22 @@ void Intro_jeu()
             draw(renderer, 320, 700, text_texture1);
             draw(renderer, 850, 700, text_texture2);
         }
-        else
+        else if (finClique == 1) // Clique Jeu à la main
         {
             SDL_DestroyTexture(text_texture1);
             SDL_DestroyTexture(text_texture2);
             SDL_DestroyWindow(window);
             TTF_Quit();
             sdl_Jeu();
+            stop = 1;
+        }
+        else if (finClique == 2) // Clique Jeu IA
+        {
+            SDL_DestroyTexture(text_texture1);
+            SDL_DestroyTexture(text_texture2);
+            SDL_DestroyWindow(window);
+            TTF_Quit();
+            sdl_IA();
             stop = 1;
         }
 

@@ -9,7 +9,7 @@
 
 // FONCTIONS
 void sdl_Jeu();
+void sdl_IA();
 void Intro_jeu();
-void draw(SDL_Renderer *renderer, int xg, int yg, SDL_Texture *text_texture);
 
 #endif
