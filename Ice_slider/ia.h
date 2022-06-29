@@ -11,9 +11,9 @@
 // Case de départ
 
 /* Paramètre d'apprentissage */
-#define NBEPOQUE 5
-#define NBITEPO 10
-#define XI 0.4
+#define NBEPOQUE 20
+#define NBITEPO 15
+#define XI 0.6
 #define G 0.8
 
 /* Paramètre des états */

@@ -57,7 +57,7 @@ int eGreedy(float qsa[][6], float *epsilon, int x, int y)
     {
         action = valeur_random(0, 3);
     }
-    *epsilon = *epsilon * 0.8;
+    *epsilon = *epsilon * 0.9;
     return action;
 }
 
