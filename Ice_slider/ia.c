@@ -23,8 +23,10 @@ void initQsa(float qsa[][6], int nbLignesMap, int nbColonnesMap)
 
 int choixActionQSA (int **qsa, int x, int y){
     int action = 0;
+    int ligne = 0;
     for (int i=0; i<4; i++){
-        if (qsa[x*9+y][2+i]>qsa[x*9+y][2+action]){
+        ligne = traduc_etat_ligne(x,y);
+        if (qsa[ligne][2+i]>qsa[ligne][2+action]){
             action = i;
         }
     }
@@ -57,9 +59,11 @@ int prefLearningBase(int ** qsa, int x, int y, int T){
     int action = 3;
     float alpha = valeur_random(0, 9) / 10;
     int cumul = 0;
+    int ligne = 0;
 
     for (int i=0; i<4; i++){
-        energie[i]= exp((qsa[x*9+y][2+i])/T);
+        ligne = traduc_etat_ligne(x,y);
+        energie[i]= exp((qsa[ligne][2+i])/T);
         z = energie[i];
     }
 
@@ -84,7 +88,7 @@ void apprentissageQSA(int **qsa, int **run, int dernier, int action){
     int y = run[dernier-1][1];
     int rec = run[dernier][2];
     //int action = run[dernier-1][3]; //Soucis de redéfinition
-    int ligne = x*9+y;
+    int ligne = traduc_etat_ligne(x,y);
 
     qsa[ligne][2+action] += XI * rec - qsa[ligne][2+action];
 
@@ -92,7 +96,7 @@ void apprentissageQSA(int **qsa, int **run, int dernier, int action){
     for (int i=dernier-2; i<0; i--){
         float max;
 
-        ligneSuiv = run[i+1][0]*9+run[i+1][1];
+        ligneSuiv = traduc_etat_ligne(run[i+1][0],run[i+1][1]);
         for (int i=0; i<4; i++){
             if (qsa[ligneSuiv][2+i]>max){
                 max = qsa[ligneSuiv][2+i];
@@ -104,7 +108,7 @@ void apprentissageQSA(int **qsa, int **run, int dernier, int action){
         rec = run[i+1][2];
         action = run[i][3];
 
-        ligne=x*9+y;
+        ligne = traduc_etat_ligne(x,y);
         qsa[ligne][2+action] += XI * (rec + G * max - qsa[ligne][2+action]);
     }
 }
