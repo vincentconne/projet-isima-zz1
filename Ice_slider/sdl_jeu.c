@@ -623,6 +623,7 @@ void Intro_jeu()
 
     // Textures
     SDL_Texture *fond;
+     SDL_Texture *fond2 ;
 
     // Initialisation des composants
     initSDL(window, renderer);
@@ -646,6 +647,9 @@ void Intro_jeu()
     // Création de la texture de fond
     fond = load_texture_from_image("./src/menu_ice_slider.png", renderer);
     if (fond == NULL)
+        end_sdl(0, "ERROR TEXTURE", window, renderer);
+    fond2 = load_texture_from_image("./src/menu_ice_slider.png", renderer);
+    if (fond2 == NULL)
         end_sdl(0, "ERROR TEXTURE", window, renderer);
 
     SDL_Rect
@@ -699,6 +703,7 @@ void Intro_jeu()
     int finClique = 0;
     int SourisX = 0;
     int SourisY = 0;
+    int var = 0; // Changer le fond
     while (program_on && stop == 0)
     { // Voilà la boucle des évènements
 
@@ -723,23 +728,23 @@ void Intro_jeu()
                 if (220 < SourisX && SourisX < 600 &&
                     650 < SourisY && SourisY < 800) // La souris est dans le réctangle JOUER //
                 {
-                    SDL_Color color = {116,165,241, 255};                                   // la couleur du texte
+                    SDL_Color color = {116, 165, 241, 255};                                // la couleur du texte
                     text_surface1 = TTF_RenderText_Blended(font, "JOUER", color);          // création du texte dans la surface
                     text_texture1 = SDL_CreateTextureFromSurface(renderer, text_surface1); // transfert de la surface à la texture
                 }
                 else if (700 < SourisX && SourisX < 1050 &&
                          650 < SourisY && SourisY < 800) // La souris est dans le réctangle IA //
                 {
-                    SDL_Color color = {116,165,241, 255};                        // la couleur du texte
+                    SDL_Color color = {116, 165, 241, 255};                     // la couleur du texte
                     text_surface2 = TTF_RenderText_Blended(font2, "IA", color); // création du texte dans la surface
                     text_texture2 = SDL_CreateTextureFromSurface(renderer, text_surface2);
                 }
                 else
                 {
-                    SDL_Color color = {255, 255, 255, 255};                        // la couleur du texte
+                    SDL_Color color = {255, 255, 255, 255};                                // la couleur du texte
                     text_surface1 = TTF_RenderText_Blended(font, "JOUER", color);          // création du texte dans la surface
                     text_texture1 = SDL_CreateTextureFromSurface(renderer, text_surface1); // transfert de la surface à la texture
-                    text_surface2 = TTF_RenderText_Blended(font2, "IA", color); // création du texte dans la surface
+                    text_surface2 = TTF_RenderText_Blended(font2, "IA", color);            // création du texte dans la surface
                     text_texture2 = SDL_CreateTextureFromSurface(renderer, text_surface2);
                 }
                 break;
@@ -755,9 +760,20 @@ void Intro_jeu()
         if (finClique == 0) // Pas encore cliqué
         {
             SDL_GetMouseState(&SourisX, &SourisY);
-            SDL_RenderCopy(renderer, fond,
-                           &source,
-                           &destination);
+            if (var == 1)
+            {
+                SDL_RenderCopy(renderer, fond,
+                               &source,
+                               &destination);
+                var = 0;
+            }
+            else
+            {
+                SDL_RenderCopy(renderer, fond2,
+                               &source,
+                               &destination);
+                var = 1;
+            }
             draw(renderer, 320, 700, text_texture1);
             draw(renderer, 850, 700, text_texture2);
         }
@@ -782,13 +798,11 @@ void Intro_jeu()
 
         SDL_RenderPresent(renderer); // affichage
     }
-
+    SDL_FreeSurface(text_surface1);
+    SDL_FreeSurface(text_surface2);
     SDL_DestroyTexture(text_texture1);
     SDL_DestroyTexture(text_texture2);
     SDL_DestroyWindow(window);
     TTF_Quit();
     SDL_Quit();
 }
-
-// SDL_FreeSurface(text_surface1); // la texture ne sert plus à rien
-//     SDL_FreeSurface(text_surface2); // la texture ne sert plus à rien
