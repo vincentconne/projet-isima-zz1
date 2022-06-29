@@ -26,7 +26,6 @@ int main(void)
 {
     int run[NBITEPO][4];
 
-   
     float qsa[NBLIGNESMAP * NBCOLMAP][6];
     initQsa(qsa, NBLIGNESMAP, NBCOLMAP);
 
