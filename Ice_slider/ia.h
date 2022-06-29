@@ -11,8 +11,8 @@
 // Case de départ
 
 /* Paramètre d'apprentissage */
-#define NBEPOQUE 100
-#define NBITEPO 50
+#define NBEPOQUE 1000
+#define NBITEPO 100
 #define XI 0.6
 #define G 0.8
 
@@ -27,9 +27,14 @@
 int choixActionQSA (float qsa[][6], int x, int y);
 int eGreedy (float qsa[][6], float *epsilon, int x , int y);
 int prefLearningBase(float qsa[][6], int x, int y, int T);
-void apprentissageQSA(float qsa[][6], int run[][4], int dernier, int action);
+void apprentissageQSA(float qsa[][6], int run[][4], int dernier);
 int traduc_etat_ligne(int x, int y);
 void initTabIa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea);
 int getReward(int x, int y);
+
+
+// EN PLUS
+void affichageQSA(float qsa[][6]);
+void affichageRUN(int run[][4], int dernier);
 
 #endif

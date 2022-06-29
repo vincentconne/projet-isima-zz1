@@ -9,7 +9,7 @@
 // CONSTANTES
 #define width 1300
 #define height 900
-#define VITESSE 100
+#define VITESSE 10
 #define NBCOLMAP width / 100
 #define NBLIGNESMAP height / 100
 

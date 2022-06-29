@@ -457,15 +457,46 @@ void sdl_IA()
     initRoc(rect_roc);
     initMur(rect_mur);
 
+    //affichageQSA(qsa);
+
+    for (i = 0; i < NBEPOQUE; i++){
+        while (program_on && SORTIE && j < NBITEPO){
+            direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
+            recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+            run[j][0] = posEsquiX;
+            run[j][1] = posEsquiY;
+            run[j][2] = direction;
+            run[j][3] = getReward(posEsquiX, posEsquiY);
+            posEsquiX = CouplePrec[1] * 100;
+            posEsquiY = CouplePrec[0] * 100;
+            j++;
+            if (posEsquiX == 600 && posEsquiY == 0){
+                        SORTIE = 0;
+                        run[j][0] = posEsquiX;
+                        run[j][1] = posEsquiY;
+                        run[j][2] = -1;
+                        run[j][3] = getReward(posEsquiX, posEsquiY);
+            }
+        }
+        if (SORTIE){
+            j--;
+        }
+        apprentissageQSA(qsa, run, j);
+        j = 0;
+        SORTIE = 1;
+        posEsquiX = 600;
+        posEsquiY = 800;
+    }
+
     int finMouvement = 1;
     // Boucle des epoques
-    for (i = 0; i < NBEPOQUE; i++)
-    {
-        printf("Période: %d\n",i);
+    //for (i = 0; i < NBEPOQUE; i++)
+    //{
+        j=0;
         // Boucle de jeu
         while (program_on && SORTIE && j < NBITEPO)
-        { // Voilà la boucle des évènements
-
+        { 
+            eps=0;
             while (SDL_PollEvent(&event))
             { // si la file d'évènements n'est pas vide : défiler l'élément en tête
               // de file dans 'event'
@@ -479,21 +510,20 @@ void sdl_IA()
             if (program_on == SDL_TRUE)
             {
                 // Calculs IA
-                direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
-                //printf("Nouvelle action choisie : %d\n", direction);
+                eps=0;
+                //direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
+                direction = choixActionQSA(qsa,posEsquiX,posEsquiY);
+                //printf("Direction choisie : %d\n",direction);
 
                 // Sauvegarde etat + action
                 run[j][0] = posEsquiX;
                 run[j][1] = posEsquiY;
                 run[j][2] = direction;
                 run[j][3] = getReward(posEsquiX, posEsquiY);
-                //run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
                 j++;
-                //printf("j: %d\n", j);
 
                 // Calcul nouvelle position
                 recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
-                // printf("La nouvelle position : %d %d\n",CouplePrec[1],CouplePrec[0]);
                 posPrecX = CouplePrec[1] * 100;
                 posPrecY = CouplePrec[0] * 100;
 
@@ -595,14 +625,14 @@ void sdl_IA()
         }
         // printf("I: %d\n",i);
         // MAJ QSA & REI POS
-        apprentissageQSA(qsa, run, j, direction);
-        j = 0;
-        SORTIE = 1;
-        posEsquiX = 600;
-        posEsquiY = 800;
-        rect_esquimau.x = 600;
-        rect_esquimau.y = 800;
-    }
+    //     apprentissageQSA(qsa, run, j);
+    //     j = 0;
+    //     SORTIE = 1;
+    //     posEsquiX = 600;
+    //     posEsquiY = 800;
+    //     rect_esquimau.x = 600;
+    //     rect_esquimau.y = 800;
+    //}
 
     SDL_DestroyTexture(roc1);
     SDL_DestroyWindow(window);
