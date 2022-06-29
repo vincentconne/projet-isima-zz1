@@ -10,14 +10,6 @@
 #include "texture.h"
 #include "ia.h"
 
-#define width 1300
-#define height 900
-
-#define VITESSE 5
-
-#define NBCOLMAP width / 100
-#define NBLIGNESMAP height / 100
-
 // FONCTIONS
 
 // Initialisation de la SDL2
@@ -328,23 +320,23 @@ void sdl_Jeu()
         // Changement de position de l'esquimau (glisse)
         if (direction == 2 && posEsquiX == posPrecX && posEsquiY != posPrecY)
         {
-            rect_esquimau.y -= 5;
-            posEsquiY -= 5;
+            rect_esquimau.y -= VITESSE;
+            posEsquiY -= VITESSE;
         }
         else if (direction == 0 && posEsquiX == posPrecX && posEsquiY != posPrecY)
         {
-            rect_esquimau.y += 5;
-            posEsquiY += 5;
+            rect_esquimau.y += VITESSE;
+            posEsquiY += VITESSE;
         }
         else if (direction == 1 && posEsquiX != posPrecX && posEsquiY == posPrecY)
         {
-            rect_esquimau.x -= 5;
-            posEsquiX -= 5;
+            rect_esquimau.x -= VITESSE;
+            posEsquiX -= VITESSE;
         }
         else if (direction == 3 && posEsquiX != posPrecX && posEsquiY == posPrecY)
         {
-            rect_esquimau.x += 5;
-            posEsquiX += 5;
+            rect_esquimau.x += VITESSE;
+            posEsquiX += VITESSE;
         }
 
         if (posEsquiX == 600 && posEsquiY == 0)
@@ -370,7 +362,7 @@ void sdl_IA()
 
     int j = 0;
     int i = 0;
-    float eps = 0.8;
+    float eps = 1.0;
 
     // int stop = 0;
 
@@ -494,7 +486,8 @@ void sdl_IA()
                 run[j][0] = posEsquiX;
                 run[j][1] = posEsquiY;
                 run[j][2] = direction;
-                run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
+                run[j][3] = getReward(posEsquiX, posEsquiY);
+                //run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
                 j++;
                 //printf("j: %d\n", j);
 
@@ -528,8 +521,8 @@ void sdl_IA()
                     // printf("finMouv : %d \n", finMouvement);
                     if (direction == 2 && posEsquiY != posPrecY)
                     {
-                        rect_esquimau.y -= 5;
-                        posEsquiY -= 5;
+                        rect_esquimau.y -= VITESSE;
+                        posEsquiY -= VITESSE;
                     }
                     else if (direction == 2 && posEsquiY == posPrecY)
                     {
@@ -537,8 +530,8 @@ void sdl_IA()
                     }
                     else if (direction == 0 && posEsquiY != posPrecY)
                     {
-                        rect_esquimau.y += 5;
-                        posEsquiY += 5;
+                        rect_esquimau.y += VITESSE;
+                        posEsquiY += VITESSE;
                     }
                     else if (direction == 0 && posEsquiY == posPrecY)
                     {
@@ -546,8 +539,8 @@ void sdl_IA()
                     }
                     else if (direction == 1 && posEsquiX != posPrecX)
                     {
-                        rect_esquimau.x -= 5;
-                        posEsquiX -= 5;
+                        rect_esquimau.x -= VITESSE;
+                        posEsquiX -= VITESSE;
                     }
                     else if (direction == 1 && posEsquiX == posPrecX)
                     {
@@ -555,8 +548,8 @@ void sdl_IA()
                     }
                     else if (direction == 3 && posEsquiX != posPrecX)
                     {
-                        rect_esquimau.x += 5;
-                        posEsquiX += 5;
+                        rect_esquimau.x += VITESSE;
+                        posEsquiX += VITESSE;
                     }
                     else if (direction == 3 && posEsquiX == posPrecX)
                     {
@@ -587,7 +580,8 @@ void sdl_IA()
                         run[j][0] = posEsquiX;
                         run[j][1] = posEsquiY;
                         run[j][2] = direction;
-                        run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
+                        run[j][3] = getReward(posEsquiX, posEsquiY);
+                        //run[j][3] = reward[traduc_etat_ligne(posEsquiX,posEsquiY)][direction+2];
                     }
                     SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
                     SDL_PumpEvents();

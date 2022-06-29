@@ -30,6 +30,17 @@ void initTabIa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea)
     }
 }
 
+// Retourne la récompense en fonction de la position actuelle du joueur
+int getReward(int x, int y)
+{
+    int reward = 0;
+
+    if (x >= 600 && x < 700 && y >= 0 && y < 100)
+        reward = 1;
+
+    return reward;
+}
+
 int choixActionQSA(float qsa[][6], int x, int y)
 {
     int action = 0;
@@ -48,7 +59,7 @@ int choixActionQSA(float qsa[][6], int x, int y)
 int eGreedy(float qsa[][6], float *epsilon, int x, int y)
 {
     int action;
-    float alea = valeur_random(0, 10)/10;
+    float alea = valeur_random(0, 10) / 10;
     if (alea > *epsilon)
     {
         action = choixActionQSA(qsa, x, y);
@@ -57,7 +68,7 @@ int eGreedy(float qsa[][6], float *epsilon, int x, int y)
     {
         action = valeur_random(0, 3);
     }
-    *epsilon = *epsilon * 0.9;
+    *epsilon = *epsilon * 0.7;
     return action;
 }
 
