@@ -483,6 +483,8 @@ void sdl_IA()
 
             // Calculs IA
             direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
+            printf("Nouvelle action choisie : %d\n", direction);
+
             // Sauvegarde etat + action
             run[j][0] = posEsquiX;
             run[j][1] = posEsquiY;
@@ -492,6 +494,7 @@ void sdl_IA()
 
             // Calcul nouvelle position
             recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+            printf("La nouvelle position : %d %d\n",CouplePrec[1],CouplePrec[0]);
             posPrecX = CouplePrec[1] * 100;
             posPrecY = CouplePrec[0] * 100;
 
@@ -553,6 +556,8 @@ void sdl_IA()
                 {
                     finMouvement = 0;
                 }
+
+
                 // Affichage du fond
                 SDL_RenderCopy(renderer, fond, &source, &destination);
 
@@ -574,12 +579,13 @@ void sdl_IA()
                 if (posEsquiX == 600 && posEsquiY == 0)
                 {
                     SORTIE = 0;
-                    run[j][0] = posEsquiX;
-                    run[j][1] = posEsquiY;
-                    run[j][2] = direction;
+                    // run[j][0] = posEsquiX;
+                    // run[j][1] = posEsquiY;
+                    // run[j][2] = direction;
                     // run[j][3] = recompense;
                 }
                 SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+                SDL_PumpEvents();
                 SDL_RenderPresent(renderer);
             }
         }

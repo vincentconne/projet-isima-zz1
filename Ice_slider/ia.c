@@ -51,7 +51,7 @@ int choixActionQSA(float qsa[][6], int x, int y)
 int eGreedy(float qsa[][6], float *epsilon, int x, int y)
 {
     int action;
-    int alea = valeur_random(0, 100);
+    int alea = valeur_random(0, 10)/10;
     if (alea > *epsilon)
     {
         action = choixActionQSA(qsa, x, y);
