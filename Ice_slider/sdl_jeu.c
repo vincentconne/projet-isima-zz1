@@ -366,8 +366,16 @@ void sdl_Jeu()
         }
         SDL_RenderPresent(renderer);
     }
-
+    SDL_DestroyTexture(fond);
     SDL_DestroyTexture(roc1);
+    SDL_DestroyTexture(esquimauU);
+    SDL_DestroyTexture(esquimauR);
+    SDL_DestroyTexture(esquimauL);
+    SDL_DestroyTexture(esquimauD);
+    SDL_DestroyTexture(esquimau);
+    SDL_DestroyTexture(top_bot_mur);
+    SDL_DestroyTexture(side_mur);
+    SDL_DestroyTexture(text_textureSortieTrouvee);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
