@@ -11,8 +11,8 @@
 // Case de départ
 
 /* Paramètre d'apprentissage */
-#define NBEPOQUE 20000
-#define NBITEPO 100
+#define NBEPOQUE 50000
+#define NBITEPO 1000
 #define XI 0.01
 #define G 0.8
 
