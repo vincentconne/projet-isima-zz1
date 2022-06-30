@@ -56,11 +56,17 @@ void sdlJeu()
     SDL_Texture *top_bot_mur;
     SDL_Texture *side_mur;
     SDL_Texture *text_textureSortieTrouvee;
+    SDL_Texture *pingouinU;
+    SDL_Texture *pingouinR;
+    SDL_Texture *pingouinL;
+    SDL_Texture *pingouinD;
+    SDL_Texture *pingouin;
 
     // Rectangles SDL
     SDL_Rect rect_roc[13];
     SDL_Rect rect_mur[6];
     SDL_Rect rect_esquimau;
+    SDL_Rect rect_pingouin;
 
     // Initialisation des composants SDL
     initSDL(window, renderer);
@@ -69,7 +75,7 @@ void sdlJeu()
     SDL_GetCurrentDisplayMode(0, &screen);
 
     // Création window et renderer
-    window = SDL_CreateWindow("Projet Z",
+    window = SDL_CreateWindow("Ice Slider",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,
@@ -89,12 +95,23 @@ void sdlJeu()
     esquimau = esquimauU;
     top_bot_mur = IMG_LoadTexture(renderer, "./src/top_bot_mur.png");
     side_mur = IMG_LoadTexture(renderer, "./src/side_mur.png");
+    pingouinU = IMG_LoadTexture(renderer, "./src/penguin_up.png");
+    pingouinR = IMG_LoadTexture(renderer, "./src/penguin_right.png");
+    pingouinL = IMG_LoadTexture(renderer, "./src/penguin_left.png");
+    pingouinD = IMG_LoadTexture(renderer, "./src/penguin_down.png");
+    pingouin = pingouinD;
 
     // Rectangle du personnage
     rect_esquimau.x = 600;
     rect_esquimau.y = 800;
     rect_esquimau.w = 100;
     rect_esquimau.h = 100;
+
+    // Rectangle du pingouin
+    rect_pingouin.x = 500;
+    rect_pingouin.y = 300;
+    rect_pingouin.w = 100;
+    rect_pingouin.h = 100;
 
     // Création du fond
     fond = loadTextureFromImage("./src/fond_glace.png", renderer);
@@ -122,6 +139,14 @@ void sdlJeu()
     }
     SDL_FreeSurface(SortieTrouvee); // la texture ne sert plus à rien
 
+    // Gestion du pingouin
+    int cle = 0;
+    int posCleX = 500;
+    int posCleY = 300;
+
+    // Ordre d'affichage
+    int ordre = 0;
+
     int fin = 1;
     // Boucle de jeu
     while (programOn && stop == 0 && fin)
@@ -140,8 +165,13 @@ void sdlJeu()
                 case SDL_SCANCODE_LEFT:
                     esquimau = esquimauL;
 
-                    direction = 1;
+                    if (cle)
+                    {
+                        pingouin = pingouinL;
+                    }
 
+                    direction = 1;
+                    ordre = 0;
                     recherche1(tabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
                     posPrecX = CouplePrec[1] * 100;
                     posPrecY = CouplePrec[0] * 100;
@@ -150,8 +180,13 @@ void sdlJeu()
                 case SDL_SCANCODE_RIGHT:
                     esquimau = esquimauR;
 
-                    direction = 3;
+                    if (cle)
+                    {
+                        pingouin = pingouinR;
+                    }
 
+                    direction = 3;
+                    ordre = 0;
                     recherche1(tabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
                     posPrecX = (CouplePrec[1] * 100);
                     posPrecY = CouplePrec[0] * 100;
@@ -160,7 +195,13 @@ void sdlJeu()
                 case SDL_SCANCODE_UP:
                     esquimau = esquimauU;
 
+                    if (cle)
+                    {
+                        pingouin = pingouinU;
+                    }
+
                     direction = 2;
+                    ordre = 1;
                     recherche1(tabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
                     posPrecX = CouplePrec[1] * 100;
                     posPrecY = CouplePrec[0] * 100;
@@ -169,7 +210,13 @@ void sdlJeu()
                 case SDL_SCANCODE_DOWN:
                     esquimau = esquimauD;
 
+                    if (cle)
+                    {
+                        pingouin = pingouinD;
+                    }
+
                     direction = 0;
+                    ordre = 0;
                     recherche1(tabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
                     posPrecX = CouplePrec[1] * 100;
                     posPrecY = CouplePrec[0] * 100;
@@ -197,6 +244,12 @@ void sdlJeu()
             SDL_RenderCopy(renderer, roc1, NULL, &rect_roc[i]);
         }
 
+        // Affichage pingouin qui attend
+        if (!cle)
+        {
+            SDL_RenderCopy(renderer, pingouin, NULL, &rect_pingouin);
+        }
+
         // Affichage des murs
         for (int i = 0; i < 2; i++)
         {
@@ -212,24 +265,45 @@ void sdlJeu()
         {
             rect_esquimau.y -= VITESSE;
             posEsquiY -= VITESSE;
+            if (cle)
+            {
+                rect_pingouin.y = rect_esquimau.y + 20;
+            }
         }
         else if (direction == 0 && posEsquiY != posPrecY)
         {
             rect_esquimau.y += VITESSE;
             posEsquiY += VITESSE;
+            if (cle)
+            {
+                rect_pingouin.y = rect_esquimau.y - 20;
+            }
         }
         else if (direction == 1 && posEsquiX != posPrecX)
         {
             rect_esquimau.x -= VITESSE;
             posEsquiX -= VITESSE;
+            if (cle)
+            {
+                rect_pingouin.x = rect_esquimau.x + 20;
+            }
         }
         else if (direction == 3 && posEsquiX != posPrecX)
         {
             rect_esquimau.x += VITESSE;
             posEsquiX += VITESSE;
+            if (cle)
+            {
+                rect_pingouin.x = rect_esquimau.x - 20;
+            }
+        }
+        // printf("position esqui %d %d\n", posEsquiX,posEsquiY);
+        if (posEsquiX == posCleX && posEsquiY == posCleY)
+        {
+            cle = 1;
         }
 
-        if (posEsquiX == 600 && posEsquiY == 0)
+        if (posEsquiX == 600 && posEsquiY == 0 && cle)
         {
             sortie = 3;
         }
@@ -239,7 +313,16 @@ void sdlJeu()
         }
         else
         {
-            SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+            if (ordre)
+            {
+                SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+                SDL_RenderCopy(renderer, pingouin, NULL, &rect_pingouin);
+            }
+            else
+            {
+                SDL_RenderCopy(renderer, pingouin, NULL, &rect_pingouin);
+                SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+            }
         }
         SDL_RenderPresent(renderer);
     }
@@ -250,6 +333,11 @@ void sdlJeu()
     SDL_DestroyTexture(esquimauL);
     SDL_DestroyTexture(esquimauD);
     SDL_DestroyTexture(esquimau);
+    SDL_DestroyTexture(pingouinU);
+    SDL_DestroyTexture(pingouinR);
+    SDL_DestroyTexture(pingouinL);
+    SDL_DestroyTexture(pingouinD);
+    SDL_DestroyTexture(pingouin);
     SDL_DestroyTexture(top_bot_mur);
     SDL_DestroyTexture(side_mur);
     SDL_DestroyTexture(text_textureSortieTrouvee);
@@ -309,11 +397,17 @@ void sdlIA()
     SDL_Texture *top_bot_mur;
     SDL_Texture *side_mur;
     SDL_Texture *text_textureSortieTrouvee;
+    SDL_Texture *pingouinU;
+    SDL_Texture *pingouinR;
+    SDL_Texture *pingouinL;
+    SDL_Texture *pingouinD;
+    SDL_Texture *pingouin;
 
     // Rectangles
     SDL_Rect rectRoc[13];
     SDL_Rect rectMur[6];
     SDL_Rect rectEsquimau;
+    SDL_Rect rect_pingouin;
 
     // Initialisation des composants
     initSDL(window, renderer);
@@ -340,12 +434,25 @@ void sdlIA()
     esquimau = esquimauU;
     top_bot_mur = IMG_LoadTexture(renderer, "./src/top_bot_mur.png");
     side_mur = IMG_LoadTexture(renderer, "./src/side_mur.png");
+    pingouinU = IMG_LoadTexture(renderer, "./src/penguin_up.png");
+    pingouinR = IMG_LoadTexture(renderer, "./src/penguin_right.png");
+    pingouinL = IMG_LoadTexture(renderer, "./src/penguin_left.png");
+    pingouinD = IMG_LoadTexture(renderer, "./src/penguin_down.png");
+    pingouin = pingouinD;
 
+    // Rectangle du personnage
     rectEsquimau.x = 600;
     rectEsquimau.y = 800;
     rectEsquimau.w = 100;
     rectEsquimau.h = 100;
 
+    // Rectangle du pingouin
+    rect_pingouin.x = 500;
+    rect_pingouin.y = 300;
+    rect_pingouin.w = 100;
+    rect_pingouin.h = 100;
+
+    // Création du fond
     fond = loadTextureFromImage("./src/fond_glace.png", renderer);
     SDL_Rect
         source = {0},            // Rectangle définissant la zone de la texture à récupérer
@@ -358,6 +465,7 @@ void sdlIA()
                      &source.w, &source.h); // Récupération des dimensions de l'image
     destination = window_dimensions;        // On fixe les dimensions de l'affichage à  celles de la fenêtre
 
+    // Création des murs et rochers
     roc1 = IMG_LoadTexture(renderer, "./src/rocher.png");
     initRoc(rectRoc);
     initMur(rectMur);
@@ -372,11 +480,21 @@ void sdlIA()
         endSdl(0, "ERROR TEXTURE", window, renderer);
     }
     SDL_FreeSurface(SortieTrouvee); // la texture ne sert plus à rien
+
     int cpt = 0;
+
+    // Gestion du pingouin
+    int cle = 0;
+    int posCleX = 500;
+    int posCleY = 300;
+
+    // Ordre d'affichage
+    int ordre = 0;
 
     // Boucle d'époque
     for (i = 0; i < NBEPOQUE; i++)
     {
+        //printf("valeur de la cle au début : %d\n",cle);
         // Boucle des itérations
         while (programOn && sortie && j < NBITEPO)
         {
@@ -388,20 +506,28 @@ void sdlIA()
             run[j][0] = posEsquiX;
             run[j][1] = posEsquiY;
             run[j][2] = direction;
-            run[j][3] = getReward(posEsquiX, posEsquiY);
+            run[j][3] = getReward(posEsquiX, posEsquiY, cle);
+
             // On passe à l'étude de l'état suivant
             posEsquiX = CouplePrec[1] * 100;
             posEsquiY = CouplePrec[0] * 100;
             j++;
-            // On est à la sortie
-            if (posEsquiX == 600 && posEsquiY == 0)
+
+            if (posEsquiX == posCleX && posEsquiY == posCleY)
             {
+                cle = 1;
+            }
+
+            // On est à la sortie
+            if (posEsquiX == 600 && posEsquiY == 0 && cle)
+            {
+                //printf("cpt %d cle : %d\n",cpt,cle);
                 sortie = 0;
                 cpt++;
                 run[j][0] = posEsquiX;
                 run[j][1] = posEsquiY;
                 run[j][2] = -1;
-                run[j][3] = getReward(posEsquiX, posEsquiY);
+                run[j][3] = getReward(posEsquiX, posEsquiY, cle);
             }
         }
         // Si jamais on a pas trouvé la sortie on décrémente j
@@ -410,14 +536,17 @@ void sdlIA()
             j--;
         }
         // On met à jour QSA
+        //affichageRUN(run,j);
         apprentissageQSA(qsa, run, j);
         // Remise à zéro des indices et de la position de l'esquimau
         j = 0;
         sortie = 1;
+        cle = 0;
         posEsquiX = 600;
         posEsquiY = 800;
     }
     printf("Nombre de fois où la sortie a été trouvé : %d\n", cpt);
+    //affichageQSA(qsa);
 
     int finMouvement = 1;
     j = 0;
@@ -453,15 +582,39 @@ void sdlIA()
             {
             case 0:
                 esquimau = esquimauD;
+                if (cle)
+                {
+                    pingouin = pingouinD;
+                }
+
+                ordre = 0;
                 break;
             case 2:
                 esquimau = esquimauU;
+                if (cle)
+                {
+                    pingouin = pingouinU;
+                }
+
+                ordre = 1;
                 break;
             case 1:
                 esquimau = esquimauL;
+                if (cle)
+                {
+                    pingouin = pingouinL;
+                }
+
+                ordre = 0;
                 break;
             case 3:
                 esquimau = esquimauR;
+                if (cle)
+                {
+                    pingouin = pingouinR;
+                }
+
+                ordre = 0;
                 break;
             default:
                 break;
@@ -474,6 +627,10 @@ void sdlIA()
                 {
                     rectEsquimau.y -= VITESSEIA;
                     posEsquiY -= VITESSEIA;
+                    if (cle)
+                    {
+                        rect_pingouin.y = rectEsquimau.y + 20;
+                    }
                 }
                 else if (direction == 2 && posEsquiY == posPrecY)
                 {
@@ -483,6 +640,10 @@ void sdlIA()
                 {
                     rectEsquimau.y += VITESSEIA;
                     posEsquiY += VITESSEIA;
+                    if (cle)
+                    {
+                        rect_pingouin.y = rectEsquimau.y - 20;
+                    }
                 }
                 else if (direction == 0 && posEsquiY == posPrecY)
                 {
@@ -492,6 +653,10 @@ void sdlIA()
                 {
                     rectEsquimau.x -= VITESSEIA;
                     posEsquiX -= VITESSEIA;
+                    if (cle)
+                    {
+                        rect_pingouin.x = rectEsquimau.x + 20;
+                    }
                 }
                 else if (direction == 1 && posEsquiX == posPrecX)
                 {
@@ -501,6 +666,10 @@ void sdlIA()
                 {
                     rectEsquimau.x += VITESSEIA;
                     posEsquiX += VITESSEIA;
+                    if (cle)
+                    {
+                        rect_pingouin.x = rectEsquimau.x - 20;
+                    }
                 }
                 else if (direction == 3 && posEsquiX == posPrecX)
                 {
@@ -516,6 +685,12 @@ void sdlIA()
                     SDL_RenderCopy(renderer, roc1, NULL, &rectRoc[i]);
                 }
 
+                // Affichage pingouin qui attend
+                if (!cle)
+                {
+                    SDL_RenderCopy(renderer, pingouin, NULL, &rect_pingouin);
+                }
+
                 for (int i = 0; i < 2; i++)
                 {
                     SDL_RenderCopy(renderer, side_mur, NULL, &rectMur[i]);
@@ -524,8 +699,11 @@ void sdlIA()
                 {
                     SDL_RenderCopy(renderer, top_bot_mur, NULL, &rectMur[i]);
                 }
-
-                if (posEsquiX == 600 && posEsquiY == 0)
+                if (posEsquiX == posCleX && posEsquiY == posCleY)
+                {
+                    cle = 1;
+                }
+                if (posEsquiX == 600 && posEsquiY == 0 && cle)
                 {
                     sortie = 0;
                 }
@@ -535,7 +713,16 @@ void sdlIA()
                 }
                 else
                 {
-                    SDL_RenderCopy(renderer, esquimau, NULL, &rectEsquimau);
+                    if (ordre)
+                    {
+                        SDL_RenderCopy(renderer, esquimau, NULL, &rectEsquimau);
+                        SDL_RenderCopy(renderer, pingouin, NULL, &rect_pingouin);
+                    }
+                    else
+                    {
+                        SDL_RenderCopy(renderer, pingouin, NULL, &rect_pingouin);
+                        SDL_RenderCopy(renderer, esquimau, NULL, &rectEsquimau);
+                    }
                 }
                 SDL_PumpEvents();
                 SDL_RenderPresent(renderer);
@@ -549,6 +736,11 @@ void sdlIA()
     SDL_DestroyTexture(esquimauL);
     SDL_DestroyTexture(esquimauD);
     SDL_DestroyTexture(esquimau);
+    SDL_DestroyTexture(pingouinU);
+    SDL_DestroyTexture(pingouinR);
+    SDL_DestroyTexture(pingouinL);
+    SDL_DestroyTexture(pingouinD);
+    SDL_DestroyTexture(pingouin);
     SDL_DestroyTexture(top_bot_mur);
     SDL_DestroyTexture(side_mur);
     SDL_DestroyTexture(text_textureSortieTrouvee);

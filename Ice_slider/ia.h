@@ -16,9 +16,9 @@
 #include "sdl_jeu.h"
 
 // PARAMETRES APPRENTISSAGE
-#define NBEPOQUE 50000               // Nombre d'époques
+#define NBEPOQUE 100000               // Nombre d'époques
 #define NBITEPO 1000                 // Nombre d'itérations par époque
-#define XI 0.01                      
+#define XI 0.1                      
 #define G 0.8
 #define MOYREC 5                    // Valeur moyenne des récompenses
 
@@ -29,7 +29,7 @@ int prefLearningBase(float qsa[][6], int x, int y, int T);
 void apprentissageQSA(float qsa[][6], int run[][4], int dernier);
 int traducEtatLigne(int x, int y);
 void initQsa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea);
-int getReward(int x, int y);
+int getReward(int x, int y, int cle);
 
 // FONCTION SUPPLEMENTAIRES
 void affichageQSA(float qsa[][6]);

@@ -73,10 +73,10 @@ void initQsa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea)
 // -------------------------------------------------------------------------------------- //
 // Retourne la récompense en fonction de la position actuelle du joueur et donc de son état.
 // -------------------------------------------------------------------------------------- //
-int getReward(int x, int y)
+int getReward(int x, int y, int cle)
 {
     int reward = 0;
-    if (x >= 600 && x < 700 && y >= 0 && y < 100)
+    if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
         reward = 1;
     return reward;
 }
@@ -112,7 +112,7 @@ int eGreedy(float qsa[][6], float *epsilon, int x, int y)
     {
         action = valeurRandom(0, 3);
     }
-    *epsilon = *epsilon * 0.99;
+    *epsilon = *epsilon * 0.999;
     return action;
 }
 
