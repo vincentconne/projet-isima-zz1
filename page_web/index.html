@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<title>Projet ZZ1 ISIMA Groupe 1</title>
+	<title>Projet ZZ1 Groupe 1</title>
 	<link href="css/bootstrap.css" rel="stylesheet" />
 	<link href="style.css" rel="stylesheet">
 	<script src="js/jquery.js"></script>
@@ -569,17 +569,6 @@
 				<img src="images/fonction_reward.png" class="alone"><br><br>
 				<!-- Parles des types de récompenses et à quoi elle correspondes ainsi que comment on finit le jeu et que l'ia comprend qu'elle est arrivée -->
 
-				<h5>Complexification du jeu</h5>
-				<p>Dans les derniers instants du développement, nous avons décidé de complexifier l'apprentissage de notre
-					intelligence artificielle.<br>
-					Pour cela nous avons rajouté au jeu un pinguin, que le joueur doit obligatoirement aller chercher avant de trouver
-					la sortie, sinon celle-ci sera bloquée.<br>
-					(Toute ressemblance du pinguin avec un autre pinguin connu est bien entendu fortuite.)
-				</p>
-				<img src="images/penguin_right.png" class="small"><br><br>
-
-				
-
 				<h5>Comment jouer ?</h5>
 				<p>
 					<b>1.</b> Vous êtes au menu, choisissez entre les deux modes :<br>
@@ -594,11 +583,29 @@
 				</p>
 
 				<h5>Aperçu</h5>
-				<p><i>Menu du jeu</i></p>
-				<img src="images/penguin_right.png" class="alone"><br><br>
-				<p><i>Jeu en cours</i></p>
-				<img src="images/ice_slider1.gif" class="alone"><br><br>
+				<p><i>Jeu en manuel depuis le menu</i></p>
+				<img src="images/Ice1.gif" class="alone"><br><br>
+				<p><i>Jeu en apprentissage par renforcement depuis le menu</i></p>
+				<p>On voit bien que au bout d'un certain nombre d'époques, il prend désormais le chemin optimal pour rejoindre la sortie.</p>
+				<img src="images/Ice2.gif" class="alone"><br><br>
 
+				<h5>Complexification du jeu</h5>
+				<p>Dans les derniers instants du développement, nous avons décidé de complexifier l'apprentissage de notre
+					intelligence artificielle.<br>
+					Pour cela nous avons rajouté au jeu un pinguin, que le joueur doit obligatoirement aller chercher avant de trouver
+					la sortie, sinon celle-ci sera bloquée.<br>
+					(Toute ressemblance du pinguin avec un autre pinguin connu est bien entendu fortuite.)
+				</p>
+				<img src="images/penguin_right.png" class="small"><br><br>
+
+				<p>Pour le mode manuel, le pinguin suit bien le joueur dès que celui-ci vient sur la même case et ce jusqu'à la sortie.</p>
+				<img src="images/icePing1.gif" class="alone"><br><br>
+
+				<p>En revanche concernant le mode apprentissage, nous avons encore du mal à le faire fonctionner parfaitement. Nous cherchons encore une 
+					solution et nous travaillerons dessus encore aujourd'hui.
+				</p>
+				<img src="images/icePing1.gif" class="alone"><br><br>
+				
 				<h5>Améliorations possibles</h5>
 				<p>- Ajouter de nouvelles grilles de jeu.<br>
 					- Bouton permettant de revenir au menu une fois le jeu terminé.<br>
