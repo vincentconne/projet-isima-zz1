@@ -274,7 +274,7 @@ int sdl_Jeu(int premier, int dernier, int **tab_etats, int etat_cour[3], int tab
 				i = 1;
 			}
 			SDL_RenderCopy(renderer, voiture, NULL, &rect_voiture);
-			SDL_Surface *Espace = AffichageEspace();
+			SDL_Surface *Espace = AffichageSortie();
 			SDL_Texture *text_textureEspace = SDL_CreateTextureFromSurface(renderer, Espace); // transfert de la surface à la texture de Espace
 			if (text_textureEspace == NULL)
 			{
@@ -509,7 +509,7 @@ int collision(int **tab_etats, int position, int dernier)
 	return (tab_etats[dernier][position]);
 }
 
-SDL_Surface *AffichageEspace()
+SDL_Surface *AffichageSortie()
 {
 
 	if (TTF_Init() < 0)

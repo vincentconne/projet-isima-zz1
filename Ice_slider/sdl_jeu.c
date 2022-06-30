@@ -404,6 +404,7 @@ void sdl_IA()
     SDL_Texture *esquimau;
     SDL_Texture *top_bot_mur;
     SDL_Texture *side_mur;
+    SDL_Texture *text_textureEspace;
 
     // Rectangles
     SDL_Rect rect_roc[13];
@@ -453,7 +454,6 @@ void sdl_IA()
                      &source.w, &source.h); // Récupération des dimensions de l'image
     destination = window_dimensions;        // On fixe les dimensions de l'affichage à  celles de la fenêtre
 
-
     roc1 = IMG_LoadTexture(renderer, "./src/rocher.png");
     initRoc(rect_roc);
     initMur(rect_mur);
@@ -462,12 +462,21 @@ void sdl_IA()
     int j = 0;
     int i = 0;
 
-    int cpt=0;
+    SDL_Surface *Espace = AffichageSortie();
+    text_textureEspace = SDL_CreateTextureFromSurface(renderer, Espace); // transfert de la surface à la texture de Espace
+    if (text_textureEspace == NULL)
+    {
+        end_sdl(0, "ERROR TEXTURE", window, renderer);
+    }
+    SDL_FreeSurface(Espace); // la texture ne sert plus à rien
+    int cpt = 0;
 
     // Boucle d'époque
-    for (i = 0; i < NBEPOQUE; i++){
+    for (i = 0; i < NBEPOQUE; i++)
+    {
         // Boucle des itérations
-        while (program_on && SORTIE && j < NBITEPO){
+        while (program_on && SORTIE && j < NBITEPO)
+        {
             // Choix de la nouvelle direction
             direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
             // Calcul de l'état suivant
@@ -482,17 +491,19 @@ void sdl_IA()
             posEsquiY = CouplePrec[0] * 100;
             j++;
             // On est à la sortie
-            if (posEsquiX == 600 && posEsquiY == 0){
-                        SORTIE = 0;
-                        cpt++;
-                        run[j][0] = posEsquiX;
-                        run[j][1] = posEsquiY;
-                        run[j][2] = -1;
-                        run[j][3] = getReward(posEsquiX, posEsquiY);
+            if (posEsquiX == 600 && posEsquiY == 0)
+            {
+                SORTIE = 0;
+                cpt++;
+                run[j][0] = posEsquiX;
+                run[j][1] = posEsquiY;
+                run[j][2] = -1;
+                run[j][3] = getReward(posEsquiX, posEsquiY);
             }
         }
         // Si jamais on a pas trouvé la sortie on décrémente j
-        if (SORTIE){
+        if (SORTIE)
+        {
             j--;
         }
         // On met à jour QSA
@@ -503,20 +514,22 @@ void sdl_IA()
         posEsquiX = 600;
         posEsquiY = 800;
     }
-    printf("Nombre de fois où la sortie a été trouvé : %d\n",cpt);
+    printf("Nombre de fois où la sortie a été trouvé : %d\n", cpt);
 
     int finMouvement = 1;
-    j=0;
+    j = 0;
+    int fin = 1;
 
     // Boucle d'affichage
-    while (program_on && SORTIE && j < NBITEPO)
-    { 
+    while (program_on && j < NBITEPO && fin)
+    {
         while (SDL_PollEvent(&event))
         {
             // Si on veut quitter la fenêtre
             if (event.type == SDL_QUIT)
             {
                 program_on = SDL_FALSE;
+                fin = 0;
                 puts("FIN DE MON PROGRAMME");
                 break;
             }
@@ -524,7 +537,7 @@ void sdl_IA()
         if (program_on == SDL_TRUE)
         {
             // On fait un choix de direction par décision sur la table de QSA
-            direction = choixActionQSA(qsa,posEsquiX,posEsquiY);
+            direction = choixActionQSA(qsa, posEsquiX, posEsquiY);
             j++;
 
             // Calcul nouvelle position
@@ -588,7 +601,7 @@ void sdl_IA()
                 }
                 else if (direction == 3 && posEsquiX == posPrecX)
                 {
-                        finMouvement = 0;
+                    finMouvement = 0;
                 }
 
                 // Affichage du fond
@@ -613,14 +626,29 @@ void sdl_IA()
                 {
                     SORTIE = 0;
                 }
+                if (SORTIE == 0)
+                {
+                    draw(renderer, 500, 425, text_textureEspace);
+                }
+                else
+                {
                     SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
-                    SDL_PumpEvents();
-                    SDL_RenderPresent(renderer);
+                }
+                SDL_PumpEvents();
+                SDL_RenderPresent(renderer);
             }
         }
-
     }
+    SDL_DestroyTexture(fond);
     SDL_DestroyTexture(roc1);
+    SDL_DestroyTexture(esquimauU);
+    SDL_DestroyTexture(esquimauR);
+    SDL_DestroyTexture(esquimauL);
+    SDL_DestroyTexture(esquimauD);
+    SDL_DestroyTexture(esquimau);
+    SDL_DestroyTexture(top_bot_mur);
+    SDL_DestroyTexture(side_mur);
+    SDL_DestroyTexture(text_textureEspace);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
