@@ -16,9 +16,9 @@
 #include "sdl_jeu.h"
 
 // PARAMETRES APPRENTISSAGE
-#define NBEPOQUE 1000               // Nombre d'époques
-#define NBITEPO 100                 // Nombre d'itérations par époque
-#define XI 0.6                      
+#define NBEPOQUE 50000               // Nombre d'époques
+#define NBITEPO 1000                 // Nombre d'itérations par époque
+#define XI 0.01                      
 #define G 0.8
 #define MOYREC 5                    // Valeur moyenne des récompenses
 

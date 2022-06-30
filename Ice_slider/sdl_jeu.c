@@ -340,6 +340,8 @@ void sdlIA()
     int j = 0;
     int i = 0;
 
+    int cpt = 0;
+
     // Boucle d'époque
     for (i = 0; i < NBEPOQUE; i++)
     {
@@ -382,6 +384,7 @@ void sdlIA()
         posEsquiX = 600;
         posEsquiY = 800;
     }
+    printf("Nombre de fois où la sortie a été trouvé : %d\n", cpt);
 
     int finMouvement = 1;
     j = 0;
@@ -636,7 +639,7 @@ void introJeu()
                 }
                 break;
 
-            case SDL_QUIT:              // Un évènement simple, on a cliqué sur la x de la fenêtre
+            case SDL_QUIT:             // Un évènement simple, on a cliqué sur la x de la fenêtre
                 programOn = SDL_FALSE; // Il est temps d'arrêter le programme
                 break;
 
