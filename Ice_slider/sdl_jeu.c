@@ -305,7 +305,6 @@ void sdlJeu()
 
         if (posEsquiX == 600 && posEsquiY == 0 && cle)
         {
-            fin =0;
             sortie = 3;
         }
         if (sortie == 3)
@@ -546,7 +545,6 @@ void sdlIA()
         posEsquiX = 600;
         posEsquiY = 800;
     }
-    affichageQSA(qsa);
 
     int finMouvement = 1;
     j = 0;
