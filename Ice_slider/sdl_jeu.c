@@ -365,6 +365,7 @@ void sdlIA()
             if (posEsquiX == 600 && posEsquiY == 0)
             {
                 sortie = 0;
+                cpt++;
                 run[j][0] = posEsquiX;
                 run[j][1] = posEsquiY;
                 run[j][2] = -1;
