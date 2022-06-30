@@ -69,7 +69,7 @@ void sdlJeu()
     SDL_GetCurrentDisplayMode(0, &screen);
 
     // Création window et renderer
-    window = SDL_CreateWindow("Projet Z",
+    window = SDL_CreateWindow("Ice Slider",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,
@@ -321,7 +321,7 @@ void sdlIA()
     // Récupération taille écran
     SDL_GetCurrentDisplayMode(0, &screen);
 
-    window = SDL_CreateWindow("Projet Z",
+    window = SDL_CreateWindow("Ice Slider",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,
@@ -578,7 +578,7 @@ void introJeu()
     SDL_GetCurrentDisplayMode(0, &screen);
 
     // Création de la fenêtre
-    window = SDL_CreateWindow("ICE SLIDER",
+    window = SDL_CreateWindow("Ice Slider",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width,
                               height,
