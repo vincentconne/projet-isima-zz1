@@ -5,7 +5,7 @@
 
 
 // Gestion des erreurs
-void end_sdl(char ok,char const* msg,SDL_Window* window,SDL_Renderer* renderer) {
+void endSdl(char ok,char const* msg,SDL_Window* window,SDL_Renderer* renderer) {
   char msg_formated[255];                                                         
   int l;
 
@@ -47,19 +47,19 @@ int main(int argc, char** argv) {
 
  // Gestion de l'échec
   if (SDL_Init(SDL_INIT_VIDEO) != 0){
-    end_sdl(0, "ERROR SDL INIT", window, renderer);
+    endSdl(0, "ERROR SDL INIT", window, renderer);
     exit(EXIT_FAILURE);
     }
 
 
   //Création de la fenêtre
   window = SDL_CreateWindow("Premier dessin",0,0, 700,700,SDL_WINDOW_OPENGL);
-  if (window == NULL) end_sdl(0, "ERROR WINDOW CREATION", window, renderer);
+  if (window == NULL) endSdl(0, "ERROR WINDOW CREATION", window, renderer);
 
   //Création du renderer
   renderer = SDL_CreateRenderer(window, -1,SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (renderer == NULL){
-    end_sdl(0, "ERRORE RENDERER CREATION", window, renderer);
+    endSdl(0, "ERRORE RENDERER CREATION", window, renderer);
     exit(EXIT_FAILURE);
   }
 
@@ -98,6 +98,6 @@ int main(int argc, char** argv) {
 
 
   // fermeture de la SDL
-  end_sdl(1, "Normal ending", window, renderer);
+  endSdl(1, "Normal ending", window, renderer);
   return EXIT_SUCCESS;
 }

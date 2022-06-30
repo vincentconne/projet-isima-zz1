@@ -18,7 +18,7 @@ void clear(SDL_Renderer *renderer)
     SDL_RenderClear(renderer);
 }
 
-int valeur_random(int MIN, int MAX)
+int valeurRandom(int MIN, int MAX)
 {
     static bool initialized = false;
     if (!initialized)
@@ -91,10 +91,10 @@ int main()
         }
         //calculs
         srand(time(NULL));
-        int x1 = valeur_random(-3, 3);
-        int y1 = valeur_random(-3, 3);
-        int x2 = valeur_random(-3, 3);
-        int y2 = valeur_random(-3, 3);
+        int x1 = valeurRandom(-3, 3);
+        int y1 = valeurRandom(-3, 3);
+        int x2 = valeurRandom(-3, 3);
+        int y2 = valeurRandom(-3, 3);
 
         int choix = rand() % 3;
 
@@ -127,7 +127,7 @@ int main()
             }
         }
 
-        SDL_SetRenderDrawColor(renderer, valeur_random(0, 255), valeur_random(0, 255), valeur_random(0, 255), 255);
+        SDL_SetRenderDrawColor(renderer, valeurRandom(0, 255), valeurRandom(0, 255), valeurRandom(0, 255), 255);
         SDL_RenderDrawLine(renderer, ligne.x1, ligne.y1, ligne.x2, ligne.y2);
         SDL_RenderPresent(renderer);
         clear(renderer);
