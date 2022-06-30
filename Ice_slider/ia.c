@@ -76,8 +76,10 @@ void initQsa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea)
 int getReward(int x, int y, int cle)
 {
     int reward = 0;
-    if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
+    if (!cle && x >= 500 && x < 600 && y >= 300 && y < 400){
         reward = 1;
+    } else if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
+        reward = 10;
     return reward;
 }
 

@@ -502,21 +502,23 @@ void sdlIA()
             direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
             // Calcul de l'état suivant
             recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
+
             // Sauvegarde dans la table run
             run[j][0] = posEsquiX;
             run[j][1] = posEsquiY;
             run[j][2] = direction;
             run[j][3] = getReward(posEsquiX, posEsquiY, cle);
 
+            if (posEsquiX == posCleX && posEsquiY == posCleY)
+            {
+                cle = 1;
+            }
+
             // On passe à l'étude de l'état suivant
             posEsquiX = CouplePrec[1] * 100;
             posEsquiY = CouplePrec[0] * 100;
             j++;
 
-            if (posEsquiX == posCleX && posEsquiY == posCleY)
-            {
-                cle = 1;
-            }
 
             // On est à la sortie
             if (posEsquiX == 600 && posEsquiY == 0 && cle)
@@ -570,6 +572,8 @@ void sdlIA()
         {
             // On fait un choix de direction par décision sur la table de QSA
             direction = choixActionQSA(qsa, posEsquiX, posEsquiY);
+            printf("Choix de la direction : %d\n", direction);
+
             j++;
 
             // Calcul nouvelle position
