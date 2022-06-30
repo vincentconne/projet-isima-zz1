@@ -62,10 +62,10 @@
 				<div class="done col-xs-12 col-sm-12 col-lg-2">
 					<h4>Animation de sprites</h4>
 				</div>
-				<div class="encours col-xs-12 col-sm-12 col-lg-2">
+				<div class="done col-xs-12 col-sm-12 col-lg-2">
 					<h4>Chef d'oeuvre</h4>
 				</div>
-				<div class="pasfait col-xs-12 col-sm-12 col-lg-2">
+				<div class="encours col-xs-12 col-sm-12 col-lg-2">
 					<h4>Apprentissage par renforcement</h4>
 				</div>
 			</div>
@@ -426,13 +426,13 @@
 				<h4><b> ⛸ ICE SLIDER ⛸</b></h4><br>
 				<div class="row gif">
 					<div class="col-xs-12 col-sm-12 col-lg-4">
-						<img src="images/etats.png">
+						<img src="images/ice_slider_menu.png">
 					</div>
 					<div class="col-xs-12 col-sm-12 col-lg-4">
-						<img src="images/PaveVincent.gif">
+						<img src="images/ice_slider_jeu.png">
 					</div>
 					<div class="col-xs-12 col-sm-12 col-lg-4">
-						<img src="images/PaveVincent.gif">
+						<img src="images/chemin_optimal.png">
 					</div>
 				</div>
 
@@ -480,33 +480,72 @@
 					amenent à la même sortie.
 				</p>
 
-				<h5>Démarche</h5>
+				<h5>Démarche algorithmique</h5>
 				<br>
 				<p><b>La grille de jeu</b></p>
 				<img src="images/etats.png" width="70%" ><br><br>
-				<img src="images/chemin.png" width="70%" ><br><br>
 				<p>Comme vous pouvez le voir sur les images de conception ci-dessus, nous avons décidé de réaliser notre grille de jeu
 					sous ce modèle-ci.<br>
 					Sur ce schèma sont annotées les coordonnées réelles des cases de la grille dans la fenêtre du jeu mais aussi les indices
-					des cases de la grille dans la matrice algorithmique servant à la gestion des éléments et des collisions avec eux.<br>
-					- Les murs sont représentés par des cellules grises.<br>
-					- Les rochers sont représentés par des cellules bleues.<br>
-					- L'entrée est représentée par une cellule rouge.<br>
-					- La sortie est représentée par une cellule verte.<br>
+					des cases de la grille dans la matrice algorithmique servant à la gestion des éléments et des collisions avec eux.<br><br>
+					- Les <b>murs</b> sont représentés par des cellules grises.<br>
+					- Les <b>rochers</b> sont représentés par des cellules bleues.<br>
+					- <b>L'entrée</b> est représentée par une cellule rouge.<br>
+					- La <b>sortie</b> est représentée par une cellule verte.<br>
 				</p>
-				<p>Représentés par des cellules beige sur l'image, nous avons repertorié tous les états possibles dans lequel peut être le joueur
+				<p>Représentés par des cellules beige sur l'image, nous avons repertorié tous les <b>états possibles</b> dans lequel peut être le joueur
 					en glissant sur la glace et en se réorientant grâce aux obstacles qui sont soit des murs soit des rochers. A ceux-là s'ajoutent 
 					l'état de départ ainsi que celui d'arrivée.<br>
 					Cela nous sera particulièrement utile pour l'apprentissage par renforcement.
 				</p>
 
-				<h5>Démarche algorithmique</h5>
+				<p><i>Grille de jeu dans le code</i></p>
+				<img src="images/tab_grille_jeu.png" class="alone"><br><br>
+				<!-- Montrer à quoi ressemble la grille en code et quelques exemples d'utilisations (recherche de 1 etc ...) -->
+				
+
+				<p><b>Déplacement du personnage</b></p>
+				<p>Concernant le déplacement du personnage, nous avons choisi de dissocier le placement de celui-ci à chaque tour des 
+					cases de la grille de jeu. Cela nous permet de proposer une expérience plus fluide et plus agréable !<br>
+					D'un point de vue plus technique, nous utilisons les <b>coordonées de la texture</b> du personnage dans la fenêtre de jeu 
+					pour retrouver les coordonées logiques de cases, grâces à des calculs assez simples.
+				</p>
+
+				<!-- Parler de la logique de déplacement en glissant et en fonction des contrôles -->
+
+				<p><i>Exemple de chemin réalisable</i></p>
+				<img src="images/chemin_possible.png" class="alone"><br><br>
+				<p><i>Chemin optimal</i></p>
+				<img src="images/chemin_optimal.png" class="alone"><br><br>
+
+				<p><b>Collisions avec les murs et les obstacles</b></p>
+				<p>Pour gérer les collisions du personnage avec les murs et les obstacles (rochers), nous avons utilisé 
+					des mécaniques similaires au fonctionnement du jeu.
+				</p>
+				<!-- Par de comment marche les collisions avec le tableau de jeu -->
+
+
+				<h5>Apprentissage du joueur par renforcement</h5>
+				<p><b>Choix de l'algorithme</b></p>
+				<p>blablabla</p> 
+				<!-- Parler du choix de l'algo de renforcement et de la méthode générale qu'on a chois -->
+
+				<p><b>Q Table</b></p>
+				<p>blablabla</p>
+				<p><i>Représentation réelle de la matrice QSA</i></p>
+				<img src="images/tab_qsa.png" width="70%"><br><br>
+				<p><i>Création de la tablea QSA</i>></p>
+				<img src="images/init_qsa.png" class="alone"><br><br>
+				<!-- Parler de comment on a fait pour construire la tablea QSA (principe et algo) -->
+
+				<p><b>Récompenses</b></p>
+				<p>blablabla</p>
+				<!-- Parles des types de récompenses et à quoi elle correspondes ainsi que comment on finit le jeu et que l'ia comprend qu'elle est arrivée -->
+
+				<h5>Autres éléments importants de code</h5>
 				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
 
-				<h5>Explications</h5>
-				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
-
-				<h5>Code</h5>
+				<h5>Autres images, gifs et vidéos</h5>
 				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>
 
 				<hr>
