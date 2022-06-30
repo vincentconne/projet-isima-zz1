@@ -179,6 +179,7 @@ void sdl_Jeu()
     SDL_Texture *esquimau;
     SDL_Texture *top_bot_mur;
     SDL_Texture *side_mur;
+    SDL_Texture *text_textureSortieTrouvee;
 
     // Rectangles
     SDL_Rect rect_roc[13];
@@ -237,8 +238,17 @@ void sdl_Jeu()
     initRoc(rect_roc);
     initMur(rect_mur);
 
+    SDL_Surface *SortieTrouvee = AffichageSortie();
+    text_textureSortieTrouvee = SDL_CreateTextureFromSurface(renderer, SortieTrouvee); // transfert de la surface à la texture de SortieTrouvee
+    if (text_textureSortieTrouvee == NULL)
+    {
+        end_sdl(0, "ERROR TEXTURE", window, renderer);
+    }
+    SDL_FreeSurface(SortieTrouvee); // la texture ne sert plus à rien
+
+    int fin = 1;
     // Boucle de jeu
-    while (program_on && stop == 0 && SORTIE != 3)
+    while (program_on && stop == 0 && fin)
     { // Voilà la boucle des évènements
 
         while (SDL_PollEvent(&event))
@@ -296,6 +306,7 @@ void sdl_Jeu()
             else if (event.type == SDL_QUIT)
             {
                 program_on = SDL_FALSE;
+                fin = 0;
                 puts("FIN DE MON PROGRAMME");
                 break;
             }
@@ -345,7 +356,14 @@ void sdl_Jeu()
         {
             SORTIE = 3;
         }
-        SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+        if (SORTIE == 3)
+        {
+            draw(renderer, 500, 425, text_textureSortieTrouvee);
+        }
+        else
+        {
+            SDL_RenderCopy(renderer, esquimau, NULL, &rect_esquimau);
+        }
         SDL_RenderPresent(renderer);
     }
 
@@ -404,7 +422,7 @@ void sdl_IA()
     SDL_Texture *esquimau;
     SDL_Texture *top_bot_mur;
     SDL_Texture *side_mur;
-    SDL_Texture *text_textureEspace;
+    SDL_Texture *text_textureSortieTrouvee;
 
     // Rectangles
     SDL_Rect rect_roc[13];
@@ -461,14 +479,13 @@ void sdl_IA()
     // Variables de boucle
     int j = 0;
     int i = 0;
-
-    SDL_Surface *Espace = AffichageSortie();
-    text_textureEspace = SDL_CreateTextureFromSurface(renderer, Espace); // transfert de la surface à la texture de Espace
-    if (text_textureEspace == NULL)
+    SDL_Surface *SortieTrouvee = AffichageSortie();
+    text_textureSortieTrouvee = SDL_CreateTextureFromSurface(renderer, SortieTrouvee); // transfert de la surface à la texture de SortieTrouvee
+    if (text_textureSortieTrouvee == NULL)
     {
         end_sdl(0, "ERROR TEXTURE", window, renderer);
     }
-    SDL_FreeSurface(Espace); // la texture ne sert plus à rien
+    SDL_FreeSurface(SortieTrouvee); // la texture ne sert plus à rien
     int cpt = 0;
 
     // Boucle d'époque
@@ -628,7 +645,7 @@ void sdl_IA()
                 }
                 if (SORTIE == 0)
                 {
-                    draw(renderer, 500, 425, text_textureEspace);
+                    draw(renderer, 500, 425, text_textureSortieTrouvee);
                 }
                 else
                 {
@@ -648,7 +665,7 @@ void sdl_IA()
     SDL_DestroyTexture(esquimau);
     SDL_DestroyTexture(top_bot_mur);
     SDL_DestroyTexture(side_mur);
-    SDL_DestroyTexture(text_textureEspace);
+    SDL_DestroyTexture(text_textureSortieTrouvee);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }

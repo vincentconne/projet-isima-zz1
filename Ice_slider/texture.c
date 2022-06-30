@@ -21,7 +21,7 @@ SDL_Texture *load_texture_from_image(char *file_image_name, SDL_Renderer *render
   {
     fprintf(stderr, "Erreur IMG_LoadTexture : %s", SDL_GetError());
     exit(EXIT_FAILURE);
-  };
+  }
 
   my_texture = SDL_CreateTextureFromSurface(renderer, my_image); // Chargement de l'image de la surface vers la texture
   SDL_FreeSurface(my_image);                                     // la SDL_Surface ne sert que comme élément transitoire
