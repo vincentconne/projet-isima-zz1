@@ -451,8 +451,7 @@
 					temps.
 					<br>
 					En effet, l'agent intelligent prend une décision en fonction de son <b>état courant</b> et de la
-					perception
-					de son environnement à cet état.
+					perception de son environnement à cet état.
 					En retour, cet environnement lui donne des <b>récompenses</b>, qui peuvent être positives ou
 					négatives.
 				</p>
@@ -465,12 +464,11 @@
 				<p>Nous avons décidé pour se faire, de réaliser un jeu sur principe du <b>labyrinthe</b>.
 					Cependant, celui-ci ne sera pas un labyrinthe traditionnel puisque <b>les chemins ne seront pas
 						délimités</b>.
-					Se trouveront seulement sur la zone de jeu, des <b>rochers</b> ou des <b>murs</b> se servant de
+					Se trouveront seulement sur la zone de jeu, des <b>rochers</b> ou des <b>murs</b> servant de
 					<b>points d'appuis</b>. <br>
 					En effet le sol sera de <b>glace</b> et le personnage devra, pour atteindre la sortie, bouger dans
-					une des quatres directions de
-					sorte qu'il puisse atteindre un rocher ou un mur et s'appuyer dessus pour aller dans une autre
-					direction.
+					une des quatres directions de sorte qu'il puisse atteindre un rocher ou un mur et s'appuyer dessus 
+					pour aller dans une autre direction.
 					Autrement, il continuera de glisser sur la glace jusqu'à rencontrer un obstacle, même si ce n'est
 					pas le bon chemin.
 				</p>
@@ -493,7 +491,7 @@
 					- <b>L'entrée</b> est représentée par une cellule rouge.<br>
 					- La <b>sortie</b> est représentée par une cellule verte.<br>
 				</p>
-				<p>Représentés par des cellules beige sur l'image, nous avons repertorié tous les <b>états possibles</b> dans lequel peut être le joueur
+				<p>Représentés par des cellules beiges sur l'image, nous avons repertorié tous les <b>états possibles</b> dans lequel peut être le joueur
 					en glissant sur la glace et en se réorientant grâce aux obstacles qui sont soit des murs soit des rochers. A ceux-là s'ajoutent 
 					l'état de départ ainsi que celui d'arrivée.<br>
 					Cela nous sera particulièrement utile pour l'apprentissage par renforcement.
@@ -502,7 +500,11 @@
 				<p><i>Grille de jeu dans le code</i></p>
 				<img src="images/tab_grille_jeu.png" class="alone"><br><br>
 				<!-- Montrer à quoi ressemble la grille en code et quelques exemples d'utilisations (recherche de 1 etc ...) -->
-				
+				<p>Voici à quoi correspondent les chiffres dans la matrice :<br>
+					- <b>0</b> : Cases du labyrinthe sur lequel le personnnage peut aller (glisser dessus ou rester dessus)<br>
+					- <b>1</b> : Murs ou rochers (impossible de se déplacer dessus)<br>
+					- <b>2</b> : Sortie du labyrinthe (objectif à atteindre)<br>
+				</p>
 
 				<p><b>Déplacement du personnage</b></p>
 				<p>Le déplacement graphique du personnage est dissocié de la partie matricielle. Pour une expérience plus
@@ -520,37 +522,78 @@
 				<img src="images/chemin_optimal.png" class="alone"><br><br>
 
 				<p><b>Collisions avec les murs et les obstacles</b></p>
-				<p> Les collisions avec les rochers et les murs sont gérées par le calcul du nouvel état à atteindre.
-					On détermine la case d'arrivée comme étant la dernière case avant l'obstacle (qu'il soit un mur ou un rocher)
+				<p> Les collisions avec les rochers et les murs sont gérées par le calcul du nouvel état à atteindre.<br>
+					On détermine la case d'arrivée comme étant la <b>dernière case avant l'obstacle</b> (qu'il soit un mur ou un rocher).<br>
+					Cela se fait grâce à cette fonction de recherche de 1 dans la matrice de jeu en fonction de la direction choisie :
 				</p>
+				<img src="images/recherche_obstacle.png" class="alone"><br><br>
 				<!-- Par de comment marche les collisions avec le tableau de jeu -->
 
 
 				<h5>Apprentissage du joueur par renforcement</h5>
 				<p><b>Choix de l'algorithme</b></p>
 				<p>
-					Dans le cadre de notre jeu, on a choisi d'utiliser l'algorithme e-greedy afin de permettre 
-					une grande partie d'exploration puis d'exploitation des résultats qui en sortira.
+					Dans le cadre de notre jeu, reposant sur un labyrinthe, nous voulions que l'intelligence artificielle
+					commence par explorer le plus possible et au fur et à mesure exploiter les résultats des chemins
+					qu'il a déjà emprunté dans le but de prendre les bonnes décisions.<br>
+					Nous avons donc choisi pour cela d'utiliser l'algorithme <b>e-greedy</b>.
 				</p> 
 				<!-- Parler du choix de l'algo de renforcement et de la méthode générale qu'on a chois -->
 
 				<p><b>Q Table</b></p>
-				<p>Par volonté de simplifier sa création, la table contient les coordonnées de toutes les cases du plateau
-					de jeu. Pour chacune de ses coordonnées ont a donc 4 cases supplémentaires pour stockers la valeur des
-					actions possibles ; les 4 directions haut, gauche, bas, droit.
+				<p>Par volonté de simplifier la création de la table QSA, celle-ci contient les coordonnées de toutes les cases du plateau
+					de jeu et, pour chaque couple, nous avons 4 autres cases supplémentaires nous permettant de stocker la valeur des
+					actions possibles, qui sont en réalité les 4 directions: haut, gauche, bas et droite.
 				</p>
 				<p><i>Représentation réelle de la matrice QSA</i></p>
 				<img src="images/tab_qsa.png" width="70%"><br><br>
 				<p><i>Création de la tablea QSA</i>></p>
 				<img src="images/init_qsa.png" class="alone"><br><br>
+				<p>Concernant la création algorithmique de cette table, nous avons créé la fonction ci-dessus.<br>
+					En utilisant la <b>division euclidienne</b> de notre indice de ligne divisé par le nombre de lignes de la grille de jeu, 
+					nous sommes capables de remplir la colonne des x par le nombre possibles de couples de coordonnées pour chaque valeur de x.<br>
+					Pour cette fois-ci remplir la colonne des y, nous avons replacé la division par le <b>modulo</b>, ce qui nous donne toutes les valeurs de y
+					possibles. <br>
+				</p>
+				<p>Enfin, pour les cases des actions, nous avons laissé le choix à l'utilisateur entre les <b>initialiser avec des 0</b> ou alors les initialiser
+					avec des valeurs aléatoires entre 0 et une moyenne de récompenses définie.
+				</p>
 				<!-- Parler de comment on a fait pour construire la tablea QSA (principe et algo) -->
 
 				<p><b>Récompenses</b></p>
-				<p>Seul la case d'arrivée contient une récompenses de 1, tous les autres états ont une valeur de 0.</p>
+				<p>Dans notre modèle de jeu, l'environnement renvoie des recompenses à l'intelligence artificielle avec un principe très simple :<br>
+					Le personnage obtient une <b>récompense de 1</b> seulement si il se trouve sur la <b>case d'arrivée</b>.<br>
+					Dans tous les autres cas et donc tous les autres états possibles, il obtient une récompense de 0.<br>
+					Du point de vue algorithmique, on effectue simplement une vérification des coordonnées du joueur.
+				</p>
+				<img src="images/fonction_reward.png" class="alone"><br><br>
 				<!-- Parles des types de récompenses et à quoi elle correspondes ainsi que comment on finit le jeu et que l'ia comprend qu'elle est arrivée -->
+				
+				<p><b>Aperçu du jeu</b></p>
+				<img src="images/penguin_right.png" class="alone"><br><br>
+				<img src="images/penguin_right.png" class="alone"><br><br>
+				<img src="images/penguin_right.png" class="alone"><br><br>
+				<img src="images/penguin_right.png" class="alone"><br><br>
+				<img src="images/penguin_right.png" class="alone"><br><br>
+				<img src="images/penguin_right.png" class="alone"><br><br>
+				<img src="images/penguin_right.png" class="alone"><br><br>
+				<img src="images/penguin_right.png" class="alone"><br><br>
+
+				<h5>Complexification du jeu</h5>
+				<p>Dans les derniers instants du développement, nous avons décidé de complexifier l'apprentissage de notre
+					intelligence artificielle.<br>
+					Pour cela nous avons rajouté au jeu un pinguin, que le joueur doit obligatoirement aller chercher avant de trouver
+					la sortie, sinon celle-ci sera bloquée.<br>
+					(Toute ressemblance du pinguin avec un autre pinguin connu est bien entendu fortuite.)
+				</p>
+				<img src="images/penguin_right.png" class="small"><br><br>
 
 				<h5>Améliorations possibles</h5>
-				<p>On se propose de rajouter un objet sans lequel la sortie n'est pas accessible.</p>
+				<p>- Ajouter de nouvelles grilles de jeu.<br>
+					- Bouton permettant de revenir au menu une fois le jeu terminé.<br>
+					- Ajouter une bande son au jeu.<br>
+					- Faire briller le sol en glace.
+				</p>
 
 				<h5>Autres éléments importants de code</h5>
 				<p>Ici on explique notre démarche sur l'approche de cet exercice</p>

@@ -152,8 +152,12 @@ img{
 }
 
 img.alone{
-	width: 40%;
+	width: 55%;
 	margin: auto;
+}
+
+img.small{
+	width: 20%;
 }
 
 div.gif{
