@@ -462,6 +462,8 @@ void sdl_IA()
     int j = 0;
     int i = 0;
 
+    int cpt=0;
+
     // Boucle d'époque
     for (i = 0; i < NBEPOQUE; i++){
         // Boucle des itérations
@@ -482,6 +484,7 @@ void sdl_IA()
             // On est à la sortie
             if (posEsquiX == 600 && posEsquiY == 0){
                         SORTIE = 0;
+                        cpt++;
                         run[j][0] = posEsquiX;
                         run[j][1] = posEsquiY;
                         run[j][2] = -1;
@@ -500,6 +503,7 @@ void sdl_IA()
         posEsquiX = 600;
         posEsquiY = 800;
     }
+    printf("Nombre de fois où la sortie a été trouvé : %d\n",cpt);
 
     int finMouvement = 1;
     j=0;
