@@ -4,7 +4,7 @@
 #include <time.h>
 #include "jeu.h"
 
-int valeur_random(int MIN, int MAX)
+int valeurRandom(int MIN, int MAX)
 {
     static bool initialized = false;
     if (!initialized)
@@ -118,7 +118,7 @@ void traduc_markov_etat(int colonne, int etat_suiv[3])
 void nouveau_etat(int etat_cour[3], int **tab_etats, int *dernier, int *premier, int tab_markov[][7])
 {
 
-    int alea = valeur_random(1, 10);
+    int alea = valeurRandom(1, 10);
     int i = traduc_etat_markov(etat_cour);
     int j = 0;
     int somme_proba = 0;

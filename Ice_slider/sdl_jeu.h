@@ -1,3 +1,6 @@
+// ******************************************* //
+// FICHIER H POUR LE FONCTIONNEMENT DU JEU (SDL)
+// ******************************************* //
 #ifndef SDL_JEU_H
 #define SDL_JEU_H
 
@@ -5,6 +8,18 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
+
+// IMPORTS STANDARDS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
+#include <string.h>
+
+// IMPORTS DE FICHIERS
+#include "sdl_utils.h"
+#include "ia.h"
+#include "jeu.h"
 
 // CONSTANTES
 #define width 1300
@@ -15,8 +30,8 @@
 #define NBLIGNESMAP height / 100
 
 // FONCTIONS
-void sdl_Jeu();
-void sdl_IA();
-void Intro_jeu();
+void sdlJeu();
+void sdlIA();
+void introJeu();
 
 #endif

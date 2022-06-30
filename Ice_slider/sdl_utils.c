@@ -1,41 +1,53 @@
-// IMPORTS SDL2
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+// ************************************* //
+// FICHIER C FONCTIONS UTILES POUR SDL
+// ************************************* //
 
-// IMPORTS STANDARDS
-#include <stdio.h>
-#include <stdlib.h>
-#include "texture.h"
+// IMPORTS
+#include "sdl_utils.h"
 
-// Chargement d'une texture
-SDL_Texture *load_texture_from_image(char *file_image_name, SDL_Renderer *renderer)
+// FONCTIONS
+
+// ----------------------- //
+// Initialisation de la SDL2
+// ----------------------- //
+void initSDL(SDL_Window *window, SDL_Renderer *renderer)
 {
-  SDL_Surface *my_image = NULL;   // Variable de passage
-  SDL_Texture *my_texture = NULL; // La texture
+    if (0 != SDL_Init(SDL_INIT_VIDEO))
+    {
+        endSdl(0, "ERROR SDL INIT", window, renderer);
+    }
+}
 
-  my_image = IMG_Load(file_image_name); // Chargement de l'image dans la surface
+// ----------------------- //
+// Chargement d'une texture
+// ----------------------- //
+SDL_Texture *loadTextureFromImage(char *fileImageName, SDL_Renderer *renderer)
+{
+  SDL_Surface *myImage = NULL;   // Variable de passage
+  SDL_Texture *myTexture = NULL; // La texture
+
+  myImage = IMG_Load(fileImageName); // Chargement de l'image dans la surface
                                         // image=SDL_LoadBMP(file_image_name); fonction standard de la SDL,
                                         // uniquement possible si l'image est au format bmp */
-  if (my_image == NULL)
+  if (myImage == NULL)
   {
     fprintf(stderr, "Erreur IMG_LoadTexture : %s", SDL_GetError());
     exit(EXIT_FAILURE);
   };
 
-  my_texture = SDL_CreateTextureFromSurface(renderer, my_image); // Chargement de l'image de la surface vers la texture
-  SDL_FreeSurface(my_image);                                     // la SDL_Surface ne sert que comme élément transitoire
-  if (my_texture == NULL)
+  myTexture = SDL_CreateTextureFromSurface(renderer, myImage); // Chargement de l'image de la surface vers la texture
+  SDL_FreeSurface(myImage);                                     // la SDL_Surface ne sert que comme élément transitoire
+  if (myTexture == NULL)
   {
     fprintf(stderr, "Erreur SSL_CreateTextureFromSurface : %s", SDL_GetError());
     exit(EXIT_FAILURE);
   }
 
-  return my_texture;
+  return myTexture;
 }
 
 // Gestion des erreurs et fin SDL
-void end_sdl(char ok, char const *msg, SDL_Window *window, SDL_Renderer *renderer)
+void endSdl(char ok, char const *msg, SDL_Window *window, SDL_Renderer *renderer)
 {
   char msg_formated[255];
   int l;
