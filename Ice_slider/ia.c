@@ -76,10 +76,11 @@ void initQsa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea)
 int getReward(int x, int y, int cle)
 {
     int reward = 0;
-    if (!cle && x >= 500 && x < 600 && y >= 300 && y < 400){
+    if (!cle && x >= 0 && x < 100 && y >= 600 && y < 700){
         reward = 1;
-    } else if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
-        reward = 10;
+    } else 
+    if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
+        reward = 1;
     return reward;
 }
 
@@ -163,6 +164,7 @@ void apprentissageQSA(float qsa[][6], int run[][4], int dernier)
     int rec = run[dernier][3];
     int action = run[dernier - 1][2];
     int ligne = traducEtatLigne(x, y);
+
 
     qsa[ligne][2 + action] += XI * rec - qsa[ligne][2 + action];
 

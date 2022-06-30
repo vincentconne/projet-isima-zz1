@@ -19,7 +19,7 @@ void sdlJeu()
     int tabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
                          {1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1},
+                         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
                          {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
                          {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
@@ -108,8 +108,8 @@ void sdlJeu()
     rect_esquimau.h = 100;
 
     // Rectangle du pingouin
-    rect_pingouin.x = 500;
-    rect_pingouin.y = 300;
+    rect_pingouin.x = 100;
+    rect_pingouin.y = 600;
     rect_pingouin.w = 100;
     rect_pingouin.h = 100;
 
@@ -141,8 +141,8 @@ void sdlJeu()
 
     // Gestion du pingouin
     int cle = 0;
-    int posCleX = 500;
-    int posCleY = 300;
+    int posCleX = 100;
+    int posCleY = 600;
 
     // Ordre d'affichage
     int ordre = 0;
@@ -305,6 +305,7 @@ void sdlJeu()
 
         if (posEsquiX == 600 && posEsquiY == 0 && cle)
         {
+            fin =0;
             sortie = 3;
         }
         if (sortie == 3)
@@ -362,7 +363,7 @@ void sdlIA()
     int TabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
                          {1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1},
+                         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
                          {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
                          {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
@@ -447,8 +448,8 @@ void sdlIA()
     rectEsquimau.h = 100;
 
     // Rectangle du pingouin
-    rect_pingouin.x = 500;
-    rect_pingouin.y = 300;
+    rect_pingouin.x = 100;
+    rect_pingouin.y = 600;
     rect_pingouin.w = 100;
     rect_pingouin.h = 100;
 
@@ -481,12 +482,12 @@ void sdlIA()
     }
     SDL_FreeSurface(SortieTrouvee); // la texture ne sert plus à rien
 
-    int cpt = 0;
+
 
     // Gestion du pingouin
     int cle = 0;
-    int posCleX = 500;
-    int posCleY = 300;
+    int posCleX = 100;
+    int posCleY = 600;
 
     // Ordre d'affichage
     int ordre = 0;
@@ -496,50 +497,48 @@ void sdlIA()
     {
         //printf("valeur de la cle au début : %d\n",cle);
         // Boucle des itérations
+
+        run[j][0] = posEsquiX;
+        run[j][1] = posEsquiY;
+        run[j][3] = getReward(posEsquiX, posEsquiY, cle);
+
         while (programOn && sortie && j < NBITEPO)
         {
             // Choix de la nouvelle direction
             direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
+
+            // Sauvegarde de la direction
+            run[j][2] = direction;
+            
             // Calcul de l'état suivant
             recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
-
-            // Sauvegarde dans la table run
-            run[j][0] = posEsquiX;
-            run[j][1] = posEsquiY;
-            run[j][2] = direction;
-            run[j][3] = getReward(posEsquiX, posEsquiY, cle);
-
-            if (posEsquiX == posCleX && posEsquiY == posCleY)
-            {
-                cle = 1;
-            }
 
             // On passe à l'étude de l'état suivant
             posEsquiX = CouplePrec[1] * 100;
             posEsquiY = CouplePrec[0] * 100;
             j++;
 
+            // Sauvegarde dans la table run
+            run[j][0] = posEsquiX;
+            run[j][1] = posEsquiY;
+            run[j][3] = getReward(posEsquiX, posEsquiY, cle);
+
+            // On récupère le pingouin
+            if (posEsquiX == posCleX && posEsquiY == posCleY)
+            {
+                cle = 1;
+            }
 
             // On est à la sortie
             if (posEsquiX == 600 && posEsquiY == 0 && cle)
             {
-                //printf("cpt %d cle : %d\n",cpt,cle);
                 sortie = 0;
-                cpt++;
-                run[j][0] = posEsquiX;
-                run[j][1] = posEsquiY;
-                run[j][2] = -1;
-                run[j][3] = getReward(posEsquiX, posEsquiY, cle);
+                ;
             }
         }
-        // Si jamais on a pas trouvé la sortie on décrémente j
-        if (sortie)
-        {
-            j--;
-        }
-        // On met à jour QSA
-        //affichageRUN(run,j);
+        run[j][2] = -1;
         apprentissageQSA(qsa, run, j);
+
         // Remise à zéro des indices et de la position de l'esquimau
         j = 0;
         sortie = 1;
@@ -547,8 +546,7 @@ void sdlIA()
         posEsquiX = 600;
         posEsquiY = 800;
     }
-    printf("Nombre de fois où la sortie a été trouvé : %d\n", cpt);
-    //affichageQSA(qsa);
+    affichageQSA(qsa);
 
     int finMouvement = 1;
     j = 0;
@@ -572,7 +570,6 @@ void sdlIA()
         {
             // On fait un choix de direction par décision sur la table de QSA
             direction = choixActionQSA(qsa, posEsquiX, posEsquiY);
-            printf("Choix de la direction : %d\n", direction);
 
             j++;
 
@@ -707,7 +704,7 @@ void sdlIA()
                 {
                     cle = 1;
                 }
-                if (posEsquiX == 600 && posEsquiY == 0 && cle)
+                if (cle && posEsquiX == 600 && posEsquiY == 0)
                 {
                     sortie = 0;
                 }
