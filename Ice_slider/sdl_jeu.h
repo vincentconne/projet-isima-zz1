@@ -29,6 +29,8 @@
 #define NBCOLMAP width / 100
 #define NBLIGNESMAP height / 100
 
+#define INTERVALAFF 1000
+
 // FONCTIONS
 void sdlJeu();
 void sdlIA();

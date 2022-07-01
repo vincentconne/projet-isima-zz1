@@ -372,11 +372,15 @@ void sdlIA()
         endSdl(0, "ERROR TEXTURE", window, renderer);
     }
     SDL_FreeSurface(SortieTrouvee); // la texture ne sert plus à rien
+
     int cpt = 0;
+    int moycoups = 0;
 
     // Boucle d'époque
     for (i = 0; i < NBEPOQUE; i++)
     {
+        int nbcoups = 0;
+
         // Boucle des itérations
         while (programOn && sortie && j < NBITEPO)
         {
@@ -393,6 +397,7 @@ void sdlIA()
             posEsquiX = CouplePrec[1] * 100;
             posEsquiY = CouplePrec[0] * 100;
             j++;
+            nbcoups++;
             // On est à la sortie
             if (posEsquiX == 600 && posEsquiY == 0)
             {
@@ -416,6 +421,16 @@ void sdlIA()
         sortie = 1;
         posEsquiX = 600;
         posEsquiY = 800;
+        
+        moycoups += nbcoups;
+
+        if(i%INTERVALAFF == 0){
+            int intaff = 1;
+            if(i != 0) intaff = INTERVALAFF;
+            moycoups = moycoups / intaff;
+            printf("Epoque : %d, nombre de deplacement moyen réalisés durant les %d dernières époques : %d\n",i,intaff,moycoups);
+            moycoups = 0;
+        }
     }
     printf("Nombre de fois où la sortie a été trouvé : %d\n", cpt);
 
