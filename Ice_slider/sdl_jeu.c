@@ -19,7 +19,7 @@ void sdlJeu()
     int tabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
                          {1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-                         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
                          {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
                          {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
@@ -342,6 +342,7 @@ void sdlJeu()
     SDL_DestroyTexture(side_mur);
     SDL_DestroyTexture(text_textureSortieTrouvee);
     SDL_DestroyWindow(window);
+    introJeu();
     SDL_Quit();
 }
 
@@ -351,8 +352,8 @@ void sdlJeu()
 void sdlIA()
 {
     // Initialisation des tables
-    int run[NBITEPO][4];
-    float qsa[NBLIGNESMAP * NBCOLMAP][6];
+    int run[NBITEPO][5];
+    float qsa[NBLIGNESMAP * NBCOLMAP][7];
     initQsa(qsa, NBLIGNESMAP, NBCOLMAP, 0);
 
     // Initialisation de epsilon (e-greedy)
@@ -362,7 +363,7 @@ void sdlIA()
     int TabJeu[9][13] = {{1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
                          {1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-                         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+                         {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1},
                          {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
                          {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
                          {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
@@ -494,12 +495,12 @@ void sdlIA()
     // Boucle d'époque
     for (i = 0; i < NBEPOQUE; i++)
     {
-        //printf("valeur de la cle au début : %d\n",cle);
         // Boucle des itérations
 
         run[j][0] = posEsquiX;
         run[j][1] = posEsquiY;
-        run[j][3] = getReward(posEsquiX, posEsquiY, cle);
+        run[j][2]= cle;
+        run[j][4] = getReward(posEsquiX, posEsquiY, cle);
 
         while (programOn && sortie && j < NBITEPO)
         {
@@ -507,7 +508,7 @@ void sdlIA()
             direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
 
             // Sauvegarde de la direction
-            run[j][2] = direction;
+            run[j][3] = direction;
             
             // Calcul de l'état suivant
             recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
@@ -520,6 +521,7 @@ void sdlIA()
             // Sauvegarde dans la table run
             run[j][0] = posEsquiX;
             run[j][1] = posEsquiY;
+            run[j][2] = cle;
             run[j][3] = getReward(posEsquiX, posEsquiY, cle);
 
             // On récupère le pingouin
@@ -527,6 +529,7 @@ void sdlIA()
             {
                 cle = 1;
             }
+
 
             // On est à la sortie
             if (posEsquiX == 600 && posEsquiY == 0 && cle)
@@ -561,7 +564,6 @@ void sdlIA()
                 programOn = SDL_FALSE;
                 fin = 0;
                 puts("FIN DE MON PROGRAMME");
-                break;
             }
         }
         if (programOn == SDL_TRUE)
@@ -744,6 +746,7 @@ void sdlIA()
     SDL_DestroyTexture(side_mur);
     SDL_DestroyTexture(text_textureSortieTrouvee);
     SDL_DestroyWindow(window);
+    introJeu();
     SDL_Quit();
 }
 

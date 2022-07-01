@@ -40,7 +40,8 @@ void initRoc(SDL_Rect *rectRoc)
     rectRoc[2].y = 700;
     rectRoc[3].x = 200;
     rectRoc[3].y = 400;
-
+    rectRoc[4].x = 600;
+    rectRoc[4].y = 300;
     rectRoc[5].x = 600;
     rectRoc[5].y = 500;
     rectRoc[6].x = 700;
