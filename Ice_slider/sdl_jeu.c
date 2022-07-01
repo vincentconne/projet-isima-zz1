@@ -482,8 +482,6 @@ void sdlIA()
     }
     SDL_FreeSurface(SortieTrouvee); // la texture ne sert plus à rien
 
-
-
     // Gestion du pingouin
     int cle = 0;
     int posCleX = 100;
@@ -492,24 +490,27 @@ void sdlIA()
     // Ordre d'affichage
     int ordre = 0;
 
+    int moycoups = 0;
+
     // Boucle d'époque
     for (i = 0; i < NBEPOQUE; i++)
     {
+        int nbcoups = 0;
         // Boucle des itérations
 
         run[j][0] = posEsquiX;
         run[j][1] = posEsquiY;
-        run[j][2]= cle;
+        run[j][2] = cle;
         run[j][4] = getReward(posEsquiX, posEsquiY, cle);
 
         while (programOn && sortie && j < NBITEPO)
         {
             // Choix de la nouvelle direction
-            direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY,cle);
+            direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY, cle);
 
             // Sauvegarde de la direction
             run[j][3] = direction;
-            
+
             // Calcul de l'état suivant
             recherche1(TabJeu, direction, posEsquiX, posEsquiY, CouplePrec);
 
@@ -517,6 +518,7 @@ void sdlIA()
             posEsquiX = CouplePrec[1] * 100;
             posEsquiY = CouplePrec[0] * 100;
             j++;
+            nbcoups++;
 
             // Sauvegarde dans la table run
             run[j][0] = posEsquiX;
@@ -529,7 +531,6 @@ void sdlIA()
             {
                 cle = 1;
             }
-
 
             // On est à la sortie
             if (posEsquiX == 600 && posEsquiY == 0 && cle)
@@ -547,6 +548,17 @@ void sdlIA()
         cle = 0;
         posEsquiX = 600;
         posEsquiY = 800;
+        moycoups += nbcoups;
+
+        if (i % INTERVALAFF == 0)
+        {
+            int intaff = 1;
+            if (i != 0)
+                intaff = INTERVALAFF;
+            moycoups = moycoups / intaff;
+            printf("Epoque : %d, nombre de deplacement moyen réalisés durant les %d dernières époques : %d\n", i, intaff, moycoups);
+            moycoups = 0;
+        }
     }
 
     int finMouvement = 1;
@@ -569,7 +581,7 @@ void sdlIA()
         if (programOn == SDL_TRUE)
         {
             // On fait un choix de direction par décision sur la table de QSA
-            direction = choixActionQSA(qsa, posEsquiX, posEsquiY,cle);
+            direction = choixActionQSA(qsa, posEsquiX, posEsquiY, cle);
 
             j++;
 
