@@ -23,16 +23,16 @@
 #define MOYREC 5                    // Valeur moyenne des récompenses
 
 // FONCTIONS
-int choixActionQSA (float qsa[][6], int x, int y);
-int eGreedy (float qsa[][6], float *epsilon, int x , int y);
-int prefLearningBase(float qsa[][6], int x, int y, int T);
-void apprentissageQSA(float qsa[][6], int run[][4], int dernier);
+int choixActionQSA (float qsa[][7], int x, int y);
+int eGreedy (float qsa[][7], float *epsilon, int x , int y);
+int prefLearningBase(float qsa[][7], int x, int y, int T);
+void apprentissageQSA(float qsa[][7], int run[][4], int dernier);
 int traducEtatLigne(int x, int y);
-void initQsa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea);
+void initQsa(float tab[][7], int nbLignesMap, int nbColonnesMap, int alea);
 int getReward(int x, int y, int cle);
 
 // FONCTION SUPPLEMENTAIRES
-void affichageQSA(float qsa[][6]);
+void affichageQSA(float qsa[][7]);
 void affichageRUN(int run[][4], int dernier);
 
 #endif

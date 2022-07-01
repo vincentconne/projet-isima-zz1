@@ -353,7 +353,7 @@ void sdlIA()
 {
     // Initialisation des tables
     int run[NBITEPO][5];
-    float qsa[NBLIGNESMAP * NBCOLMAP][7];
+    float qsa[(NBLIGNESMAP * NBCOLMAP) * 2][7];
     initQsa(qsa, NBLIGNESMAP, NBCOLMAP, 0);
 
     // Initialisation de epsilon (e-greedy)

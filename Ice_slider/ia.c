@@ -10,11 +10,11 @@
 // ---------------------------------------------------- //
 // Affichage de la matrice d'apprentissage QSA pour debug.
 // ---------------------------------------------------- //
-void affichageQSA(float qsa[][6])
+void affichageQSA(float qsa[][7])
 {
-    for (int i = 0; i < NBCOLMAP * NBLIGNESMAP; i++)
+    for (int i = 0; i < (NBCOLMAP * NBLIGNESMAP) * 2; i++)
     {
-        for (int j = 0; j < 6; j++)
+        for (int j = 0; j < 7; j++)
         {
             printf("%f ", qsa[i][j]);
         }
@@ -54,19 +54,36 @@ int traducEtatLigne(int x, int y)
 // Si alea alors on initialise avec des nombres aléatoires entre et 0 et MOYREC
 // Sinon on initialise qu'avec des zéros
 // ------------------------------------------------------------------------- //
-void initQsa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea)
+void initQsa(float tab[][7], int nbLignesMap, int nbColonnesMap, int alea)
 {
-    for (int j = 0; j < nbColonnesMap * nbLignesMap; j++)
+    for (int j = 0; j < (nbColonnesMap * nbLignesMap) * 2; j += 2)
     {
         tab[j][0] = j / nbLignesMap;
         tab[j][1] = j % nbLignesMap;
-        for (int k = 2; k < 6; k++)
+        tab[j][2] = 0;
+
+        tab[j + 1][0] = j / nbLignesMap;
+        tab[j + 1][1] = j % nbLignesMap;
+        tab[j + 1][2] = 1;
+
+        for (int k = 3; k < 7; k++)
         {
             if (alea)
+            {
                 tab[j][k] = valeurRandom(0, MOYREC);
+                tab[j + 1][k] = valeurRandom(0, MOYREC);
+            }
             else
+            {
                 tab[j][k] = 0;
+                tab[j + 1][k] = 0;
+            }
         }
+    }
+
+    for (int i = 0; i < (nbColonnesMap * nbLignesMap) * 2; i++)
+    {
+        printf("[ %d, %d, %d, %d, %d, %d, %d ]\n", tab[i][0], tab[i][1], tab[i][2], tab[i][3], tab[i][4], tab[i][5], tab[i][6]);
     }
 }
 
@@ -76,10 +93,11 @@ void initQsa(float tab[][6], int nbLignesMap, int nbColonnesMap, int alea)
 int getReward(int x, int y, int cle)
 {
     int reward = 0;
-    if (!cle && x >= 0 && x < 100 && y >= 600 && y < 700){
+    if (!cle && x >= 0 && x < 100 && y >= 600 && y < 700)
+    {
         reward = 1;
-    } else 
-    if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
+    }
+    else if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
         reward = 1;
     return reward;
 }
@@ -87,7 +105,7 @@ int getReward(int x, int y, int cle)
 // --------------------------------------------------------- //
 // Choisis la meilleure action à réaliser depuis l'état actuel
 // --------------------------------------------------------- //
-int choixActionQSA(float qsa[][6], int x, int y)
+int choixActionQSA(float qsa[][7], int x, int y)
 {
     int action = 0;
     int ligne = 0;
@@ -103,7 +121,7 @@ int choixActionQSA(float qsa[][6], int x, int y)
 // ------------------------------------- //
 // Fonction exécutant l'algorithme eGreedy
 // ------------------------------------- //
-int eGreedy(float qsa[][6], float *epsilon, int x, int y)
+int eGreedy(float qsa[][7], float *epsilon, int x, int y)
 {
     int action;
     float alea = (float)valeurRandom(0, 10) / 10;
@@ -123,7 +141,7 @@ int eGreedy(float qsa[][6], float *epsilon, int x, int y)
 // N'est pas utilisée
 // Fonction alternative à eGreedy
 // ----------------------------- //
-int prefLearningBase(float qsa[][6], int x, int y, int T)
+int prefLearningBase(float qsa[][7], int x, int y, int T)
 {
     int energie[4];
     int z;
@@ -154,7 +172,7 @@ int prefLearningBase(float qsa[][6], int x, int y, int T)
 // --------------------------------------- //
 // Fonction d'apprentissage par la table QSA
 // --------------------------------------- //
-void apprentissageQSA(float qsa[][6], int run[][4], int dernier)
+void apprentissageQSA(float qsa[][7], int run[][4], int dernier)
 {
     int ligneSuiv;
 
@@ -164,7 +182,6 @@ void apprentissageQSA(float qsa[][6], int run[][4], int dernier)
     int rec = run[dernier][3];
     int action = run[dernier - 1][2];
     int ligne = traducEtatLigne(x, y);
-
 
     qsa[ligne][2 + action] += XI * rec - qsa[ligne][2 + action];
 
