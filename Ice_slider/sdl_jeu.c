@@ -536,7 +536,6 @@ void sdlIA()
             if (posEsquiX == 600 && posEsquiY == 0 && cle)
             {
                 sortie = 0;
-                ;
             }
         }
         run[j][3] = -1;
