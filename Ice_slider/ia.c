@@ -26,11 +26,11 @@ void affichageQSA(float qsa[][7])
 // ----------------------------------------- //
 // Affichage de la matrice des runs pour debug.
 // ----------------------------------------- //
-void affichageRUN(int run[][4], int dernier)
+void affichageRUN(int run[][5], int dernier)
 {
     for (int i = 0; i < dernier + 1; i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < 5; j++)
         {
             printf("%d ", run[i][j]);
         }
@@ -44,9 +44,10 @@ void affichageRUN(int run[][4], int dernier)
 // renvoie l'indice de la ligne correspondante
 // dans le tableau QSA.
 // ----------------------------------------- //
-int traducEtatLigne(int x, int y)
+int traducEtatLigne(int x, int y, int cle)
 {
-    return (((x / 100) * NBLIGNESMAP) + (y / 100));
+    int res = ( ((x / 100) * NBLIGNESMAP) + (y / 100))*2 + cle;
+    return (res);
 }
 
 // ------------------------------------------------------------------------- //
@@ -56,14 +57,15 @@ int traducEtatLigne(int x, int y)
 // ------------------------------------------------------------------------- //
 void initQsa(float tab[][7], int nbLignesMap, int nbColonnesMap, int alea)
 {
-    for (int j = 0; j < (nbColonnesMap * nbLignesMap) * 2; j += 2)
+    int i = 0;
+    for (int j = 0; j < (nbColonnesMap * nbLignesMap) * 2; j+=2)
     {
-        tab[j][0] = j / nbLignesMap;
-        tab[j][1] = j % nbLignesMap;
+        tab[j][0] = i / nbLignesMap;
+        tab[j][1] = i % nbLignesMap;
         tab[j][2] = 0;
 
-        tab[j + 1][0] = j / nbLignesMap;
-        tab[j + 1][1] = j % nbLignesMap;
+        tab[j + 1][0] = i / nbLignesMap;
+        tab[j + 1][1] = i % nbLignesMap;
         tab[j + 1][2] = 1;
 
         for (int k = 3; k < 7; k++)
@@ -79,11 +81,7 @@ void initQsa(float tab[][7], int nbLignesMap, int nbColonnesMap, int alea)
                 tab[j + 1][k] = 0;
             }
         }
-    }
-
-    for (int i = 0; i < (nbColonnesMap * nbLignesMap) * 2; i++)
-    {
-        printf("[ %d, %d, %d, %d, %d, %d, %d ]\n", tab[i][0], tab[i][1], tab[i][2], tab[i][3], tab[i][4], tab[i][5], tab[i][6]);
+        i++;
     }
 }
 
@@ -97,7 +95,8 @@ int getReward(int x, int y, int cle)
     {
         reward = 1;
     }
-    else if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
+    else
+    if (cle && x >= 600 && x < 700 && y >= 0 && y < 100)
         reward = 1;
     return reward;
 }
@@ -105,14 +104,14 @@ int getReward(int x, int y, int cle)
 // --------------------------------------------------------- //
 // Choisis la meilleure action à réaliser depuis l'état actuel
 // --------------------------------------------------------- //
-int choixActionQSA(float qsa[][7], int x, int y)
+int choixActionQSA(float qsa[][7], int x, int y, int cle)
 {
     int action = 0;
     int ligne = 0;
     for (int i = 0; i < 4; i++)
     {
-        ligne = traducEtatLigne(x, y);
-        if (qsa[ligne][2 + i] > qsa[ligne][2 + action])
+        ligne = traducEtatLigne(x, y,cle);
+        if (qsa[ligne][3 + i] > qsa[ligne][3 + action])
             action = i;
     }
     return action;
@@ -121,13 +120,13 @@ int choixActionQSA(float qsa[][7], int x, int y)
 // ------------------------------------- //
 // Fonction exécutant l'algorithme eGreedy
 // ------------------------------------- //
-int eGreedy(float qsa[][7], float *epsilon, int x, int y)
+int eGreedy(float qsa[][7], float *epsilon, int x, int y, int cle)
 {
     int action;
     float alea = (float)valeurRandom(0, 10) / 10;
     if (alea >= *epsilon)
     {
-        action = choixActionQSA(qsa, x, y);
+        action = choixActionQSA(qsa, x, y,cle);
     }
     else
     {
@@ -141,7 +140,7 @@ int eGreedy(float qsa[][7], float *epsilon, int x, int y)
 // N'est pas utilisée
 // Fonction alternative à eGreedy
 // ----------------------------- //
-int prefLearningBase(float qsa[][7], int x, int y, int T)
+int prefLearningBase(float qsa[][7], int x, int y, int cle, int T)
 {
     int energie[4];
     int z;
@@ -152,8 +151,8 @@ int prefLearningBase(float qsa[][7], int x, int y, int T)
 
     for (int i = 0; i < 4; i++)
     {
-        ligne = traducEtatLigne(x, y);
-        energie[i] = exp((qsa[ligne][2 + i]) / T);
+        ligne = traducEtatLigne(x, y,cle);
+        energie[i] = exp((qsa[ligne][3 + i]) / T);
         z = energie[i];
     }
 
@@ -172,39 +171,43 @@ int prefLearningBase(float qsa[][7], int x, int y, int T)
 // --------------------------------------- //
 // Fonction d'apprentissage par la table QSA
 // --------------------------------------- //
-void apprentissageQSA(float qsa[][7], int run[][4], int dernier)
+void apprentissageQSA(float qsa[][7], int run[][5], int dernier)
 {
     int ligneSuiv;
 
     // Traitement de la première itération
     int x = run[dernier - 1][0];
     int y = run[dernier - 1][1];
-    int rec = run[dernier][3];
-    int action = run[dernier - 1][2];
-    int ligne = traducEtatLigne(x, y);
+    int cle = run[dernier - 1][2];
+    int rec = run[dernier][4];
+    int action = run[dernier - 1][3];
+    int ligne = traducEtatLigne(x, y,cle);
 
-    qsa[ligne][2 + action] += XI * rec - qsa[ligne][2 + action];
+    qsa[ligne][3 + action] += XI * rec - qsa[ligne][3 + action];
+
+    // printf("calcul qsa : %f\n",qsa[ligne][3 + action]);
 
     // Traitement des autres lignes
     for (int i = dernier - 2; i >= 0; i--)
     {
         float max = 0;
 
-        ligneSuiv = traducEtatLigne(run[i + 1][0], run[i + 1][1]);
+        ligneSuiv = traducEtatLigne(run[i + 1][0], run[i + 1][1],run[i+1][2]);
         for (int i = 0; i < 4; i++)
         {
-            if (qsa[ligneSuiv][2 + i] > max)
+            if (qsa[ligneSuiv][3 + i] > max)
             {
-                max = qsa[ligneSuiv][2 + i];
+                max = qsa[ligneSuiv][3 + i];
             }
         }
 
         x = run[i][0];
         y = run[i][1];
-        rec = run[i + 1][3];
-        action = run[i][2];
+        cle = run[i][2];
+        rec = run[i + 1][4];
+        action = run[i][3];
 
-        ligne = traducEtatLigne(x, y);
-        qsa[ligne][2 + action] = qsa[ligne][2 + action] + XI * ((rec + G * max) - qsa[ligne][2 + action]);
+        ligne = traducEtatLigne(x, y,cle);
+        qsa[ligne][3 + action] = qsa[ligne][3 + action] + XI * ((rec + G * max) - qsa[ligne][3 + action]);
     }
 }

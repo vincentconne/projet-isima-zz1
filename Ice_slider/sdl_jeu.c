@@ -505,7 +505,7 @@ void sdlIA()
         while (programOn && sortie && j < NBITEPO)
         {
             // Choix de la nouvelle direction
-            direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY);
+            direction = eGreedy(qsa, &eps, posEsquiX, posEsquiY,cle);
 
             // Sauvegarde de la direction
             run[j][3] = direction;
@@ -522,7 +522,7 @@ void sdlIA()
             run[j][0] = posEsquiX;
             run[j][1] = posEsquiY;
             run[j][2] = cle;
-            run[j][3] = getReward(posEsquiX, posEsquiY, cle);
+            run[j][4] = getReward(posEsquiX, posEsquiY, cle);
 
             // On récupère le pingouin
             if (posEsquiX == posCleX && posEsquiY == posCleY)
@@ -538,7 +538,8 @@ void sdlIA()
                 ;
             }
         }
-        run[j][2] = -1;
+        run[j][3] = -1;
+        //affichageRUN(run,j);
         apprentissageQSA(qsa, run, j);
 
         // Remise à zéro des indices et de la position de l'esquimau
@@ -548,6 +549,9 @@ void sdlIA()
         posEsquiX = 600;
         posEsquiY = 800;
     }
+
+    affichageQSA(qsa);
+    printf("valeur de qsa : %f %f %f %f %f\n", qsa[traducEtatLigne(300,400,1)][0],qsa[traducEtatLigne(300,400,1)][1],qsa[traducEtatLigne(300,400,1)][2],qsa[traducEtatLigne(300,400,1)][3],qsa[traducEtatLigne(300,400,1)][4]);
 
     int finMouvement = 1;
     j = 0;
@@ -569,7 +573,7 @@ void sdlIA()
         if (programOn == SDL_TRUE)
         {
             // On fait un choix de direction par décision sur la table de QSA
-            direction = choixActionQSA(qsa, posEsquiX, posEsquiY);
+            direction = choixActionQSA(qsa, posEsquiX, posEsquiY,cle);
 
             j++;
 
