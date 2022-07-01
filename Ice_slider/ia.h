@@ -17,7 +17,7 @@
 
 // PARAMETRES APPRENTISSAGE
 #define NBEPOQUE 10000               // Nombre d'époques
-#define NBITEPO 1000                 // Nombre d'itérations par époque
+#define NBITEPO 100                 // Nombre d'itérations par époque
 #define XI 0.01                      
 #define G 0.8
 #define MOYREC 5                    // Valeur moyenne des récompenses

@@ -539,7 +539,6 @@ void sdlIA()
             }
         }
         run[j][3] = -1;
-        //affichageRUN(run,j);
         apprentissageQSA(qsa, run, j);
 
         // Remise à zéro des indices et de la position de l'esquimau
@@ -549,9 +548,6 @@ void sdlIA()
         posEsquiX = 600;
         posEsquiY = 800;
     }
-
-    affichageQSA(qsa);
-    printf("valeur de qsa : %f %f %f %f %f\n", qsa[traducEtatLigne(300,400,1)][0],qsa[traducEtatLigne(300,400,1)][1],qsa[traducEtatLigne(300,400,1)][2],qsa[traducEtatLigne(300,400,1)][3],qsa[traducEtatLigne(300,400,1)][4]);
 
     int finMouvement = 1;
     j = 0;
